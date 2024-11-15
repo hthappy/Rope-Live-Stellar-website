@@ -1,12 +1,12 @@
 {
   "version": "1.0.1",
   "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
-  "release_date": "2024-11-15T17:39:33.223313",
+  "release_date": "2024-11-16T01:18:29.838821",
   "files": [
     {
       "path": "Rope.py",
-      "hash": "130382ddd86371d311fe881d1a4e00ff",
-      "size": 7769
+      "hash": "25de81d228d04ac043d75094240a8ad5",
+      "size": 7521
     },
     {
       "path": "rope\\Coordinator.py",
@@ -45,8 +45,8 @@
     },
     {
       "path": "rope\\GUI.py",
-      "hash": "82b5f44fb0c094b21d09e4cef5f9458b",
-      "size": 190503
+      "hash": "08d3bc4fb4726a98ece1ff5605984d0d",
+      "size": 190743
     },
     {
       "path": "rope\\GUIElements.py",
@@ -135,8 +135,8 @@
     },
     {
       "path": "rope\\license_utils.py",
-      "hash": "dc09c8da95c953d5e1f7af360f660bdf",
-      "size": 10742
+      "hash": "b2c093cb0af38b66dced5b2880a01e1d",
+      "size": 11272
     },
     {
       "path": "rope\\media\\OffState.png",
@@ -389,7 +389,5 @@
       "size": 1780
     }
   ],
-  "deleted_files": [
-    "tools\\新建 文本文档.txt"
-  ]
+  "deleted_files": []
 }
