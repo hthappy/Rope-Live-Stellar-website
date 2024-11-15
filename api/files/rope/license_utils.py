@@ -144,6 +144,11 @@ def validate_activation_code(activation_code):
         # 获取许可证详细信息
         license_key_data = license_data.get('license_key', {})
         
+        # 检查是否为测试模式 - 开发环境可以注释这段代码
+        if not ALLOW_TEST_MODE and license_key_data.get('test_mode'):
+            logging.error("License is in test mode")
+            return None
+        
         # 激活许可证
         activate_url = 'https://api.lemonsqueezy.com/v1/licenses/activate'
         activate_data = {

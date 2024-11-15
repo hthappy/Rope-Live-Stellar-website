@@ -945,7 +945,7 @@ class GUI(tk.Tk):
         # 创建工具选项菜单（初始时不创建）
         self.live_menu = None
 
-        # 现有��控件
+        # 现有控件
         self.control['ClearVramButton'] = GE.Button(self.layer['topright'], 'ClearVramButton', 1, self.clear_mem, None, 'control', x=110, y=9, width=85, height=20)
         self.static_widget['vram_indicator'] = GE.VRAM_Indicator(self.layer['topright'], 1, 300, 20, 190, 11)
 
@@ -1307,7 +1307,7 @@ class GUI(tk.Tk):
 
         #Webcam Max Resolution
         row = row + 1
-        self.widget['WebCamMaxResolSel'] = GE.TextSelectionComboBox(self.layer['parameters_frame'], 'WebCamMaxResolSel', '��像头分辨率', 3, self.update_data, 'parameter', 'parameter', 398, 20, row, 0, padx, pady, 0.72, 150)
+        self.widget['WebCamMaxResolSel'] = GE.TextSelectionComboBox(self.layer['parameters_frame'], 'WebCamMaxResolSel', '像头分辨率', 3, self.update_data, 'parameter', 'parameter', 398, 20, row, 0, padx, pady, 0.72, 150)
 
         #Webcam Max FPS
         row = row + 1
@@ -1403,7 +1403,7 @@ class GUI(tk.Tk):
 
         # Overall MaskBlendSlider
         row = row + 1
-        self.widget['BlendSlider'] = GE.Slider2(self.layer['parameters_frame'], 'BlendSlider', '整体遮罩混合', 3, self.update_data, 'parameter', 398, 20, row, 0, padx, pady, 0.62)
+        self.widget['BlendSlider'] = GE.Slider2(self.layer['parameters_frame'], 'BlendSlider', '整体���罩混合', 3, self.update_data, 'parameter', 398, 20, row, 0, padx, pady, 0.62)
 
         # DFL RCT Color Transfer
         row = row + 1
