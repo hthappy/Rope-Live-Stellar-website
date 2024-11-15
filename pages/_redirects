@@ -1,0 +1,2 @@
+/version    /api/version.json   200
+/files/*    /files/:splat      200
