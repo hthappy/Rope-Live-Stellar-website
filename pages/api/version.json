@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
-  "release_date": "2024-11-15T17:08:41.708533",
+  "release_date": "2024-11-15T17:18:38.280950",
   "files": [
     {
       "path": "Rope.py",
@@ -85,8 +85,8 @@
     },
     {
       "path": "rope\\config.py",
-      "hash": "2c281e356477108c21d85ae87f8084f3",
-      "size": 1340
+      "hash": "689a9b490ba93917ed13efc70ee33f61",
+      "size": 1351
     },
     {
       "path": "rope\\external\\cliplib\\__init__.py",
@@ -350,8 +350,8 @@
     },
     {
       "path": "rope\\version.py",
-      "hash": "1e3e64ea4289a67f657138f42269d398",
-      "size": 11073
+      "hash": "e41ef03ce65358aa35dddef3c65bc4b1",
+      "size": 11094
     },
     {
       "path": "tools\\calculate_models_hash.py",
@@ -375,8 +375,8 @@
     },
     {
       "path": "tools\\update_manager.py",
-      "hash": "f1db1f1e38e0bcb2bf525b5337b0bf2f",
-      "size": 7057
+      "hash": "9dc7d4a8c716382bd2c1efdb64b62d9a",
+      "size": 7078
     },
     {
       "path": "tools\\update_rope.py",

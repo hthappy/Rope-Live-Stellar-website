@@ -27,8 +27,8 @@ class UpdateManager:
         
         # 创建 _redirects 文件
         redirects = """
-/version    /api/version.json   200
-/files/*    /files/:splat      200
+/v1/updates/latest    /api/version.json   200
+/v1/updates/files/*   /api/files/:splat   200
         """
         with open(self.pages_dir / '_redirects', 'w') as f:
             f.write(redirects.strip())

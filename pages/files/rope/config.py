@@ -5,10 +5,10 @@ CONFIG = {
     'support_email': 'hthappy1986@gmail.com',
     'test_mode': True,
     'update': {
-        'check_url': 'https://api.livefacex.com/version',
-        'download_url': 'https://api.livefacex.com/files',
+        'check_url': 'https://api.livefacex.com/v1/updates/latest',
+        'download_url': 'https://api.livefacex.com/v1/updates/files',
         'auto_check': True,
-        'check_interval': 24  # 小时
+        'check_interval': 24
     },
     'api_url': 'https://api.lemonsqueezy.com/v1/'
 } 

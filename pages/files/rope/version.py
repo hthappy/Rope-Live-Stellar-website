@@ -39,8 +39,8 @@ def update_version(new_version):
 # 当前版本号
 VERSION = get_version()
 
-UPDATE_URL = "https://api.livefacex.com/version"  # 版本检查API
-DOWNLOAD_URL = "https://api.livefacex.com/files"  # 文件下载基础URL
+UPDATE_URL = "https://api.livefacex.com/v1/updates/latest"  # 版本检查API
+DOWNLOAD_URL = "https://api.livefacex.com/v1/updates/files"  # 文件下载基础URL
 
 class VersionChecker:
     def __init__(self):
