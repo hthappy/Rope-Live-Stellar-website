@@ -1,0 +1,392 @@
+{
+  "version": "1.0.0",
+  "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
+  "release_date": "2024-11-15T17:08:41.708533",
+  "files": [
+    {
+      "path": "Rope.py",
+      "hash": "130382ddd86371d311fe881d1a4e00ff",
+      "size": 7769
+    },
+    {
+      "path": "rope\\Coordinator.py",
+      "hash": "8621c42b48c5b5620afde2ae0428a4ed",
+      "size": 7473
+    },
+    {
+      "path": "rope\\DFMModel.py",
+      "hash": "cd75025011adf5eb8ebfb49af5a4698b",
+      "size": 15914
+    },
+    {
+      "path": "rope\\Dicts.py",
+      "hash": "f91005227badb46958736c1adc8d6fb1",
+      "size": 54480
+    },
+    {
+      "path": "rope\\EngineBuilder.py",
+      "hash": "ab7171a499dce32684235b6752bc9881",
+      "size": 6032
+    },
+    {
+      "path": "rope\\FaceEditor.py",
+      "hash": "b133c3eef53e7a5056bee265ddb2fe85",
+      "size": 4357
+    },
+    {
+      "path": "rope\\FaceLandmarks.py",
+      "hash": "456721755f6f0dbf908c5d62ea561d1c",
+      "size": 5129
+    },
+    {
+      "path": "rope\\FaceUtil.py",
+      "hash": "f5acb57aa92cbcf87033b54bc31c0208",
+      "size": 78945
+    },
+    {
+      "path": "rope\\GUI.py",
+      "hash": "82b5f44fb0c094b21d09e4cef5f9458b",
+      "size": 190503
+    },
+    {
+      "path": "rope\\GUIElements.py",
+      "hash": "465b456587d9d4369ee992d8fe648e74",
+      "size": 67845
+    },
+    {
+      "path": "rope\\Models.py",
+      "hash": "98ca1d1e7b47f68f64df2fc15372c658",
+      "size": 138464
+    },
+    {
+      "path": "rope\\OBS_NDI_setup.py",
+      "hash": "d0456620baef5035c3d0c9f4d78022f1",
+      "size": 10430
+    },
+    {
+      "path": "rope\\SendEmail.py",
+      "hash": "f23fcfe77906fc89652ac16e44e28e14",
+      "size": 4111
+    },
+    {
+      "path": "rope\\Styles.py",
+      "hash": "3e81d8098e8a63cd4f0dc4438455f855",
+      "size": 8608
+    },
+    {
+      "path": "rope\\TensorRTPredictor.py",
+      "hash": "20293989438df0e9d254187c5d2d6ce1",
+      "size": 10371
+    },
+    {
+      "path": "rope\\VideoManager.py",
+      "hash": "16b7b238a673ba8f4d517e4af1018f73",
+      "size": 97521
+    },
+    {
+      "path": "rope\\config.py",
+      "hash": "2c281e356477108c21d85ae87f8084f3",
+      "size": 1340
+    },
+    {
+      "path": "rope\\external\\cliplib\\__init__.py",
+      "hash": "1c555cb19297daf10d1f853b8f8b3b0c",
+      "size": 21
+    },
+    {
+      "path": "rope\\external\\cliplib\\bpe_simple_vocab_16e6.txt.gz",
+      "hash": "933b7abbbbde62c36f02f0e6ccde464f",
+      "size": 1356917
+    },
+    {
+      "path": "rope\\external\\cliplib\\clip.py",
+      "hash": "918290002726b6155b37ae9720f10c7a",
+      "size": 9940
+    },
+    {
+      "path": "rope\\external\\cliplib\\model.py",
+      "hash": "dc770bb04001aff4aef1feeabdf1fd51",
+      "size": 17810
+    },
+    {
+      "path": "rope\\external\\cliplib\\simple_tokenizer.py",
+      "hash": "72c86edb3e79f7d5c1635501314b0798",
+      "size": 4764
+    },
+    {
+      "path": "rope\\external\\clipseg.py",
+      "hash": "aacae94863bd5690a92e248197f41092",
+      "size": 21283
+    },
+    {
+      "path": "rope\\external\\resnet.py",
+      "hash": "9e94eec1fc3f398068ad438981dfd420",
+      "size": 3757
+    },
+    {
+      "path": "rope\\license_crypto.py",
+      "hash": "89d04c62a4bc7b37cd75bd83457c68b9",
+      "size": 2796
+    },
+    {
+      "path": "rope\\license_generator.py",
+      "hash": "062c086c20ba333341d9e6ebe802e1b6",
+      "size": 3641
+    },
+    {
+      "path": "rope\\license_utils.py",
+      "hash": "dc09c8da95c953d5e1f7af360f660bdf",
+      "size": 10742
+    },
+    {
+      "path": "rope\\media\\OffState.png",
+      "hash": "38465c89b2c8c330fe4e2323c8f9a3a3",
+      "size": 25924
+    },
+    {
+      "path": "rope\\media\\OnState.png",
+      "hash": "04a220069dee41def03dcfc775f7a7ab",
+      "size": 79921
+    },
+    {
+      "path": "rope\\media\\add_marker_hover.png",
+      "hash": "4cf84c325decdb8ad567fafe3bc6bd9e",
+      "size": 2857
+    },
+    {
+      "path": "rope\\media\\add_marker_off.png",
+      "hash": "b88256dd1779e465d6764059992bd049",
+      "size": 2835
+    },
+    {
+      "path": "rope\\media\\alipay.png",
+      "hash": "d2cb066d597e7b105ebf871e88986940",
+      "size": 7148
+    },
+    {
+      "path": "rope\\media\\audio_off.png",
+      "hash": "170de7b7f8fcdbc23d6238031f912084",
+      "size": 9600
+    },
+    {
+      "path": "rope\\media\\audio_on.png",
+      "hash": "d9370877e3f853e42a82ee799d77b626",
+      "size": 8215
+    },
+    {
+      "path": "rope\\media\\marker.png",
+      "hash": "ad6894244d0c1779e31951a6bd14d315",
+      "size": 833
+    },
+    {
+      "path": "rope\\media\\marker_save.png",
+      "hash": "cbce6ce4deb95ce0578ae484f9461f4a",
+      "size": 3039
+    },
+    {
+      "path": "rope\\media\\next_marker_hover.png",
+      "hash": "8c4ea4761c7cd35870dd5e997255a4cf",
+      "size": 6562
+    },
+    {
+      "path": "rope\\media\\next_marker_off.png",
+      "hash": "05f34792a5b6858e1aa9bf8d7bcdd1e2",
+      "size": 3216
+    },
+    {
+      "path": "rope\\media\\play_hover.png",
+      "hash": "d57ddcc3111e2bdf0789a94a28c7da15",
+      "size": 3404
+    },
+    {
+      "path": "rope\\media\\play_off.png",
+      "hash": "77d3b1e77c53936987a1b93d17d8c7de",
+      "size": 3226
+    },
+    {
+      "path": "rope\\media\\play_on.png",
+      "hash": "46513950ad15935265d7dbf3ddc1eba5",
+      "size": 4588
+    },
+    {
+      "path": "rope\\media\\previous_marker_hover.png",
+      "hash": "07392d3ca6f99967f52f096691da0f60",
+      "size": 6030
+    },
+    {
+      "path": "rope\\media\\previous_marker_off.png",
+      "hash": "4acd03412c1d958012b5ead5dc9abbc5",
+      "size": 3405
+    },
+    {
+      "path": "rope\\media\\rec_hover.png",
+      "hash": "ad088e1180c58aef2dba107f4c8d97fc",
+      "size": 3536
+    },
+    {
+      "path": "rope\\media\\rec_off.png",
+      "hash": "947fe8a74b30a57c936cb43f056e3e69",
+      "size": 3606
+    },
+    {
+      "path": "rope\\media\\rec_on.png",
+      "hash": "bd044f0aecb9721e2cd4b1d5c32f61ed",
+      "size": 11978
+    },
+    {
+      "path": "rope\\media\\remove_marker_hover.png",
+      "hash": "c7534c5d798b94798e2bc411bc15d1a6",
+      "size": 1211
+    },
+    {
+      "path": "rope\\media\\remove_marker_off.png",
+      "hash": "c0ab7aa62573254ccbb14c1a03a962df",
+      "size": 1211
+    },
+    {
+      "path": "rope\\media\\rope.ico",
+      "hash": "0b07b65165756c3d7fc909b612dc3d57",
+      "size": 9662
+    },
+    {
+      "path": "rope\\media\\rope.png",
+      "hash": "16898dd0826b34358497f1c473b13e87",
+      "size": 43552
+    },
+    {
+      "path": "rope\\media\\save.png",
+      "hash": "6ff9493d28dc6a08bb192d44fde91dfc",
+      "size": 1993
+    },
+    {
+      "path": "rope\\media\\splash.png",
+      "hash": "be85ed0bdfddd5536e1435c111c9c8e6",
+      "size": 1338466
+    },
+    {
+      "path": "rope\\media\\splash_next.png",
+      "hash": "cee00039a393c2a7e84953dae90ba019",
+      "size": 1812103
+    },
+    {
+      "path": "rope\\media\\stop_hover.png",
+      "hash": "f7da5d6707fb6a65e1041917c7248f36",
+      "size": 938
+    },
+    {
+      "path": "rope\\media\\stop_off.png",
+      "hash": "494f856c64df076a4d81915691153362",
+      "size": 948
+    },
+    {
+      "path": "rope\\media\\stop_on.png",
+      "hash": "0c12c13a0290924ac30f1d3655b39363",
+      "size": 938
+    },
+    {
+      "path": "rope\\media\\tl_beg_hover.png",
+      "hash": "840143e178aabbf49ac418686fc9f6a9",
+      "size": 3482
+    },
+    {
+      "path": "rope\\media\\tl_beg_off.png",
+      "hash": "5ab099d0000fad0bf5dec20bed1c7cf6",
+      "size": 3464
+    },
+    {
+      "path": "rope\\media\\tl_beg_on.png",
+      "hash": "e856bb251bee8a6dd0e792416cc0bed6",
+      "size": 3309
+    },
+    {
+      "path": "rope\\media\\tl_left_hover.png",
+      "hash": "14890fe855f0f7142aa27aa478ec7d1e",
+      "size": 3947
+    },
+    {
+      "path": "rope\\media\\tl_left_off.png",
+      "hash": "96154427fcf5eb71feecd0828938a28a",
+      "size": 3949
+    },
+    {
+      "path": "rope\\media\\tl_left_on.png",
+      "hash": "2f82c344970a2b8bfd7faa9f5535320f",
+      "size": 3261
+    },
+    {
+      "path": "rope\\media\\tl_right_hover.png",
+      "hash": "9a74594570949239a3326b81035209c8",
+      "size": 3824
+    },
+    {
+      "path": "rope\\media\\tl_right_off.png",
+      "hash": "7ea5e6a31a6f9ec3f13a134db40ab0dc",
+      "size": 3816
+    },
+    {
+      "path": "rope\\media\\tl_right_on.png",
+      "hash": "5096f0688b5021f27e73af7ba3be6d5d",
+      "size": 3179
+    },
+    {
+      "path": "rope\\media\\webcam.png",
+      "hash": "424ce1aa752bdaec565436d9d17118d4",
+      "size": 7987
+    },
+    {
+      "path": "rope\\media\\wechatpay.png",
+      "hash": "1cf1da0464d6617d30b04e88efb4ad71",
+      "size": 6859
+    },
+    {
+      "path": "rope\\payment.py",
+      "hash": "72defdf8fe8be8a6840b9cbe3e7cb793",
+      "size": 445
+    },
+    {
+      "path": "rope\\rtmp_sniffer.py",
+      "hash": "c757629efb2ac4dd1c936ad85b4daa6d",
+      "size": 4103
+    },
+    {
+      "path": "rope\\version.py",
+      "hash": "1e3e64ea4289a67f657138f42269d398",
+      "size": 11073
+    },
+    {
+      "path": "tools\\calculate_models_hash.py",
+      "hash": "dedff6cb6dc5a3d99c845f37194362a2",
+      "size": 14218
+    },
+    {
+      "path": "tools\\clean_code.py",
+      "hash": "fd390d17e7ac62e3d4ee84f10c629b75",
+      "size": 1466
+    },
+    {
+      "path": "tools\\download_models.py",
+      "hash": "5527b1cad745fa176399694119cce9c4",
+      "size": 15560
+    },
+    {
+      "path": "tools\\simplify_dfm_onnx.py",
+      "hash": "cbb7421bf8cff7c6bf9f15223854b940",
+      "size": 5694
+    },
+    {
+      "path": "tools\\update_manager.py",
+      "hash": "f1db1f1e38e0bcb2bf525b5337b0bf2f",
+      "size": 7057
+    },
+    {
+      "path": "tools\\update_rope.py",
+      "hash": "8e096988f2fc5ee2f5e23970d86cd5b9",
+      "size": 3288
+    },
+    {
+      "path": "uninstall.py",
+      "hash": "a7384114d2540b9f33ce6768a8bf582b",
+      "size": 1780
+    }
+  ]
+}

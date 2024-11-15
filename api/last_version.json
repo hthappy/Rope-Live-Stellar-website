@@ -1,13 +1,8 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.0",
   "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
-  "release_date": "2024-11-15T16:57:14.524601",
+  "release_date": "2024-11-15T17:06:22.995478",
   "files": [
-    {
-      "path": "tools\\deploy.bat",
-      "hash": "7215ee9c7d9dc229d2921a40e899ec5f",
-      "size": 1
-    },
     {
       "path": "tools\\update_manager.py",
       "hash": "918996fd02536e57ca404df744511a10",
