@@ -641,7 +641,7 @@ a:focus, a:hover {
   position: absolute;
   left: 0;
   right: 0;
-  top: 35%;
+  top: 45%;
   transform: translateY(-50%);
 }
 .slider-item h1 {
