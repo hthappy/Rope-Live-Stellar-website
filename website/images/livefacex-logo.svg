@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+    <!-- 定义渐变和效果 -->
+    <defs>
+        <!-- 主渐变 -->
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#28ABE3;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1B7EAD;stop-opacity:1" />
+        </linearGradient>
+        
+        <!-- 发光效果 -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+            <feColorMatrix in="blur" mode="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 18 -7" result="glow"/>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <!-- 动态波浪效果 -->
+        <filter id="wave">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" result="turbulence">
+                <animate attributeName="baseFrequency" values="0.01 0.05;0.02 0.06;0.01 0.05" dur="10s" repeatCount="indefinite"/>
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2"/>
+        </filter>
+    </defs>
+    
+    <!-- LOGO 主体 -->
+    <g transform="translate(10, 5)">
+        <!-- 背景圆形 -->
+        <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" filter="url(#glow)">
+            <animate attributeName="r" values="18;19;18" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        
+        <!-- 艺术字体 "L" -->
+        <path d="M12,10 Q14,10 16,12 L16,28 Q14,30 12,28 L12,10" 
+              fill="white" opacity="0.9" filter="url(#wave)"/>
+        
+        <!-- LiveFaceX 文字 -->
+        <g transform="translate(45, 27)" filter="url(#glow)">
+            <text font-family="Arial" font-weight="bold" font-size="22" fill="#28ABE3"
+                  style="font-style: italic; letter-spacing: 1px;">
+                <tspan>Live</tspan>
+                <tspan fill="#1B7EAD">Face</tspan>
+                <tspan fill="#28ABE3">X</tspan>
+            </text>
+        </g>
+        
+        <!-- 装饰元素 -->
+        <g class="tech-elements" filter="url(#glow)">
+            <!-- 动态圆点 -->
+            <circle cx="28" cy="12" r="2" fill="white" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="28" cy="28" r="2" fill="white" opacity="0.8">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            
+            <!-- 连接线 -->
+            <path d="M28,12 Q32,20 28,28" stroke="white" stroke-width="1" opacity="0.5" fill="none">
+                <animate attributeName="d" 
+                         values="M28,12 Q32,20 28,28;M28,12 Q24,20 28,28;M28,12 Q32,20 28,28" 
+                         dur="4s" repeatCount="indefinite"/>
+            </path>
+        </g>
+    </g>
+</svg>

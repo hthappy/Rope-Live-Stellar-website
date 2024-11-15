@@ -1,7 +1,7 @@
 {
   "version": "1.0.1",
   "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
-  "release_date": "2024-11-15T17:18:38.280950",
+  "release_date": "2024-11-15T17:39:33.223313",
   "files": [
     {
       "path": "Rope.py",
@@ -350,8 +350,8 @@
     },
     {
       "path": "rope\\version.py",
-      "hash": "e41ef03ce65358aa35dddef3c65bc4b1",
-      "size": 11094
+      "hash": "31644da52996b180c253807818e37dfb",
+      "size": 11457
     },
     {
       "path": "tools\\calculate_models_hash.py",
@@ -375,8 +375,8 @@
     },
     {
       "path": "tools\\update_manager.py",
-      "hash": "9dc7d4a8c716382bd2c1efdb64b62d9a",
-      "size": 7078
+      "hash": "eb89608bb1a6c6dfaca8976ea3636fd7",
+      "size": 8171
     },
     {
       "path": "tools\\update_rope.py",
@@ -388,5 +388,8 @@
       "hash": "a7384114d2540b9f33ce6768a8bf582b",
       "size": 1780
     }
+  ],
+  "deleted_files": [
+    "tools\\新建 文本文档.txt"
   ]
 }

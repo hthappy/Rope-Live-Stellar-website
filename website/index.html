@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>LiveFaceX | AI 换脸工具</title>
+  <meta name="description" content="LiveFaceX - 专业的 AI 换脸工具，一键为照片、视频、直播高清流畅换脸">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/animate/animate.css">
+  <link rel="stylesheet" href="plugins/slick/slick.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 导航菜单样式 -->
+  <style>
+    /* 导航菜单样式 */
+    .navigation {
+      transition: all 0.3s ease;
+    }
+
+    /* 初始状态：完全透明背景 */
+    .navigation.top {
+      background: transparent;
+    }
+
+    .navigation.top .navbar-nav .nav-link {
+      color: #fff !important;
+    }
+
+    /* 滚动状态：纯白色背景 */
+    .navigation.scrolled {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navigation.scrolled .navbar-nav .nav-link {
+      color: #333 !important;
+    }
+
+    /* Logo 样式优化 */
+    .navbar-brand img {
+      height: 40px;
+      width: auto;
+      /* 确保图片清晰度 */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    /* 导航项基础样式 */
+    .navbar-nav .nav-item {
+      margin: 0 5px;
+    }
+
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      padding: 8px 12px !important;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    /* 鼠标悬停效果 */
+    .navigation.top .navbar-nav .nav-item:hover .nav-link {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .navigation.scrolled .navbar-nav .nav-item:hover .nav-link {
+      background: rgba(0,0,0,0.05);
+    }
+
+    /* 特殊按钮样式 - 顶部状态 */
+    .navigation.top .nav-link.btn-main {
+      background: #28ABE3;
+      color: #fff !important;
+      padding: 8px 20px !important;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .navigation.top .nav-link.btn-main:hover {
+      background: #000 !important;
+      color: #fff !important;
+      transform: translateY(-2px);
+    }
+
+    /* 特殊按钮样式 - 滚动状态 */
+    .navigation.scrolled .nav-link.btn-main {
+      background: #000;
+      color: #fff !important;
+      padding: 8px 20px !important;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .navigation.scrolled .nav-link.btn-main:hover {
+      background: #28ABE3 !important;
+      color: #fff !important;
+      transform: translateY(-2px);
+    }
+  </style>
+
+  <style>
+    /* 使用系统自带字体或本地字体 */
+    :root {
+      --font-heading: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;  /* 标题字体 */
+      --font-body: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;     /* 正文字体 */
+    }
+
+    /* 标题样式 */
+    h1, h2, h3, .nav-link {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* 正文样式 */
+    body, p, .feature-list li {
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    /* 特殊标题效果 */
+    .hero-area h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #e8e8e8, #e8e8e8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgb(135 135 135 / 30%);
+    }
+
+    /* 功能标题样式 */
+    .service-item h4 {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #28ABE3;
+    }
+
+    /* 价格卡片标题 */
+    .price-title h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* 按钮文字 */
+    .btn {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* 导航菜单 */
+    .navbar-nav .nav-link {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* 价格数字 */
+    .price {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+
+<body id="body">
+  <!-- 导航栏 -->
+  <header class="navigation fixed-top">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+          <img src="images/logo.png" alt="LiveFaceX" height="40" width="auto" loading="eager">
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#features">功能特点</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#pricing">价格</a>
+            </li>
+            <li class="nav-item" style="padding-left: 8px;">
+              <a class="nav-link btn-main" href="#download">立即下载</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 主页横幅 -->
+  <div class="hero-slider">
+    <div class="slider-item th-fullpage hero-area" style="background-image: url(images/slider/slider-bg-1.png);">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
+              AI 换脸新境界
+            </h1>
+            <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">
+              使用一张图片一键为照片、视频、直播高清流畅换脸<br>
+              支持抖音、快手、视频号、TikTok、WhatsApp、Messenger等平台
+            </p>
+            <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn btn-main" href="#download">
+              立即体验
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 功能特点 -->
+  <section id="features" class="service-2 section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="title text-center">
+            <h2>强大功能</h2>
+            <p>专业的 AI 换脸解决方案</p>
+            <div class="border"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-videocam-outline"></i>
+            <h4>频换脸</h4>
+            <p>一键为视频换脸，支持各种视频格式，效果自然流畅</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-camera-outline"></i>
+            <h4>直播换脸</h4>
+            <p>支持实时直播换脸，一键获取推流码，自动配置 OBS</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-settings"></i>
+            <h4>高清修复</h4>
+            <p>内置多种高清修复模型，让换脸效果更加自然真实</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-eye-outline"></i>
+            <h4>智能遮罩</h4>
+            <p>自动遮罩技术，有遮挡物也不影响换脸效果</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-gear-outline"></i>
+            <h4>高级设置</h4>
+            <p>提供丰富的参数设置，满足专业用户的需求</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <div class="service-item">
+            <i class="tf-ion-ios-cloud-outline"></i>
+            <h4>平台支持</h4>
+            <p>支持主流直播和社交平台，一键配置推流</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 价格方案 -->
+  <section id="pricing" class="pricing-table section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="title text-center">
+            <h2>灵活定价</h2>
+            <p>选择最适合您的方案</p>
+            <div class="border"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="pricing-item text-center">
+            <div class="price-title">
+              <h3>月度会员</h3>
+            </div>
+            <div class="price">
+              <p>¥xx<span>/月</span></p>
+            </div>
+            <ul class="feature-list">
+              <li>所有基础功能</li>
+              <li>高清修复</li>
+              <li>技术支持</li>
+            </ul>
+            <a href="#" class="btn btn-main">立即购买</a>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="pricing-item featured text-center">
+            <div class="price-title">
+              <h3>年度会员</h3>
+            </div>
+            <div class="price">
+              <p>¥xx<span>/年</span></p>
+            </div>
+            <ul class="feature-list">
+              <li>所有高级功能</li>
+              <li>优先技术支持</li>
+              <li>节省20%</li>
+            </ul>
+            <a href="#" class="btn btn-main">立即购买</a>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="pricing-item text-center">
+            <div class="price-title">
+              <h3>永久授权</h3>
+            </div>
+            <div class="price">
+              <p>¥xxx</p>
+            </div>
+            <ul class="feature-list">
+              <li>终身使用</li>
+              <li>所有功能</li>
+              <li>优先支持</li>
+            </ul>
+            <a href="#" class="btn btn-main">立即购买</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下载 -->
+  <section id="download" class="call-to-action section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 text-center">
+          <h2>立即开始体验</h2>
+          <p>最新版本：v1.0.0</p>
+          <a href="downloads/LiveFaceX.zip" class="btn btn-main">
+            下载软件
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer id="footer" class="bg-one">
+    <div class="top-footer">
+      <div class="container">
+        <div class="row justify-content-around">
+          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+            <h3>关于 LiveFaceX</h3>
+            <p>LiveFaceX 是一款专业的 AI 换脸工具，支持视频换脸、直播换脸，内置高清修复功能，让换脸效果更加自然。</p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+            <ul>
+              <li><h3>快速入门</h3></li>
+              <li><a href="#download">软件下载</a></li>
+              <li><a href="https://ailive.ai-yy.com/help">使用教程</a></li>
+              <li><a href="#pricing">购买授权</a></li>
+              <li><a href="changelog.html">更新日志</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+            <ul>
+              <li><h3>帮助支持</h3></li>
+              <li><a href="faq.html">常见问题</a></li>
+              <li><a href="docs/installation.html">安装指南</a></li>
+              <li><a href="docs/requirements.html">系统要求</a></li>
+              <li><a href="docs/troubleshooting.html">故障排除</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <ul>
+              <li><h3>联系我们</h3></li>
+              <li><a href="mailto:service@livefacex.com">客服邮箱</a></li>
+              <li><a href="https://qm.qq.com/xxx">QQ 群: 123456789</a></li>
+              <li><a href="about.html">关于我们</a></li>
+              <li><a href="privacy.html">隐私政策</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="copyright-text text-center">
+              <p>&copy; 2024 LiveFaceX. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="plugins/bootstrap/bootstrap.min.js"></script>
+  <script src="plugins/slick/slick.min.js"></script>
+  <script src="js/script.js"></script>
+
+  <style>
+    /* 价格卡片基础样式 */
+    .pricing-item {
+      background: #fff;
+      padding: 40px 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+    }
+
+    /* 鼠标悬浮效果 */
+    .pricing-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      border-color: #7562ee;
+    }
+
+    /* 推荐套餐特殊样式 */
+    .pricing-item.featured {
+      background: linear-gradient(145deg, #ffffff, #f8f9ff);
+      border: 2px solid #7562ee;
+    }
+
+    .pricing-item.featured:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(117,98,238,0.15);
+    }
+
+    /* 价格标题 */
+    .price-title h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* 价格显示 */
+    .price {
+      font-size: 48px;
+      font-weight: 700;
+      color: #7562ee;
+      margin: 20px 0;
+    }
+
+    .price span {
+      font-size: 20px;
+      color: #666;
+    }
+
+    /* 功能列表 */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .feature-list li {
+      padding: 10px 0;
+      color: #666;
+      position: relative;
+    }
+
+    .feature-list li:before {
+      content: "✓";
+      color: #7562ee;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    /* 按钮样式 */
+    .pricing-item .btn-main {
+      background: linear-gradient(45deg, #7562ee, #5c4bc4);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      opacity: 0.9;
+    }
+
+    .pricing-item:hover .btn-main {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    /* 推荐标签 */
+    .pricing-item.featured:before {
+      content: "推荐";
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      background: #7562ee;
+      color: white;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-size: 12px;
+      font-weight: bold;
+    }
+  </style>
+
+  <script>
+    // 监听滚动事件
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('.navigation');
+      if (window.scrollY > 50) {
+        nav.classList.remove('top');
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.add('top');
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // 页面加载初始化导航栏状态
+    document.addEventListener('DOMContentLoaded', function() {
+      const nav = document.querySelector('.navigation');
+      nav.classList.add('top');
+      
+      // 触发一次滚动检查
+      if (window.scrollY > 50) {
+        nav.classList.remove('top');
+        nav.classList.add('scrolled');
+      }
+    });
+  </script>
+
+</body>
+</html>
