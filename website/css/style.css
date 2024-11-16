@@ -6,22 +6,26 @@
  */
 
 /*=== MEDIA QUERY ===*/
-@import url("https://fonts.googleapis.com/css?family=Catamaran:400,500,600,700,700|Source+Sans+Pro:400,600");
+:root {
+  --font-heading: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, system-ui, sans-serif;
+  --font-body: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, system-ui, sans-serif;
+}
+
 body {
   line-height: 1.4;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
 p {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: var(--font-body);
   color: #848484;
   font-size: 16px;
   line-height: 1.65;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Catamaran", sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
 }
 
@@ -276,7 +280,7 @@ a:focus, a:hover {
 .header-bradcrumb a, .header-bradcrumb .active {
   color: #cfcfcf;
   font-weight: 200;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: var(--font-body);
 }
 .header-bradcrumb a:hover {
   color: #28ABE3;
@@ -791,7 +795,7 @@ a:focus, a:hover {
   display: inline-block;
   color: #666;
   font-size: 13px;
-  font-family: "Catamaran", sans-serif;
+  font-family: var(--font-heading);
   margin-bottom: 5px;
   font-weight: 600;
 }
@@ -820,7 +824,7 @@ a:focus, a:hover {
   margin-bottom: 15px;
   font-size: 16px;
   color: #777;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: var(--font-body);
 }
 .about-2 .checklist li:before {
   position: absolute;
@@ -1838,7 +1842,7 @@ a:focus, a:hover {
   letter-spacing: 1px;
   text-transform: capitalize;
   transition: color 0.3s;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: var(--font-body);
   display: block;
 }
 .top-footer li a:hover {
@@ -2178,3 +2182,207 @@ a:focus, a:hover {
   }
 }
 /*# sourceMappingURL=style.css.map */
+
+/* 导航菜单样式 */
+.navigation {
+  transition: all 0.3s ease;
+}
+
+/* 初始状态：完全透明背景 */
+.navigation.top {
+  background: transparent;
+}
+
+.navigation.top .navbar-nav .nav-link {
+  color: #fff !important;
+}
+
+/* 滚动状态：纯白色背景 */
+.navigation.scrolled {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navigation.scrolled .navbar-nav .nav-link {
+  color: #333 !important;
+}
+
+/* Logo 样式优化 */
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* 导航项基础样式 */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.nav-link {
+  padding: 8px 0 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 100px;
+}
+
+/* 特殊按钮样式 - 顶部状态 */
+.navigation.top .nav-link.btn-main {
+  background: #28ABE3;
+  color: #fff !important;
+  padding: 8px 20px !important;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.navigation.top .nav-link.btn-main:hover {
+  background: #000 !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* 特殊按钮样式 - 滚动状态 */
+.navigation.scrolled .nav-link.btn-main {
+  background: #000;
+  color: #fff !important;
+  padding: 8px 20px !important;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.navigation.scrolled .nav-link.btn-main:hover {
+  background: #28ABE3 !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* 下载按钮统一样式 */
+.btn-download {
+  background: #28ABE3;
+  color: #fff !important;
+  padding: 12px 30px !important;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-download:hover {
+  background: #000 !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-download:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 价格卡片样式 */
+.pricing-item {
+  background: #fff;
+  padding: 40px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.pricing-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  border-color: #28ABE3;
+}
+
+.pricing-item.featured {
+  background: linear-gradient(145deg, #ffffff, #f8f9ff);
+  border: 2px solid #28ABE3;
+}
+
+.pricing-item.featured:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(40,171,227,0.15);
+}
+
+/* 字体设置 */
+:root {
+  --font-heading: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, system-ui, sans-serif;
+  --font-body: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, system-ui, sans-serif;
+}
+
+body, p {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6, .nav-link {
+  font-family: var(--font-heading);
+}
+
+/* 动画效果 */
+[data-animation-in] {
+  opacity: 0;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 系统要求样式 */
+.system-requirements {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.system-requirements h5 {
+  color: #ffc107;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.system-requirements p {
+  color: #fff;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.system-requirements i {
+  color: #28ABE3;
+  margin-right: 8px;
+}
+
+/* 调整下载按钮上方间距 */
+.system-requirements + .btn-download {
+  margin-top: 10px;
+}
