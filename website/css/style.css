@@ -2209,7 +2209,7 @@ a:focus, a:hover {
 
 /* Logo 样式优化 */
 .navbar-brand img {
-  height: 65px;
+  height: 60px;
   width: auto;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -2427,7 +2427,11 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 .nav-pills .nav-link.active {
   color: #fff;
   background: #28ABE3;
-  border-color: #28ABE3;
+}
+
+.nav-pills .nav-link:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* 功能列表样式优化 */
