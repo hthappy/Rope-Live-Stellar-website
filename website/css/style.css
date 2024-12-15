@@ -2209,7 +2209,7 @@ a:focus, a:hover {
 
 /* Logo 样式优化 */
 .navbar-brand img {
-  height: 60px;
+  height: 50px;
   width: auto;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
