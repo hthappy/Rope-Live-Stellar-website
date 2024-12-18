@@ -1,6 +1,0 @@
-[build]
-command = ""
-upload.format = "directory"
-
-[functions]
-directory = "functions"
