@@ -230,7 +230,7 @@
                 quantity: 1,
                 name: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support - 3-Day Trial",
                 price: "0.00",
-                sku: "PRO-1D",
+                sku: settings.LICENSE_SKU_PRO_1D,  // 使用1天试用版SKU
                 product_id: 8801307623638,
                 variant_id: 46356797063382,
                 title: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support",
@@ -243,14 +243,23 @@
             ]
           };
 
+          console.log('Sending order data:', mockShopifyOrder);
+
           // 发送到webhook服务器
           const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
-            method: 'POST',
+            method: 'POST',  // 确保使用 POST 方法
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
             },
-            body: JSON.stringify(mockShopifyOrder)
+            body: JSON.stringify(mockShopifyOrder),
+            credentials: 'include',
+            mode: 'cors'
           });
+
+          console.log('Response status:', webhookResponse.status);
+          const responseText = await webhookResponse.text();
+          console.log('Response text:', responseText);
 
           if (webhookResponse.ok) {
             // 显示悬浮提示
