@@ -205,15 +205,35 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          const response = await fetch('/api/submit-form', {
+          // 构造模拟的 Shopify 订单数据
+          const mockShopifyOrder = {
+            id: Date.now().toString(),
+            email: data.email,
+            financial_status: 'paid',
+            test: true,
+            line_items: [
+              {
+                product_id: '123456789',
+                variant_id: '987654321',
+                sku: 'PRO-1D', // 1天体验版SKU
+                quantity: 1
+              }
+            ]
+          };
+
+          // 发送到webhook服务器
+          const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'X-Shopify-Hmac-SHA256': 'e0c4f9c962cac6de461ac5a79f837f645022c7b7c50c63a1feb137b022ee244c',
+              'X-Shopify-Topic': 'orders/paid',
+              'X-Shopify-Shop-Domain': 'rope-live.myshopify.com'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(mockShopifyOrder)
           });
-          
-          if (response.ok) {
+
+          if (webhookResponse.ok) {
             // 显示悬浮提示
             alertDiv.classList.add('show');
             
