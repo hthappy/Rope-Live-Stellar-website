@@ -1,9 +1,8 @@
 export async function onRequestPost(context) {
   const corsHeaders = {
-    'Access-Control-Allow-Origin': context.request.headers.get('Origin'),
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Vary': 'Origin'
+    'Access-Control-Allow-Headers': 'Content-Type'
   };
 
   try {
@@ -14,7 +13,40 @@ export async function onRequestPost(context) {
     
     console.log('[Debug] 访问者IP:', clientIP);
 
-    // 检查IP是否在24小时内提交过
+    // 检查请求数据
+    let data;
+    try {
+      data = await context.request.json();
+      console.log('[Debug] 收到的表单数据:', JSON.stringify(data));
+    } catch (parseError) {
+      console.error('[Error] 解析请求数据失败:', parseError);
+      return new Response(JSON.stringify({
+        success: false,
+        error: '无效的请求数据'
+      }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // 验证必要字段
+    if (!data.name || !data.email || !data.qq || !data.purpose) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: '请填写所有必要信息'
+      }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // 检查IP提交频率
     const submitRecord = await context.env.SUBMIT_RECORDS.get(`ip_${clientIP}`);
     if (submitRecord) {
       const lastSubmitTime = new Date(submitRecord);
@@ -35,12 +67,7 @@ export async function onRequestPost(context) {
       }
     }
 
-    console.log('[Debug] 开始处理表单提交');
-    const data = await context.request.json();
-    console.log('[Debug] 收到的表单数据:', JSON.stringify(data));
-
     // 发送到飞书群
-    console.log('[Debug] 正在发送到飞书群...');
     const botResponse = await fetch('https://open.feishu.cn/open-apis/bot/v2/hook/4e72b69a-2c95-49c9-bbf3-63a39e2e0cc7', {
       method: 'POST',
       headers: {
@@ -62,52 +89,43 @@ IP: ${clientIP}
       })
     });
 
-    // 记录原始响应
     const botResponseText = await botResponse.text();
-    console.log('[Debug] 机器人发送原始响应:', botResponseText);
-
     let botResult;
     try {
       botResult = JSON.parse(botResponseText);
     } catch (parseError) {
-      console.error('[Error] 解析响应失败:', parseError);
-      throw new Error(`响应解析失败: ${botResponseText}`);
+      console.error('[Error] 解析飞书响应失败:', parseError);
+      throw new Error('服务器处理失败');
     }
-
-    console.log('[Debug] 机器人发送响应(解析后):', JSON.stringify(botResult));
 
     if (botResult.code !== 0) {
-      throw new Error('发送消息失败: ' + JSON.stringify(botResult));
+      throw new Error('消息发送失败');
     }
 
-    // 记录IP提交时间
+    // 记录IP
     await context.env.SUBMIT_RECORDS.put(`ip_${clientIP}`, new Date().toISOString(), {
-      expirationTtl: 86400  // 24小时后自动过期
+      expirationTtl: 86400
     });
 
     return new Response(JSON.stringify({
-      success: true,
-      debug: {
-        messageSent: true,
-        botResponse: botResult
-      }
+      success: true
     }), {
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        ...corsHeaders 
+        ...corsHeaders
       }
     });
+
   } catch (error) {
     console.error('[Error]', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      error: error.message,
-      stack: error.stack 
+    return new Response(JSON.stringify({
+      success: false,
+      error: '服务器处理失败'
     }), {
       status: 500,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        ...corsHeaders 
+        ...corsHeaders
       }
     });
   }
