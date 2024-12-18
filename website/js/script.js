@@ -205,12 +205,17 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          const response = await fetch('/api/submit-form', {
+          const response = await fetch('https://ai-yy.com/api/submit-form', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+              name: data.name,
+              email: data.email,
+              qq: data.qq,
+              purpose: data.purpose
+            })
           });
           
           if (response.ok) {
