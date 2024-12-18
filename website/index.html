@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/style.css">
 
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body id="body">
@@ -63,26 +64,6 @@
               使用任意图片一键为视频、直播高清替换人脸<br>
               支持抖音、微信、QQ、视频号、TikTok、WhatsApp、Messenger等平台
             </p>
-            <!--使用要求，左对齐-->
-            <div class="system-requirements">
-              <h4 class="requirements-title">
-                <i class="tf-ion-ios-settings"></i> 使用要求
-              </h4>
-              <ul class="requirements-list">
-                <li>
-                  <i class="tf-ion-monitor"></i>
-                  <strong>操作系统：</strong>Windows 10 及以上
-                </li>
-                <li>
-                  <i class="tf-ion-cube"></i>
-                  <strong>显卡：</strong>NVIDIA 3060Ti 及以上
-                </li>
-                <li>
-                  <i class="tf-ion-ios-infinite"></i>
-                  <strong>内存：</strong>16GB 及以上
-                </li>
-              </ul>
-            </div>
             <br>
 			<br>
             <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" 
@@ -224,7 +205,7 @@
     </div>
   </section>
 
-  <!-- 价格方案 -->
+  <!-- ���格方案 -->
   <section id="pricing" class="pricing-table section" style="background: linear-gradient(rgb(0 0 0 / 29%), rgb(0 0 0 / 0%)), url(images/pricing-bg.jpg) center / cover">
     <div class="container">
       <div class="row justify-content-center">
@@ -309,40 +290,44 @@
   <footer id="footer" class="bg-one">
     <div class="top-footer">
       <div class="container">
-        <div class="row justify-content-around">
-          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-            <h3>关于 Rope-Live Stellar</h3>
-            <p>Rope-Live Stellar 是一款支持视频/直播AI图像替换创意制作工具，内置高清修复功能，让图像替换效果更加自然逼真。</p>
+        <div class="row justify-content-between">
+          <!-- 系统要求 -->
+          <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+            <div class="footer-column">
+              <h3>系统要求</h3>
+              <ul class="footer-list">
+                <li><i class="fas fa-desktop"></i> <span>操作系统：Windows 10 及以上</span></li>
+                <li><i class="fas fa-microchip"></i> <span>显卡：NVIDIA 1060 及以上</span></li>
+                <li><i class="fas fa-memory"></i> <span>内存：16GB 及以上</span></li>
+                <li><i class="fas fa-microchip"></i> <span>CPU：Intel i5 12代及以上</span></li>
+              </ul>
+            </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-            <ul>
-              <li><h3>快速入门</h3></li>
-              <li><a href="https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv">软件下载</a></li>
-              <li><a href="https://docs.ai-yy.com">使用教程</a></li>
-              <li><a href="https://www.heartcaptor.com/products/rope-live-stellar">购买授权</a></li>
-              <li><a href="https://docs.ai-yy.com/zh/readme/geng-xin-ri-zhi">更新日志</a></li>
-            </ul>
+          <!-- 快速入门 -->
+          <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+            <div class="footer-column">
+              <h3>快速入门</h3>
+              <ul class="footer-list">
+                <li><a href="#">软件下载</a></li>
+                <li><a href="#">使用教程</a></li>
+                <li><a href="#">常见问题</a></li>
+                <li><a href="#">更新日志</a></li>
+              </ul>
+            </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-            <ul>
-              <li><h3>帮助支持</h3></li>
-              <li><a href="#">常见问题</a></li>
-              <li><a href="https://docs.ai-yy.com/zh/an-zhuang-ji-pei-zhi/xia-zai-an-zhuang">安装指南</a></li>
-              <li><a href="docs/requirements.html">系统要求</a></li>
-              <li><a href="https://docs.ai-yy.com/zh/readme/chang-jian-wen-ti">故障排除</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <ul>
-              <li><h3>联系我们</h3></li>
-              <li><a href="mailto:service@ai-yy.com">客服邮箱</a></li>
-              <li><a href="https://t.me/+ajjOvUaukpc0YTE5">交流讨论</a></li>
-              <li><a href="#">关于我们</a></li>
-              <li><a href="#">隐私政策</a></li>
-            </ul>
+          <!-- 联系我们 -->
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-column">
+              <h3>联系我们</h3>
+              <ul class="footer-list">
+                <li><a href="#">客服邮箱</a></li>
+                <li><a href="#">交流讨论</a></li>
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">隐私政策</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -592,48 +577,77 @@
 
     /* 系统要求样式优化 */
     .system-requirements {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 20px 25px;
-      margin: 20px 0;
-      backdrop-filter: blur(5px);
+      background: rgba(255, 193, 7, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 30px 0;
     }
 
-    .requirements-title {
+    .system-requirements p {
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    .system-requirements i {
+      color: #28ABE3;
+      margin-right: 10px;
+    }
+
+    .footer-column {
+      padding: 0 15px;
+    }
+
+    .footer-column h3 {
       color: #fff;
-      font-size: 1.2em;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 18px;
+      margin-bottom: 20px;
+      position: relative;
     }
 
-    .requirements-title i {
-      color: #00a8ff;
-    }
-
-    .requirements-list {
+    .footer-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .requirements-list li {
-      color: #fff;
-      margin: 12px 0;
+    .footer-list li {
+      margin-bottom: 12px;
+      color: #bdbdbd;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .requirements-list i {
+    .footer-list li i {
       color: #00a8ff;
-      font-size: 1.1em;
+      font-size: 16px;
+      min-width: 20px;
+      text-align: center;
     }
 
-    .requirements-list strong {
-      color: #00a8ff;
-      font-weight: 500;
+    .footer-list a {
+      color: #bdbdbd;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-list a:hover {
+      color: #fff;
+    }
+
+    /* 确保在大屏幕上列宽相等 */
+    @media (min-width: 992px) {
+      .col-lg-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+      }
+    }
+
+    /* 在小屏幕上优化显示 */
+    @media (max-width: 991px) {
+      .footer-column {
+        margin-bottom: 30px;
+      }
     }
   </style>
 
@@ -707,7 +721,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">获取免费体验资格和下载链接</h5>
+          <h5 class="modal-title">获取免费体��资格和下载链接</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
