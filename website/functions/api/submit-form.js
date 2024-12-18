@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
 
     // 发送邮件
     console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/mailboxes/service@ai-yy.com/messages', {
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/me/messages/send', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${tokenData.tenant_access_token}`,
@@ -43,7 +43,7 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         "subject": "新的软件下载申请",
-        "content": `
+        "body_plain_text": `
 新的软件下载申请
 
 姓名: ${data.name}
@@ -51,7 +51,13 @@ export async function onRequestPost(context) {
 手机: ${data.phone}
 使用目的: ${data.purpose}
         `,
-        "to": ["service@ai-yy.com"]
+        "to": [{
+          "mail_address": "service@ai-yy.com",
+          "name": "Service"
+        }],
+        "head_from": {
+          "name": "Rope-Live Stellar"
+        }
       })
     });
 
