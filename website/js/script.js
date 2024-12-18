@@ -228,7 +228,7 @@
               'Content-Type': 'application/json',
               'X-Shopify-Hmac-SHA256': 'e0c4f9c962cac6de461ac5a79f837f645022c7b7c50c63a1feb137b022ee244c',
               'X-Shopify-Topic': 'orders/paid',
-              'X-Shopify-Shop-Domain': 'rope-live.myshopify.com'
+              'X-Shopify-Shop-Domain': '2a7e63-2.myshopify.com'
             },
             body: JSON.stringify(mockShopifyOrder)
           });
