@@ -33,11 +33,47 @@ export async function onRequestPost(context) {
       throw new Error('获取访问令牌失败: ' + JSON.stringify(tokenData));
     }
 
+    // 发送邮件
+    console.log('[Debug] 正在发送邮件...');
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${tokenData.tenant_access_token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "msg_type": "text",
+        "content": {
+          "text": `
+新的软件下载申请
+
+姓名: ${data.name}
+邮箱: ${data.email}
+手机: ${data.phone}
+使用目的: ${data.purpose}
+          `
+        },
+        "email_info": {
+          "subject": "新的软件下载申请",
+          "from_user": "service@ai-yy.com",
+          "to_users": ["service@ai-yy.com"]
+        }
+      })
+    });
+
+    const emailResult = await emailResponse.json();
+    console.log('[Debug] 邮件发送响应:', JSON.stringify(emailResult));
+
+    if (!emailResult.code || emailResult.code !== 0) {
+      throw new Error('发送邮件失败: ' + JSON.stringify(emailResult));
+    }
+
     return new Response(JSON.stringify({
       success: true,
       debug: {
-        hasToken: !!tokenData.tenant_access_token,
-        tokenResponse: tokenData
+        hasToken: true,
+        emailSent: true,
+        emailResponse: emailResult
       }
     }), {
       headers: { 'Content-Type': 'application/json' }
