@@ -2451,3 +2451,40 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   position: absolute;
   left: -20px;
 }
+
+.modal-content {
+  border-radius: 15px;
+  border: none;
+}
+
+.modal-header {
+  border-bottom: 1px solid #eee;
+  padding: 20px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+}
+
+.btn-primary {
+  background: #28ABE3;
+  border: none;
+  border-radius: 25px;
+  padding: 12px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background: #1a8dbb;
+  transform: translateY(-2px);
+}

@@ -182,4 +182,35 @@
     }
   });
 
+  // 添加表单提交处理代码
+  $(document).ready(function() {
+    $('#downloadForm').on('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      
+      try {
+        const response = await fetch('/api/submit-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          // 提交成功后显示下载链接
+          $('#downloadModal').modal('hide');
+          window.location.href = "https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv";
+        } else {
+          alert('提交失败，请稍后重试');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('提交失败，请稍后重试');
+      }
+    });
+  });
+
 })(jQuery);
