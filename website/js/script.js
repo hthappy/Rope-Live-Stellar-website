@@ -182,35 +182,39 @@
     }
   });
 
-  // 添加表单提交处理代码
-  $(document).ready(function() {
-    $('#downloadForm').on('submit', async function(e) {
-      e.preventDefault();
-      
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-      
-      try {
-        const response = await fetch('/api/submit-form', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
+  // 表单提交处理
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        if (response.ok) {
-          // 提交成功后显示下载链接
-          $('#downloadModal').modal('hide');
-          window.location.href = "https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv";
-        } else {
-          alert('提交失败，请稍后重试');
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+          const response = await fetch('/api/submit-form', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          });
+          
+          if (response.ok) {
+            // 显示成功提示
+            alert('提交成功！我们会尽快与您联系。');
+            // 清空表单
+            e.target.reset();
+          } else {
+            throw new Error('提交失败');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('提交失败，请稍后重试。');
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('提交失败，请稍后重试');
-      }
-    });
+      });
+    }
   });
 
 })(jQuery);

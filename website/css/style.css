@@ -2533,3 +2533,61 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   color: #00a8ff;
   font-weight: 500;
 }
+
+/* 页脚样式 */
+.footer-column {
+  padding: 0 15px;
+}
+
+.footer-column h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 12px;
+  color: #bdbdbd;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-list li i {
+  color: #00a8ff;
+  font-size: 16px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.footer-list a {
+  color: #bdbdbd;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-list a:hover {
+  color: #fff;
+}
+
+/* 确保在大屏幕上列宽相等 */
+@media (min-width: 992px) {
+  .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+/* 在小屏幕上优化显示 */
+@media (max-width: 991px) {
+  .footer-column {
+    margin-bottom: 30px;
+  }
+}
