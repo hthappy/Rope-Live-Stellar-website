@@ -201,91 +201,21 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        
         try {
-          // 构造模拟的 Shopify 订单数据
-          const mockShopifyOrder = {
-            id: Date.now(),
-            email: data.email,
-            financial_status: "paid",
-            confirmed: true,
-            test: true,
-            processed_at: new Date().toISOString(),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            currency: "USD",
-            total_price: "0.00",
-            customer: {
-              email: data.email,
-              first_name: data.name || "Test",
-              last_name: "User",
-              state: "enabled",
-              verified_email: true
-            },
-            line_items: [
-              {
-                id: Date.now(),
-                quantity: 1,
-                name: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support - 3-Day Trial",
-                price: "0.00",
-                sku: "PRO-1D",
-                product_id: 8801307623638,
-                variant_id: 46356797063382,
-                title: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support",
-                variant_title: "1-Day Trial",
-                vendor: "Rope-Live",
-                requires_shipping: false,
-                taxable: false,
-                gift_card: false
-              }
-            ]
-          };
+          // 显示悬浮提示
+          alertDiv.classList.add('show');
+          
+          // 清空表单
+          e.target.reset();
+          // 关闭模态框
+          $('#downloadModal').modal('hide');
 
-          console.log('Sending webhook request:', mockShopifyOrder);
-
-          // 发送到webhook服务器
-          console.log('Form submitted');
-          console.log('Form data:', data);
-          console.log('Request options:', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(mockShopifyOrder)
+          // 点击确认按钮后跳转
+          const confirmBtn = alertDiv.querySelector('.alert-confirm');
+          confirmBtn.addEventListener('click', function() {
+            alertDiv.classList.remove('show');
+            window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
           });
-
-          const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(mockShopifyOrder)
-          });
-
-          console.log('Response status:', webhookResponse.status);
-          const responseText = await webhookResponse.text();
-          console.log('Response text:', responseText);
-
-          if (webhookResponse.ok) {
-            // 显示悬浮提示
-            alertDiv.classList.add('show');
-            
-            // 清空表单
-            e.target.reset();
-            // 关闭模态框
-            $('#downloadModal').modal('hide');
-
-            // 点击确认按钮后跳转
-            const confirmBtn = alertDiv.querySelector('.alert-confirm');
-            confirmBtn.addEventListener('click', function() {
-              alertDiv.classList.remove('show');
-              window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
-            });
-          } else {
-            throw new Error('订单处理失败');
-          }
         } catch (error) {
           console.error('Error:', error);
           alert('提交失败，请稍后重试。');
