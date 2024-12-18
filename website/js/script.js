@@ -190,7 +190,7 @@
     alertDiv.innerHTML = `
       <div class="alert-content">
         <i class="fas fa-check-circle"></i>
-        <p>提交成功！<br>体验资格将通过邮件发送给您，请注意查收。</p>
+        <p>提交成功！我们会尽快与您联系。</p>
         <button class="alert-confirm">确认</button>
       </div>
     `;
@@ -205,20 +205,14 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          // 发送到 Cloudflare Function
-          const response = await fetch('https://ai-yy.com/submit-form', {
+          const response = await fetch('/api/submit-form', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              email: data.email,
-              name: data.name || 'Unknown',
-              source: window.location.href,
-              timestamp: new Date().toISOString()
-            })
+            body: JSON.stringify(data)
           });
-
+          
           if (response.ok) {
             // 显示悬浮提示
             alertDiv.classList.add('show');
