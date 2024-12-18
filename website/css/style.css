@@ -2591,3 +2591,56 @@ h1, h2, h3, h4, h5, h6, .nav-link {
     margin-bottom: 30px;
   }
 }
+
+/* 悬浮提示框样式 */
+.floating-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+}
+
+.floating-alert.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.alert-content {
+  text-align: center;
+  color: #fff;
+}
+
+.alert-content i {
+  font-size: 48px;
+  color: #00a8ff;
+  margin-bottom: 15px;
+}
+
+.alert-content p {
+  margin: 10px 0 20px;
+  font-size: 16px;
+}
+
+.alert-confirm {
+  background: #00a8ff;
+  color: #fff;
+  border: none;
+  padding: 8px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.alert-confirm:hover {
+  background: #0088cc;
+}

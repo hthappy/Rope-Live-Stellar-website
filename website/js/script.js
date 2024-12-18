@@ -184,6 +184,18 @@
 
   // 表单提交处理
   document.addEventListener('DOMContentLoaded', function() {
+    // 首先创建提示框
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'floating-alert';
+    alertDiv.innerHTML = `
+      <div class="alert-content">
+        <i class="fas fa-check-circle"></i>
+        <p>提交成功！我们会尽快与您联系。</p>
+        <button class="alert-confirm">确认</button>
+      </div>
+    `;
+    document.body.appendChild(alertDiv);
+
     const form = document.getElementById('downloadForm');
     if (form) {
       form.addEventListener('submit', async (e) => {
@@ -202,10 +214,20 @@
           });
           
           if (response.ok) {
-            // 显示成功提示
-            alert('提交成功！我们会尽快与您联系。');
+            // 显示悬浮提示
+            alertDiv.classList.add('show');
+            
             // 清空表单
             e.target.reset();
+            // 关闭模态框
+            $('#downloadModal').modal('hide');
+
+            // 点击确认按钮后跳转
+            const confirmBtn = alertDiv.querySelector('.alert-confirm');
+            confirmBtn.addEventListener('click', function() {
+              alertDiv.classList.remove('show');
+              window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
+            });
           } else {
             throw new Error('提交失败');
           }
