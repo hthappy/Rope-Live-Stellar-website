@@ -247,7 +247,7 @@
 
           // 发送到webhook服务器
           const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
-            method: 'POST',  // 确保使用 POST 方法
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json'
