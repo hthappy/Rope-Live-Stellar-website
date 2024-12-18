@@ -1,0 +1,7 @@
+[build]
+command = ""
+upload.format = "directory"
+output_directory = "website"
+
+[functions]
+directory = "functions"
