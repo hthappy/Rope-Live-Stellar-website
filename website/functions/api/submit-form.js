@@ -13,9 +13,9 @@ export async function onRequestPost(context) {
       hasAppSecret: !!FEISHU_APP_SECRET
     });
     
-    // 获取飞书访问令牌
+    // 获取应用访问令牌
     console.log('[Debug] 正在获取飞书访问令牌...');
-    const tokenResponse = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+    const tokenResponse = await fetch('https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,34 +29,34 @@ export async function onRequestPost(context) {
     const tokenData = await tokenResponse.json();
     console.log('[Debug] 访问令牌响应:', JSON.stringify(tokenData));
     
-    if (!tokenData.tenant_access_token) {
+    if (!tokenData.app_access_token) {
       throw new Error('获取访问令牌失败: ' + JSON.stringify(tokenData));
     }
 
     // 发送邮件
     console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/me/messages/send', {
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${tokenData.tenant_access_token}`,
+        'Authorization': `Bearer ${tokenData.app_access_token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "subject": "新的软件下载申请",
-        "body_plain_text": `
+        "msg_type": "text",
+        "content": {
+          "text": `
 新的软件下载申请
 
 姓名: ${data.name}
 邮箱: ${data.email}
 手机: ${data.phone}
 使用目的: ${data.purpose}
-        `,
-        "to": [{
-          "mail_address": "service@ai-yy.com",
-          "name": "Service"
-        }],
-        "head_from": {
-          "name": "Rope-Live Stellar"
+          `
+        },
+        "email_info": {
+          "subject": "新的软件下载申请",
+          "from_user": "service@ai-yy.com",
+          "to_users": ["service@ai-yy.com"]
         }
       })
     });
