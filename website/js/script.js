@@ -252,9 +252,7 @@
               'Content-Type': 'application/json',
               'Accept': 'application/json'
             },
-            body: JSON.stringify(mockShopifyOrder),
-            credentials: 'include',
-            mode: 'cors'
+            body: JSON.stringify(mockShopifyOrder)
           });
 
           console.log('Response status:', webhookResponse.status);
