@@ -13,6 +13,27 @@ export async function onRequestPost(context) {
     
     console.log('[Debug] 访问者IP:', clientIP);
 
+    // 检查IP是否在24小时内提交过
+    const submitRecord = await context.env.SUBMIT_RECORDS.get(`ip_${clientIP}`);
+    if (submitRecord) {
+      const lastSubmitTime = new Date(submitRecord);
+      const now = new Date();
+      const hoursDiff = (now - lastSubmitTime) / (1000 * 60 * 60);
+      
+      if (hoursDiff < 24) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: '24小时内只能提交一次申请'
+        }), {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+    }
+
     // 检查请求数据
     let data;
     try {
@@ -44,27 +65,6 @@ export async function onRequestPost(context) {
           ...corsHeaders
         }
       });
-    }
-
-    // 检查IP提交频率
-    const submitRecord = await context.env.SUBMIT_RECORDS.get(`ip_${clientIP}`);
-    if (submitRecord) {
-      const lastSubmitTime = new Date(submitRecord);
-      const now = new Date();
-      const hoursDiff = (now - lastSubmitTime) / (1000 * 60 * 60);
-      
-      if (hoursDiff < 24) {
-        return new Response(JSON.stringify({
-          success: false,
-          error: '24小时内只能提交一次申请'
-        }), {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
-          }
-        });
-      }
     }
 
     // 发送到飞书群
@@ -102,9 +102,9 @@ IP: ${clientIP}
       throw new Error('消息发送失败');
     }
 
-    // 记录IP
+    // 记录IP提交时间
     await context.env.SUBMIT_RECORDS.put(`ip_${clientIP}`, new Date().toISOString(), {
-      expirationTtl: 86400
+      expirationTtl: 86400  // 24小时后自动过期
     });
 
     return new Response(JSON.stringify({
@@ -120,7 +120,7 @@ IP: ${clientIP}
     console.error('[Error]', error);
     return new Response(JSON.stringify({
       success: false,
-      error: '服务器处理失败'
+      error: error.message || '服务器处理失败'
     }), {
       status: 500,
       headers: {
@@ -131,13 +131,14 @@ IP: ${clientIP}
   }
 }
 
-export async function onRequestOptions(context) {
+export async function onRequestOptions() {
   return new Response(null, {
+    status: 204,
     headers: {
-      'Access-Control-Allow-Origin': context.request.headers.get('Origin'),
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'Vary': 'Origin'
+      'Access-Control-Max-Age': '86400',
     }
   });
 }
