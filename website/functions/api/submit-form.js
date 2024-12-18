@@ -41,7 +41,7 @@ export async function onRequestPost(context) {
           `
         },
         "email_info": {
-          "subject": "新的软件下载申请",
+          "subject": "测试",
           "from_user": "service@ai-yy.com",
           "to_users": ["service@ai-yy.com"]
         }
