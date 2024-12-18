@@ -15,7 +15,7 @@ export async function onRequestPost(context) {
         "msg_type": "text",
         "content": {
           "text": `
-新的软件下载申请
+Rope-Live 体验申请
 
 姓名: ${data.name}
 邮箱: ${data.email}
