@@ -29,7 +29,7 @@ export async function onRequestPost(context) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "email": "你的飞书邮箱地址",
+        "email": "service@ai-yy.com",
         "subject": "新的软件下载申请",
         "content": `
           <h3>新的软件下载申请</h3>
