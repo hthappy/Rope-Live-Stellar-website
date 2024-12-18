@@ -29,16 +29,22 @@ export async function onRequestPost(context) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "email": "service@ai-yy.com",
-        "subject": "新的软件下载申请",
-        "content": `
-          <h3>新的软件下载申请</h3>
-          <p><strong>姓名:</strong> ${data.name}</p>
-          <p><strong>邮箱:</strong> ${data.email}</p>
-          <p><strong>手机:</strong> ${data.phone}</p>
-          <p><strong>使用目的:</strong> ${data.purpose}</p>
-        `,
-        "content_type": "html"
+        "msg_type": "text",
+        "content": {
+          "text": `
+新的软件下载申请
+
+姓名: ${data.name}
+邮箱: ${data.email}
+手机: ${data.phone}
+使用目的: ${data.purpose}
+          `
+        },
+        "email_info": {
+          "subject": "新的软件下载申请",
+          "from_user": "service@ai-yy.com",
+          "to_users": ["service@ai-yy.com"]
+        }
       })
     });
 
