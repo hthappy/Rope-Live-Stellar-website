@@ -184,7 +184,7 @@
 
   // 表单提交处理
   document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
+    const form = document.getElementById('downloadForm');
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
