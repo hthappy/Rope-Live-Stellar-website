@@ -3,45 +3,16 @@ export async function onRequestPost(context) {
     console.log('[Debug] 开始处理表单提交');
     const data = await context.request.json();
     console.log('[Debug] 收到的表单数据:', JSON.stringify(data));
-    
-    // 检查环境变量
-    const FEISHU_APP_ID = context.env.FEISHU_APP_ID;
-    const FEISHU_APP_SECRET = context.env.FEISHU_APP_SECRET;
-    
-    console.log('[Debug] 环境变量检查:', {
-      hasAppId: !!FEISHU_APP_ID,
-      hasAppSecret: !!FEISHU_APP_SECRET
-    });
-    
-    // 获取应用访问令牌
-    console.log('[Debug] 正在获取飞书访问令牌...');
-    const tokenResponse = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "app_id": FEISHU_APP_ID,
-        "app_secret": FEISHU_APP_SECRET
-      })
-    });
-    
-    const tokenData = await tokenResponse.json();
-    console.log('[Debug] 访问令牌响应:', JSON.stringify(tokenData));
-    
-    if (!tokenData.tenant_access_token) {
-      throw new Error('获取访问令牌失败: ' + JSON.stringify(tokenData));
-    }
 
-    // 发送邮件
-    console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/public/send', {
+    // 发送到飞书群
+    console.log('[Debug] 正在发送到飞书群...');
+    const botResponse = await fetch('https://open.feishu.cn/open-apis/bot/v2/hook/4e72b69a-2c95-49c9-bbf3-63a39e2e0cc7', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${tokenData.tenant_access_token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        "msg_type": "text",
         "content": {
           "text": `
 新的软件下载申请
@@ -51,37 +22,33 @@ export async function onRequestPost(context) {
 手机: ${data.phone}
 使用目的: ${data.purpose}
           `
-        },
-        "msg_type": "text",
-        "subject": "新的软件下载申请",
-        "to": ["service@ai-yy.com"]
+        }
       })
     });
 
     // 记录原始响应
-    const emailResponseText = await emailResponse.text();
-    console.log('[Debug] 邮件发送原始响应:', emailResponseText);
+    const botResponseText = await botResponse.text();
+    console.log('[Debug] 机器人发送原始响应:', botResponseText);
 
-    let emailResult;
+    let botResult;
     try {
-      emailResult = JSON.parse(emailResponseText);
+      botResult = JSON.parse(botResponseText);
     } catch (parseError) {
-      console.error('[Error] 解析邮件响应失败:', parseError);
-      throw new Error(`邮件响应解析失败: ${emailResponseText}`);
+      console.error('[Error] 解析响应失败:', parseError);
+      throw new Error(`响应解析失败: ${botResponseText}`);
     }
 
-    console.log('[Debug] 邮件发送响应(解析后):', JSON.stringify(emailResult));
+    console.log('[Debug] 机器人发送响应(解析后):', JSON.stringify(botResult));
 
-    if (!emailResult.code || emailResult.code !== 0) {
-      throw new Error('发送邮件失败: ' + JSON.stringify(emailResult));
+    if (botResult.code !== 0) {
+      throw new Error('发送消息失败: ' + JSON.stringify(botResult));
     }
 
     return new Response(JSON.stringify({
       success: true,
       debug: {
-        hasToken: true,
-        emailSent: true,
-        emailResponse: emailResult
+        messageSent: true,
+        botResponse: botResult
       }
     }), {
       headers: { 'Content-Type': 'application/json' }
