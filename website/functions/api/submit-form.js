@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
 
     // 发送邮件
     console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/mails', {
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/public/send', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${tokenData.tenant_access_token}`,
