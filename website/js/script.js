@@ -184,6 +184,7 @@
 
   // 表单提交处理
   document.addEventListener('DOMContentLoaded', function() {
+    // 首先创建提示框
     const alertDiv = document.createElement('div');
     alertDiv.className = 'floating-alert';
     alertDiv.innerHTML = `
@@ -245,6 +246,16 @@
           console.log('Sending webhook request:', mockShopifyOrder);
 
           // 发送到webhook服务器
+          console.log('Form submitted');
+          console.log('Form data:', data);
+          console.log('Request options:', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mockShopifyOrder)
+          });
+
           const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
             method: 'POST',
             headers: {
