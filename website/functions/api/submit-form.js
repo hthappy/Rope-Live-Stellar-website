@@ -1,5 +1,40 @@
 export async function onRequestPost(context) {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': context.request.headers.get('Origin'),
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin'
+  };
+
   try {
+    // 获取访问者IP
+    const clientIP = context.request.headers.get('CF-Connecting-IP') || 
+                    context.request.headers.get('X-Real-IP') || 
+                    'unknown';
+    
+    console.log('[Debug] 访问者IP:', clientIP);
+
+    // 检查IP是否在24小时内提交过
+    const submitRecord = await context.env.SUBMIT_RECORDS.get(`ip_${clientIP}`);
+    if (submitRecord) {
+      const lastSubmitTime = new Date(submitRecord);
+      const now = new Date();
+      const hoursDiff = (now - lastSubmitTime) / (1000 * 60 * 60);
+      
+      if (hoursDiff < 24) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: '24小时内只能提交一次申请'
+        }), {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+    }
+
     console.log('[Debug] 开始处理表单提交');
     const data = await context.request.json();
     console.log('[Debug] 收到的表单数据:', JSON.stringify(data));
@@ -21,6 +56,7 @@ Rope-Live 体验申请
 邮箱: ${data.email}
 QQ: ${data.qq}
 使用目的: ${data.purpose}
+IP: ${clientIP}
           `
         }
       })
@@ -44,6 +80,11 @@ QQ: ${data.qq}
       throw new Error('发送消息失败: ' + JSON.stringify(botResult));
     }
 
+    // 记录IP提交时间
+    await context.env.SUBMIT_RECORDS.put(`ip_${clientIP}`, new Date().toISOString(), {
+      expirationTtl: 86400  // 24小时后自动过期
+    });
+
     return new Response(JSON.stringify({
       success: true,
       debug: {
@@ -51,7 +92,10 @@ QQ: ${data.qq}
         botResponse: botResult
       }
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        ...corsHeaders 
+      }
     });
   } catch (error) {
     console.error('[Error]', error);
@@ -61,7 +105,21 @@ QQ: ${data.qq}
       stack: error.stack 
     }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        ...corsHeaders 
+      }
     });
   }
+}
+
+export async function onRequestOptions(context) {
+  return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': context.request.headers.get('Origin'),
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Vary': 'Origin'
+    }
+  });
 }
