@@ -205,7 +205,7 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          // 构造模拟的 Shopify 订单数据，参考实际的订单格式
+          // 构造模拟的 Shopify 订单数据
           const mockShopifyOrder = {
             id: Date.now(),
             email: data.email,
@@ -247,13 +247,7 @@
           const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'X-Shopify-Hmac-Sha256': '+uGkynMxRbGiqRAZ5b1ZQYcDIjexBWqPQOZbFlHiT/w=',
-              'X-Shopify-Topic': 'orders/paid',
-              'X-Shopify-Shop-Domain': '2a7e63-2.myshopify.com',
-              'X-Shopify-Test': 'true',
-              'User-Agent': 'Shopify-Captain-Hook',
-              'X-Shopify-Api-Version': '2024-10'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(mockShopifyOrder)
           });
