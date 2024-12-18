@@ -35,29 +35,23 @@ export async function onRequestPost(context) {
 
     // 发送邮件
     console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/messages/send', {
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/mailboxes/service@ai-yy.com/messages', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${tokenData.tenant_access_token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "msg_type": "text",
-        "content": {
-          "text": `
+        "subject": "新的软件下载申请",
+        "content": `
 新的软件下载申请
 
 姓名: ${data.name}
 邮箱: ${data.email}
 手机: ${data.phone}
 使用目的: ${data.purpose}
-          `
-        },
-        "email_info": {
-          "subject": "新的软件下载申请",
-          "from_user": "service@ai-yy.com",
-          "to_users": ["service@ai-yy.com"]
-        }
+        `,
+        "to": ["service@ai-yy.com"]
       })
     });
 
