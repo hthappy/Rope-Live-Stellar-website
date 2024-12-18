@@ -184,7 +184,6 @@
 
   // 表单提交处理
   document.addEventListener('DOMContentLoaded', function() {
-    // 首先创建提示框
     const alertDiv = document.createElement('div');
     alertDiv.className = 'floating-alert';
     alertDiv.innerHTML = `
@@ -230,7 +229,7 @@
                 quantity: 1,
                 name: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support - 3-Day Trial",
                 price: "0.00",
-                sku: settings.LICENSE_SKU_PRO_1D,  // 使用1天试用版SKU
+                sku: "PRO-1D",
                 product_id: 8801307623638,
                 variant_id: 46356797063382,
                 title: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support",
@@ -243,14 +242,13 @@
             ]
           };
 
-          console.log('Sending order data:', mockShopifyOrder);
+          console.log('Sending webhook request:', mockShopifyOrder);
 
           // 发送到webhook服务器
           const webhookResponse = await fetch('https://licensemanager.ai-yy.com/shopify/webhook/order/', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(mockShopifyOrder)
           });
