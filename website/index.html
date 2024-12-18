@@ -368,6 +368,340 @@
   <script src="plugins/slick/slick.min.js"></script>
   <script src="js/script.js"></script>
 
+  <style>
+    /* 重置价格区块样式 */
+    .pricing-table {
+      padding: 80px 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                  url('../images/pricing-bg.jpg') center/cover no-repeat fixed;
+      background-color: #1a1a1a; /* 作为背景图片加载失败时的后备颜色 */
+    }
+
+    /* 版本切换按钮组 */
+    .version-switch {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px;
+      border-radius: 30px;
+      display: inline-flex;
+    }
+
+    .btn-version {
+      color: #fff;
+      background: transparent;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-version:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-version.active {
+      background: #28ABE3;
+      color: #fff;
+    }
+
+    /* 价格卡片 */
+    .pricing-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 35px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-card.featured {
+      position: relative;
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(40, 171, 227, 0.15);
+      border: 1px solid rgba(40, 171, 227, 0.1);
+    }
+
+    .pricing-card.featured:hover {
+      transform: translateY(-15px);
+      border: 1px solid rgba(40, 171, 227, 0.2);
+    }
+
+    /* 推荐标签 */
+    .pricing-card.featured:before {
+      content: "推荐";
+      position: absolute;
+      top: 12px;
+      right: -25px;
+      background: linear-gradient(45deg, #28ABE3, #34c6ff);
+      color: white;
+      padding: 8px 40px;
+      transform: rotate(45deg);
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(40, 171, 227, 0.3);
+    }
+
+    /* 价格显示 */
+    .price {
+      font-size: 42px;
+      font-weight: 700;
+      color: #28ABE3;
+      margin: 20px 0;
+    }
+
+    .price span {
+      font-size: 16px;
+      color: #666;
+    }
+
+    /* 功能列表 */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .feature-list li {
+      padding: 8px 0;
+      color: #666;
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-list li:before {
+      content: "✓";
+      color: #28ABE3;
+      margin-right: 10px;
+      font-weight: bold;
+      background: rgba(40, 167, 69, 0.1);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    /* 购买按钮 */
+    .btn-start-trial {
+      display: inline-block;
+      width: 100%;
+      padding: 15px 30px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(45deg, #28ABE3, #34c6ff);
+      border-radius: 35px;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 5px 15px rgba(40, 171, 227, 0.3);
+    }
+
+    .btn-start-trial:hover {
+      background: #1a1a1a;
+      color: #fff;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 调整卡片内按钮的上下间距 */
+    .pricing-card .btn-start-trial {
+      margin-top: 25px;
+    }
+
+    /* 确保功能列表和按钮之间有足够空间 */
+    .feature-list {
+      margin-bottom: 0;
+    }
+
+    /* 其他文字样式 */
+    .no-credit {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .plan-header h3 {
+      font-size: 24px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* 修改功能列表勾选图标在悬停时的样式 */
+    .pricing-card:hover .feature-list li:before {
+      background: rgba(52, 198, 255, 0.2);
+      color: #34c6ff;
+    }
+
+    /* 卡片悬停时的文字颜色 */
+    /* .pricing-card:hover .plan-header h3,
+    .pricing-card:hover .no-credit,
+    .pricing-card:hover .feature-list li {
+      color: #fff;
+    } */
+
+    .pricing-card:hover .price {
+      color: #34c6ff;
+    }
+
+    .pricing-card:hover .price span {
+      color: #ccc;
+    }
+
+    /* 视频演示区域样式 */
+    .video-demo {
+      background: #f8f9fa;
+      padding: 80px 0;
+    }
+
+    .nav-pills .nav-link {
+      margin: 0 10px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+
+    .video-container {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background: #fff;
+    }
+
+    .video-container video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* 系统要求样式优化 */
+    .system-requirements {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px 25px;
+      margin: 20px 0;
+      backdrop-filter: blur(5px);
+    }
+
+    .requirements-title {
+      color: #fff;
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .requirements-title i {
+      color: #00a8ff;
+    }
+
+    .requirements-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .requirements-list li {
+      color: #fff;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .requirements-list i {
+      color: #00a8ff;
+      font-size: 1.1em;
+    }
+
+    .requirements-list strong {
+      color: #00a8ff;
+      font-weight: 500;
+    }
+  </style>
+
+  <script>
+    // 监听滚动事件
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('.navigation');
+      const logoDefault = document.querySelector('.logo-default');
+      const logoWhite = document.querySelector('.logo-white');
+      
+      if (window.scrollY > 50) {
+        nav.classList.remove('top');
+        nav.classList.add('scrolled');
+        logoDefault.style.display = 'block';
+        logoWhite.style.display = 'none';
+      } else {
+        nav.classList.add('top');
+        nav.classList.remove('scrolled');
+        logoDefault.style.display = 'none';
+        logoWhite.style.display = 'block';
+      }
+    });
+
+    // 页面加载时初始化导航栏状态
+    document.addEventListener('DOMContentLoaded', function() {
+      const nav = document.querySelector('.navigation');
+      const logoDefault = document.querySelector('.logo-default');
+      const logoWhite = document.querySelector('.logo-white');
+      
+      nav.classList.add('top');
+      
+      // 触发一次滚动检查
+      if (window.scrollY > 50) {
+        nav.classList.remove('top');
+        nav.classList.add('scrolled');
+        logoDefault.style.display = 'block';
+        logoWhite.style.display = 'none';
+      } else {
+        logoDefault.style.display = 'none';
+        logoWhite.style.display = 'block';
+      }
+    });
+
+    // 添加版本切换的初始化和事件处理
+    $(document).ready(function() {
+      // 初始化标签页
+      $('#basic').addClass('show active');
+      
+      // 为版本切换按钮添加点击事件
+      $('.btn-version').on('click', function(e) {
+        e.preventDefault();
+        
+        // 移除所有按钮的 active 类
+        $('.btn-version').removeClass('active');
+        // 为当前点击的按钮添加 active 类
+        $(this).addClass('active');
+        
+        // 获取目标面板
+        const target = $(this).data('target');
+        
+        // 隐藏所有面板
+        $('.tab-pane').removeClass('show active');
+        // 显示目标面板
+        $(target).addClass('show active');
+      });
+    });
+  </script>
+
   <!-- 添加模态框 -->
   <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
