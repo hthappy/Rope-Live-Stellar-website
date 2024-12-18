@@ -19,7 +19,7 @@ export async function onRequestPost(context) {
 
 姓名: ${data.name}
 邮箱: ${data.email}
-手机: ${data.phone}
+QQ: ${data.qq}
 使用目的: ${data.purpose}
           `
         }
