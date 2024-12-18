@@ -35,29 +35,29 @@ export async function onRequestPost(context) {
 
     // 发送邮件
     console.log('[Debug] 正在发送邮件...');
-    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/messages', {
+    const emailResponse = await fetch('https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/me/messages/send', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${tokenData.app_access_token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "msg_type": "text",
-        "content": {
-          "text": `
+        "body_plain_text": `
 新的软件下载申请
 
 姓名: ${data.name}
 邮箱: ${data.email}
 手机: ${data.phone}
 使用目的: ${data.purpose}
-          `
+        `,
+        "head_from": {
+          "name": "LiveFaceX 系统"
         },
-        "email_info": {
-          "subject": "新的软件下载申请",
-          "from_user": "service@ai-yy.com",
-          "to_users": ["service@ai-yy.com"]
-        }
+        "subject": "新的软件下载申请",
+        "to": [{
+          "mail_address": "service@ai-yy.com",
+          "name": "Service"
+        }]
       })
     });
 
