@@ -201,21 +201,42 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
         try {
-          // 显示悬浮提示
-          alertDiv.classList.add('show');
-          
-          // 清空表单
-          e.target.reset();
-          // 关闭模态框
-          $('#downloadModal').modal('hide');
-
-          // 点击确认按钮后跳转
-          const confirmBtn = alertDiv.querySelector('.alert-confirm');
-          confirmBtn.addEventListener('click', function() {
-            alertDiv.classList.remove('show');
-            window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
+          // 发送到 Cloudflare Function
+          const response = await fetch('https://ai-yy.com/submit-form', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: data.email,
+              name: data.name || 'Unknown',
+              source: window.location.href,
+              timestamp: new Date().toISOString()
+            })
           });
+
+          if (response.ok) {
+            // 显示悬浮提示
+            alertDiv.classList.add('show');
+            
+            // 清空表单
+            e.target.reset();
+            // 关闭模态框
+            $('#downloadModal').modal('hide');
+
+            // 点击确认按钮后跳转
+            const confirmBtn = alertDiv.querySelector('.alert-confirm');
+            confirmBtn.addEventListener('click', function() {
+              alertDiv.classList.remove('show');
+              window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
+            });
+          } else {
+            throw new Error('提交失败');
+          }
         } catch (error) {
           console.error('Error:', error);
           alert('提交失败，请稍后重试。');
