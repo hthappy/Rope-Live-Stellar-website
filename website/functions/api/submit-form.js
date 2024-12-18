@@ -61,8 +61,19 @@ export async function onRequestPost(context) {
       })
     });
 
-    const emailResult = await emailResponse.json();
-    console.log('[Debug] 邮件发送响应:', JSON.stringify(emailResult));
+    // 记录原始响应
+    const emailResponseText = await emailResponse.text();
+    console.log('[Debug] 邮件发送原始响应:', emailResponseText);
+
+    let emailResult;
+    try {
+      emailResult = JSON.parse(emailResponseText);
+    } catch (parseError) {
+      console.error('[Error] 解析邮件响应失败:', parseError);
+      throw new Error(`邮件响应解析失败: ${emailResponseText}`);
+    }
+
+    console.log('[Debug] 邮件发送响应(解析后):', JSON.stringify(emailResult));
 
     if (!emailResult.code || emailResult.code !== 0) {
       throw new Error('发送邮件失败: ' + JSON.stringify(emailResult));
