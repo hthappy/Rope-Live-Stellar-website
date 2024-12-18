@@ -104,7 +104,7 @@ IP: ${clientIP}
 
     // 记录IP提交时间
     await context.env.SUBMIT_RECORDS.put(`ip_${clientIP}`, new Date().toISOString(), {
-      expirationTtl: 86400  // 24小时后自动过期
+      expirationTtl: 600  // 24小时后自动过期
     });
 
     return new Response(JSON.stringify({

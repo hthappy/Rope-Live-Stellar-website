@@ -190,7 +190,7 @@
     alertDiv.innerHTML = `
       <div class="alert-content">
         <i class="fas fa-check-circle"></i>
-        <p>提交成功！<br>体验资格已发送至您的邮箱，请注意查收。</p>
+        <p>申请已提交成功！<br>我们会尽快审核并通过邮件回复您。</p>
         <button class="alert-confirm">确认</button>
       </div>
     `;
