@@ -214,3 +214,66 @@
   });
 
 })(jQuery);
+
+// 监听滚动事件
+window.addEventListener('scroll', function() {
+  const nav = document.querySelector('.navigation');
+  const logoDefault = document.querySelector('.logo-default');
+  const logoWhite = document.querySelector('.logo-white');
+  
+  if (window.scrollY > 50) {
+    nav.classList.remove('top');
+    nav.classList.add('scrolled');
+    logoDefault.style.display = 'block';
+    logoWhite.style.display = 'none';
+  } else {
+    nav.classList.add('top');
+    nav.classList.remove('scrolled');
+    logoDefault.style.display = 'none';
+    logoWhite.style.display = 'block';
+  }
+});
+
+// 页面加载时初始化导航栏状态
+document.addEventListener('DOMContentLoaded', function() {
+  const nav = document.querySelector('.navigation');
+  const logoDefault = document.querySelector('.logo-default');
+  const logoWhite = document.querySelector('.logo-white');
+  
+  nav.classList.add('top');
+  
+  // 触发一次滚动检查
+  if (window.scrollY > 50) {
+    nav.classList.remove('top');
+    nav.classList.add('scrolled');
+    logoDefault.style.display = 'block';
+    logoWhite.style.display = 'none';
+  } else {
+    logoDefault.style.display = 'none';
+    logoWhite.style.display = 'block';
+  }
+});
+
+// 添加版本切换的初始化和事件处理
+$(document).ready(function() {
+  // 初始化标签页
+  $('#basic').addClass('show active');
+  
+  // 为版本切换按钮添加点击事件
+  $('.btn-version').on('click', function(e) {
+    e.preventDefault();
+    
+    // 移除所有按钮的 active 类
+    $('.btn-version').removeClass('active');
+    // 为当前点击的按钮添加 active 类
+    $(this).addClass('active');
+    
+    // 获取目标面板
+    const target = $(this).data('target');
+    
+    // 隐藏所有面板
+    $('.tab-pane').removeClass('show active');
+    // 显示目标面板
+    $(target).addClass('show active');
+  });
+});

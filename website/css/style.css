@@ -298,6 +298,87 @@ a:focus, a:hover {
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease-in-out;
 }
+
+.btn-version {
+  color: #fff;
+  background: transparent;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-version:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-version.active {
+  background: #28ABE3;
+  color: #fff;
+}
+
+.version-switch {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 30px;
+  display: inline-flex;
+}
+
+.pricing-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 35px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card:hover .feature-list li:before {
+  background: rgba(52, 198, 255, 0.2);
+  color: #34c6ff;
+}
+
+.pricing-card:hover .price {
+  color: #34c6ff;
+}
+
+.pricing-card:hover .price span {
+  color: #ccc;
+}
+
+.video-demo {
+  background: #f8f9fa;
+  padding: 80px 0;
+}
+
+.pricing-card.featured {
+  position: relative;
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(40, 171, 227, 0.15);
+  border: 1px solid rgba(40, 171, 227, 0.1);
+}
+.pricing-card.featured:hover {
+  transform: translateY(-15px);
+  border: 1px solid rgba(40, 171, 227, 0.2);
+}
+
+.pricing-card.featured:before {
+  content: "推荐";
+  position: absolute;
+  top: 12px;
+  right: -25px;
+  background: linear-gradient(45deg, #28ABE3, #34c6ff);
+  color: white;
+  padding: 8px 40px;
+  transform: rotate(45deg);
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(40, 171, 227, 0.3);
+}
+
 .colors-switcher #show-panel {
   position: absolute;
   left: -38px;
@@ -1008,7 +1089,7 @@ a:focus, a:hover {
   Pricing section
 ==================================================================*/
 .pricing-table {
-  padding: 100px 0;
+  padding: 80px 0;
   padding-bottom: 70px;
   background: url("../images/pricing-bg.jpg");
   background-size: cover;
@@ -1049,6 +1130,19 @@ a:focus, a:hover {
 .pricing-table .pricing-item li i {
   margin-right: 6px;
 }
+
+.price {
+  font-size: 42px;
+  font-weight: 700;
+  color: #28ABE3;
+  margin: 20px 0;
+}
+
+.price span {
+  font-size: 16px;
+  color: #666;
+}
+
 .pricing-table .price-title {
   padding: 30px 0 20px;
 }
@@ -2358,10 +2452,11 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 
 /* 系统要求样式 */
 .system-requirements {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px 25px;
   margin: 20px 0;
+  backdrop-filter: blur(5px);
 }
 
 .system-requirements h5 {
@@ -2414,12 +2509,11 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 }
 
 .nav-pills .nav-link {
-  color: #fff;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 25px;
-  padding: 8px 25px;
   margin: 0 10px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  color: #333;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
@@ -2429,27 +2523,91 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   background: #28ABE3;
 }
 
+.video-container {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
 .nav-pills .nav-link:focus {
   outline: none;
   box-shadow: none;
 }
 
+.video-container video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* 功能列表样式优化 */
 .feature-list {
-  text-align: left;
-  padding-left: 30px;
+  margin-bottom: 0;
+}
+
+.no-credit {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 10px 0;
+}
+
+.plan-header h3 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .feature-list li {
-  margin: 10px 0;
-  position: relative;
+  padding: 8px 0;
+  color: #666;
+  display: flex;
+  align-items: center;
 }
 
 .feature-list li:before {
   content: "✓";
   color: #28ABE3;
-  position: absolute;
-  left: -20px;
+  margin-right: 10px;
+  font-weight: bold;
+  background: rgba(40, 167, 69, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.btn-start-trial {
+  display: inline-block;
+  width: 100%;
+  padding: 15px 30px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(45deg, #28ABE3, #34c6ff);
+  border-radius: 35px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 5px 15px rgba(40, 171, 227, 0.3);
+}
+
+.btn-start-trial:hover {
+  background: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card .btn-start-trial {
+  margin-top: 25px;
 }
 
 .modal-content {
@@ -2487,4 +2645,49 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 .btn-primary:hover {
   background: #1a8dbb;
   transform: translateY(-2px);
+}
+
+.system-requirements {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin: 20px 0;
+  backdrop-filter: blur(5px);
+}
+
+.requirements-title {
+  color: #fff;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.requirements-title i {
+  color: #00a8ff;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirements-list li {
+  color: #fff;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.requirements-list i {
+  color: #00a8ff;
+  font-size: 1.1em;
+}
+
+.requirements-list strong {
+  color: #00a8ff;
+  font-weight: 500;
 }
