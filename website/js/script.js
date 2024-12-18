@@ -205,18 +205,40 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          // 构造模拟的 Shopify 订单数据
+          // 构造模拟的 Shopify 订单数据，参考实际的订单格式
           const mockShopifyOrder = {
-            id: Date.now().toString(),
+            id: Date.now(),
             email: data.email,
-            financial_status: 'paid',
+            financial_status: "paid",
+            confirmed: true,
             test: true,
+            processed_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            currency: "USD",
+            total_price: "0.00",
+            customer: {
+              email: data.email,
+              first_name: data.name || "Test",
+              last_name: "User",
+              state: "enabled",
+              verified_email: true
+            },
             line_items: [
               {
-                product_id: '123456789',
-                variant_id: '987654321',
-                sku: 'PRO-1D', // 1天体验版SKU
-                quantity: 1
+                id: Date.now(),
+                quantity: 1,
+                name: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support - 3-Day Trial",
+                price: "0.00",
+                sku: "PRO-1D",
+                product_id: 8801307623638,
+                variant_id: 46356797063382,
+                title: "Rope-Live Stellar: Enhanced AI Live Streaming Tool with Multi-Platform Support",
+                variant_title: "1-Day Trial",
+                vendor: "Rope-Live",
+                requires_shipping: false,
+                taxable: false,
+                gift_card: false
               }
             ]
           };
@@ -226,9 +248,12 @@
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'X-Shopify-Hmac-SHA256': 'e0c4f9c962cac6de461ac5a79f837f645022c7b7c50c63a1feb137b022ee244c',
+              'X-Shopify-Hmac-Sha256': '+uGkynMxRbGiqRAZ5b1ZQYcDIjexBWqPQOZbFlHiT/w=',
               'X-Shopify-Topic': 'orders/paid',
-              'X-Shopify-Shop-Domain': '2a7e63-2.myshopify.com'
+              'X-Shopify-Shop-Domain': '2a7e63-2.myshopify.com',
+              'X-Shopify-Test': 'true',
+              'User-Agent': 'Shopify-Captain-Hook',
+              'X-Shopify-Api-Version': '2024-10'
             },
             body: JSON.stringify(mockShopifyOrder)
           });
@@ -249,7 +274,7 @@
               window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
             });
           } else {
-            throw new Error('提交失败');
+            throw new Error('订单处理失败');
           }
         } catch (error) {
           console.error('Error:', error);
