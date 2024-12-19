@@ -205,7 +205,7 @@
         const data = Object.fromEntries(formData.entries());
         
         try {
-          const response = await fetch('https://ai-yy.com/api/submit-form', {
+          const response = await fetch('https://stellar.ai-yy.com/api/submit-form', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
