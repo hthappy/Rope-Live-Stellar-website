@@ -80,35 +80,43 @@
   <section id="demo" class="video-demo section">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-xl-8 col-lg-10 text-center">
-          <h2 class="mb-4">效果演示</h2>
+        <div class="col-lg-12 text-center">
+          <div class="section-title">
+            <h2>效果演示</h2>
+            <p>查看 Rope-Live Stellar 的实际应用效果</p>
+            <div class="title-border"></div>
+          </div>
           
           <!-- 选项卡导航 -->
-          <ul class="nav nav-pills mb-4 justify-content-center" id="demoTabs" role="tablist">
+          <ul class="nav nav-pills demo-tabs justify-content-center" id="demoTabs" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link active" id="synthesis-tab" data-toggle="pill" data-target="#synthesis" type="button" role="tab">
-                <i class="tf-ion-ios-film"></i> 视频合成
+                <i class="tf-ion-ios-film"></i>
+                <span>视频合成</span>
               </button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="douyin-tab" data-toggle="pill" data-target="#douyin" type="button" role="tab">
-                <i class="tf-ion-social-youtube"></i> 抖音直播
+                <i class="tf-ion-social-youtube"></i>
+                <span>抖音直播</span>
               </button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="qq-tab" data-toggle="pill" data-target="#qq" type="button" role="tab">
-                <i class="tf-ion-social-whatsapp"></i> QQ视频
+                <i class="tf-ion-social-whatsapp"></i>
+                <span>QQ视频</span>
               </button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="whatsapp-tab" data-toggle="pill" data-target="#whatsapp" type="button" role="tab">
-                <i class="tf-ion-social-whatsapp-outline"></i> WhatsApp
+                <i class="tf-ion-social-whatsapp-outline"></i>
+                <span>WhatsApp</span>
               </button>
             </li>
           </ul>
 
           <!-- 选项卡内容 -->
-          <div class="tab-content" id="demoTabContent">
+          <div class="tab-content demo-content" id="demoTabContent">
             <!-- 视频合成演示 -->
             <div class="tab-pane fade show active" id="synthesis" role="tabpanel">
               <div class="video-container">
@@ -137,8 +145,126 @@
               </div>
             </div>
           </div>
-
+        </div>
+      </div>
+    </div>
   </section>
+
+  <style>
+/* 视频演示区域样式 */
+.video-demo {
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+  padding: 100px 0;
+}
+
+.section-title {
+  margin-bottom: 50px;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.section-title p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.title-border {
+  width: 60px;
+  height: 3px;
+  background: #28ABE3;
+  margin: 0 auto;
+}
+
+/* 选项卡样式 */
+.demo-tabs {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 50px;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.demo-tabs .nav-link {
+  padding: 15px 30px;
+  margin: 0 5px;
+  border-radius: 25px;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.demo-tabs .nav-link i {
+  font-size: 1.2rem;
+}
+
+.demo-tabs .nav-link:hover {
+  color: #28ABE3;
+  background: rgba(40, 171, 227, 0.1);
+}
+
+.demo-tabs .nav-link.active {
+  background: #28ABE3;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(40, 171, 227, 0.3);
+}
+
+/* 视频容器样式 */
+.video-container {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  background: #fff;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.video-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .demo-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 5px;
+  }
+
+  .demo-tabs .nav-link {
+    padding: 10px 15px;
+    white-space: nowrap;
+  }
+
+  .video-container iframe {
+    height: 400px;
+  }
+  
+  .demo-tabs .nav-link span {
+    display: none;
+  }
+  
+  .demo-tabs .nav-link i {
+    margin: 0;
+  }
+}
+</style>
 
   <!-- 功能特点 -->
   <section id="features" class="service-2 section">
