@@ -468,40 +468,68 @@
   </script>
 
   <!-- 添加模态框 -->
-  <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">获取免费体验资格和下载链接</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+<div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-download mr-2"></i>
+          获取免费体验资格和下载链接
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="downloadForm">
+          <div class="form-group">
+            <label for="name">
+              <i class="fas fa-user text-primary mr-2"></i>
+              姓名
+            </label>
+            <input type="text" class="form-control" id="name" name="name" required 
+                   placeholder="请输入您的真实姓名">
+            <div class="invalid-feedback">请输入姓名</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">
+              <i class="fas fa-envelope text-primary mr-2"></i>
+              邮箱
+            </label>
+            <input type="email" class="form-control" id="email" name="email" required
+                   placeholder="请输入您的常用邮箱">
+            <div class="invalid-feedback">请输入有效的邮箱地址</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="qq">
+              <i class="fab fa-qq text-primary mr-2"></i>
+              QQ号
+            </label>
+            <input type="tel" class="form-control" id="qq" name="qq" required
+                   placeholder="请输入您的QQ号">
+            <div class="invalid-feedback">请输入QQ号</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="purpose">
+              <i class="fas fa-comment-alt text-primary mr-2"></i>
+              使用目的
+            </label>
+            <textarea class="form-control" id="purpose" name="purpose" rows="3"
+                      placeholder="请简要描述您的使用目的"></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-paper-plane mr-2"></i>
+            提交申请
           </button>
-        </div>
-        <div class="modal-body">
-          <form id="downloadForm">
-            <div class="form-group">
-              <label for="name">姓 名：</label>
-              <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">邮 箱：</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="qq">QQ号：</label>
-              <input type="tel" class="form-control" id="qq" name="qq" required>
-            </div>
-            <div class="form-group">
-              <label for="purpose">使用目的：</label>
-              <textarea class="form-control" id="purpose" name="purpose" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">提交</button>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   </div>
-
+</div>
 
   <!-- 添加提示框 -->
 <div class="toast-container position-fixed top-50 start-50 translate-middle">
