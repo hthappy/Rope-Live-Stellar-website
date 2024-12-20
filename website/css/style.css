@@ -2668,6 +2668,10 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   margin-bottom: 20px;
 }
 
+.nav-item span {
+  margin-right: 8px;
+}
+
 .title-border {
   width: 60px;
   height: 3px;
@@ -2700,8 +2704,11 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 .demo-tabs .nav-link i {
   font-size: 1.2rem;
   margin-right: 8px;
+  margin-left: 8px;
   vertical-align: middle;
 }
+
+
 
 .demo-tabs .nav-link:hover {
   color: #28ABE3;
