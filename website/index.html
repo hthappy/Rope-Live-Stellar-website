@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="plugins/themefisher-font/style.css">
   <link rel="stylesheet" href="plugins/slick/slick.css">
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -215,85 +217,126 @@
   </section>
 
   <!-- 价格方案 -->
-  <section id="pricing" class="pricing-table section" style="background: linear-gradient(rgb(0 0 0 / 29%), rgb(0 0 0 / 0%)), url(images/pricing-bg.jpg) center / cover">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="title text-center">
-            <h2 style="color: #fff;">灵活定价方案</h2>
-            <p style="color: #fff;">可随时更改或取消方案。</p>
-            <div class="border"></div>
+<section id="pricing" class="pricing-table section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="title text-center" data-aos="fade-up">
+          <h2>灵活定价方案</h2>
+          <p>选择最适合您的计划</p>
+          <div class="title-border"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pricing-wrapper">
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="plan-icon">
+              <i class="fas fa-paper-plane"></i>
+            </div>
+            <h3>免费体验</h3>
+            <div class="price">¥0<span>/日</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="plan-label">联系客服获取体验资格</div>
+            <ul class="feature-list">
+              <li><i class="fas fa-check"></i>视频/直播AI换脸</li>
+              <li><i class="fas fa-check"></i>全平台支持</li>
+              <li><i class="fas fa-check"></i>群聊支持</li>
+            </ul>
+          </div>
+          <div class="pricing-footer">
+            <a class="btn-purchase" href="" data-toggle="modal" data-target="#downloadModal">
+              <span>联系客服</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-3">
-          <div class="pricing-card">
-            <div class="plan-header">
-              <h3>免费体验</h3>
-              <div class="price">¥0<span>/日</span></div>
+      
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="plan-icon">
+              <i class="fas fa-rocket"></i>
             </div>
-            <div class="no-credit">联系客服获取体验资格</div>
+            <h3>月度会员</h3>
+            <div class="price">¥398<span>/月</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="plan-label">无需信用卡</div>
             <ul class="feature-list">
-              <li>视频/直播AI换脸</li>
-              <li>全平台支持</li>
-              <li>群聊支持</li>
+              <li><i class="fas fa-check"></i>所有功能</li>
+              <li><i class="fas fa-check"></i>技术支持</li>
+              <li><i class="fas fa-check"></i>详细文档</li>
             </ul>
-            <a class="btn btn-start-trial" href="" data-toggle="modal" data-target="#downloadModal">联系客服</a>
+          </div>
+          <div class="pricing-footer">
+            <a class="btn-purchase" href="https://item.taobao.com/item.htm?id=863007026200">
+              <span>立即购买</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
-        
-        <div class="col-md-3">
-          <div class="pricing-card">
-            <div class="plan-header">
-              <h3>月度会员</h3>
-              <div class="price">¥398<span>/月</span></div>
+      </div>
+      
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="pricing-card featured">
+          <div class="popular-badge">推荐</div>
+          <div class="pricing-header">
+            <div class="plan-icon">
+              <i class="fas fa-crown"></i>
             </div>
-            <div class="no-credit">无需信用卡</div>
+            <h3>年度会员</h3>
+            <div class="price">¥3298<span>/年</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="plan-label">无需信用卡</div>
             <ul class="feature-list">
-              <li>所有功能</li>
-              <li>技术支持</li>
-              <li>详细文档</li>
+              <li><i class="fas fa-check"></i>所有功能</li>
+              <li><i class="fas fa-check"></i>优先技术支持</li>
+              <li><i class="fas fa-check"></i>详细文档</li>
             </ul>
-            <a href="https://item.taobao.com/item.htm?id=863007026200" class="btn btn-start-trial">立即购买</a>
+          </div>
+          <div class="pricing-footer">
+            <a class="btn-purchase featured" href="https://item.taobao.com/item.htm?id=863607728246">
+              <span>立即购买</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
-        
-        <div class="col-md-3">
-          <div class="pricing-card featured">
-            <div class="plan-header">
-              <h3>年度会员</h3>
-              <div class="price">¥3298<span>/年</span></div>
+      </div>
+      
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="plan-icon">
+              <i class="fas fa-infinity"></i>
             </div>
-            <div class="no-credit">无需信用卡</div>
-            <ul class="feature-list">
-              <li>所有功能</li>
-              <li>优先技术支持</li>
-              <li>详细文档</li>
-            </ul>
-            <a href="https://item.taobao.com/item.htm?id=863607728246" class="btn btn-start-trial">立即购买</a>
+            <h3>永久授权</h3>
+            <div class="price">¥9998</div>
           </div>
-        </div>
-        
-        <div class="col-md-3">
-          <div class="pricing-card">
-            <div class="plan-header">
-              <h3>永久授权</h3>
-              <div class="price">¥9998</div>
-            </div>
-            <div class="no-credit">终身使用</div>
+          <div class="pricing-body">
+            <div class="plan-label">终身使用</div>
             <ul class="feature-list">
-              <li>终身使用</li>
-              <li>所有功能</li>
-              <li>优先技术支持</li>
+              <li><i class="fas fa-check"></i>终身使用</li>
+              <li><i class="fas fa-check"></i>所有功能</li>
+              <li><i class="fas fa-check"></i>优先技术支持</li>
             </ul>
-            <a href="https://item.taobao.com/item.htm?id=863607880469" class="btn btn-start-trial">立即购买</a>
+          </div>
+          <div class="pricing-footer">
+            <a class="btn-purchase" href="https://item.taobao.com/item.htm?id=863607880469">
+              <span>立即购买</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- 页脚 -->
   <footer id="footer" class="bg-one">

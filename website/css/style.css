@@ -1070,6 +1070,228 @@ a:focus, a:hover {
   padding: 10px 0;
 }
 
+/* 价格方案区域样式 */
+.pricing-table {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-table::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: url('../images/pricing-bg.jpg') center/cover;
+  opacity: 0.1;
+}
+
+.pricing-table .title {
+  position: relative;
+  margin-bottom: 60px;
+}
+
+.pricing-table .title h2 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.pricing-table .title p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+.pricing-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(40, 171, 227, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.pricing-card.featured {
+  background: linear-gradient(135deg, rgba(40, 171, 227, 0.1) 0%, rgba(40, 171, 227, 0.05) 100%);
+  border: 2px solid rgba(40, 171, 227, 0.5);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 20px;
+  right: -35px;
+  background: #28ABE3;
+  color: #fff;
+  padding: 5px 40px;
+  transform: rotate(45deg);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(40, 171, 227, 0.3);
+}
+
+.plan-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(40, 171, 227, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  transition: all 0.3s ease;
+}
+
+.plan-icon i {
+  font-size: 24px;
+  color: #28ABE3;
+  transition: all 0.3s ease;
+}
+
+.pricing-card:hover .plan-icon {
+  background: #28ABE3;
+  transform: rotateY(360deg);
+}
+
+.pricing-card:hover .plan-icon i {
+  color: #fff;
+}
+
+.pricing-header {
+  text-align: center;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-header h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.price {
+  color: #28ABE3;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.price span {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+
+.plan-label {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.pricing-body {
+  padding: 30px 0;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.feature-list li i {
+  color: #28ABE3;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.pricing-footer {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.btn-purchase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(40, 171, 227, 0.1);
+  color: #28ABE3;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(40, 171, 227, 0.3);
+}
+
+.btn-purchase i {
+  transition: transform 0.3s ease;
+}
+
+.btn-purchase:hover {
+  background: #28ABE3;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-purchase:hover i {
+  transform: translateX(5px);
+}
+
+.btn-purchase.featured {
+  background: #28ABE3;
+  color: #fff;
+}
+
+.btn-purchase.featured:hover {
+  background: #1a8dbb;
+  transform: translateY(-2px);
+}
+
+/* 响应式调整 */
+@media (max-width: 991px) {
+  .pricing-card {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-table .title h2 {
+    font-size: 2rem;
+  }
+  
+  .price {
+    font-size: 36px;
+  }
+  
+  .pricing-card {
+    padding: 30px 20px;
+  }
+}
+
 /*=================================================================
   Portfolio section
 ==================================================================*/
