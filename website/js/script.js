@@ -34,10 +34,17 @@
     arrows: true,
     prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
     nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-    dots: false,
+    dots: false, // 禁用 dots
     autoplaySpeed: 7000,
     pauseOnFocus: false,
-    pauseOnHover: false
+    pauseOnHover: false,
+    responsive: [{
+      breakpoint: 768,
+      settings: {
+        arrows: false,
+        dots: false // 禁用 dots
+      }
+    }]
   });
   $('.hero-slider').slickAnimation();
 
@@ -61,7 +68,13 @@
     infinite: true,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 2000
+    autoplaySpeed: 2000,
+    responsive: [{
+      breakpoint: 768,
+      settings: {
+        dots: true
+      }
+    }]
   });
 
 
@@ -86,11 +99,19 @@
       }
     },
     {
-      breakpoint: 480,
+      breakpoint: 768,
       settings: {
         slidesToShow: 3,
         slidesToScroll: 1,
-        arrows: false
+        dots: true
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        dots: true
       }
     }
     ]
@@ -116,11 +137,11 @@
       }
     },
     {
-      breakpoint: 667,
+      breakpoint: 768,
       settings: {
         slidesToShow: 3,
         slidesToScroll: 1,
-        arrows: false
+        dots: true
       }
     },
     {
@@ -128,7 +149,7 @@
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
-        arrows: false
+        dots: true
       }
     }
     ]
@@ -320,5 +341,34 @@ $(document).ready(function() {
     $('.tab-pane').removeClass('show active');
     // 显示目标面板
     $(target).addClass('show active');
+  });
+
+  // 禁用移动端主页横幅的 slick-dots
+  $('.hero-slider').slick({
+    autoplay: true,
+    infinite: true,
+    arrows: true,
+    prevArrow: '<button type="button" class="prevArrow"></button>',
+    nextArrow: '<button type="button" class="nextArrow"></button>',
+    dots: false, // 禁用 dots
+    autoplaySpeed: 7000,
+    pauseOnFocus: false,
+    pauseOnHover: false,
+    responsive: [{
+      breakpoint: 768,
+      settings: {
+        arrows: false,
+        dots: false // 禁用 dots
+      }
+    }]
+  });
+
+  // 点击空白区域关闭菜单
+  $(document).click(function (event) {
+    var clickover = $(event.target);
+    var _opened = $(".navbar-collapse").hasClass("show");
+    if (_opened === true && !clickover.hasClass("navbar-toggler")) {
+      $(".navbar-toggler").click();
+    }
   });
 });

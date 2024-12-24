@@ -74,9 +74,14 @@ a:focus, a:hover {
   padding: 12px 40px;
   text-transform: uppercase;
   border-radius: 40px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 .btn-main:hover {
+  background: #1a8dbb;
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn-transparent {
@@ -1279,6 +1284,22 @@ a:focus, a:hover {
 }
 
 @media (max-width: 768px) {
+  .pricing-table {
+    padding: 80px 0;
+  }
+
+  .pricing-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .pricing-card {
+    flex: 0 0 48%; /* 调整卡片的宽度 */
+    margin-bottom: 20px;
+    padding: 15px; /* 进一步减小卡片的内边距 */
+  }
+  
   .pricing-table .title h2 {
     font-size: 2rem;
   }
@@ -1289,6 +1310,10 @@ a:focus, a:hover {
   
   .pricing-card {
     padding: 30px 20px;
+  }
+
+  .pricing-card:nth-child(odd) {
+    margin-right: 4%;
   }
 }
 
@@ -2528,7 +2553,6 @@ a:focus, a:hover {
     padding: 10px 15px;
   }
 }
-/*# sourceMappingURL=style.css.map */
 
 /* 导航菜单样式 */
 .navigation {
@@ -2571,6 +2595,9 @@ a:focus, a:hover {
 .navbar-nav .nav-item {
   display: flex;
   align-items: center;
+}
+.navbar-nav .nav-item li {
+  padding-bottom: 10px;
 }
 
 .nav-link {
@@ -2625,13 +2652,14 @@ a:focus, a:hover {
   letter-spacing: 1px;
   display: inline-block;
   text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-download:hover {
-  background: #000 !important;
+  background: #1a8dbb !important;
   color: #fff !important;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn-download:active {
@@ -3017,7 +3045,6 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 }
 
 .nav-item span {
-  margin-right: 8px;
   padding-right: 5px;
 }
 
@@ -3039,13 +3066,12 @@ h1, h2, h3, h4, h5, h6, .nav-link {
 
 .demo-tabs .nav-link {
   padding: 15px 30px;
-  margin: 0 5px;
+  margin: 0 0px;
   border-radius: 25px;
   color: #666;
   font-weight: 500;
   transition: all 0.3s ease;
   border: none;
-  display: flex;
   align-items: center;
   gap: 8px;
 }
@@ -3126,7 +3152,7 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   }
   
   .demo-tabs .nav-link span {
-    display: none;
+    display: inline; /* 确保 span 文本在移动端显示 */
   }
   
   .demo-tabs .nav-link i {
@@ -3303,3 +3329,41 @@ textarea.form-control {
     font-size: 15px;
   }
 }
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* ...existing code... */
+
+.navigation.top .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+@media (max-width: 768px) {
+  .pricing-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .pricing-card {
+    flex: 0 0 48%; /* 调整卡片的宽度 */
+    margin-bottom: 20px;
+    padding: 15px; /* 进一步减小卡片的内边距 */
+  }
+
+  .pricing-card-width {
+    width: 50%; /* 调整卡片的宽度 */
+  }
+
+  .pricing-card:nth-child(odd) {
+    margin-right: 4%;
+  }
+}
+
+/* ...existing code... */
