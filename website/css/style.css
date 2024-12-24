@@ -3303,3 +3303,25 @@ textarea.form-control {
     font-size: 15px;
   }
 }
+
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+  .modal-content {
+    padding: 1rem;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .btn-block {
+    width: 100%;
+  }
+  .footer-column {
+    text-align: center;
+  }
+  .footer-list li {
+    display: block;
+    text-align: center;
+  }
+}
