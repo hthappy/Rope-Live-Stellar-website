@@ -84,7 +84,7 @@ Rope-Live Stellar 体验申请
 QQ: ${data.qq}
 行业：${data.industry}
 公司/个人：${data.company || '无'}
-公司规模: ${data.scale || '无'}
+公司规模: ${data.companySize}
 使用目的: ${data.purpose}
 IP: ${clientIP}
           `
