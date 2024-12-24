@@ -29,7 +29,9 @@
           <img src="images/logo.png" alt="Rope-Live Stellar" class="logo-white">
         </a>
         
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
           <span class="navbar-toggler-icon"></span>
         </button>
         
@@ -44,7 +46,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#pricing">价格</a>
             </li>
-            <li class="nav-item" style="padding-left: 15px;">
+            <li class="nav-item mobile-download">
               <a class="nav-link btn-main" href="" data-toggle="modal" data-target="#downloadModal">免费体验</a>
             </li>
           </ul>
@@ -59,20 +61,23 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
-              AI 魔法新境界
-            </h1>
-			<br>
-            <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">
-              使用任意图片一键为视频、直播高清替换人脸<br>
-              支持抖音、微信、QQ、视频号、TikTok、WhatsApp、Messenger等平台
-            </p>
-            <br>
-			<br>
-            <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" 
-               class="btn btn-download" href="#" data-toggle="modal" data-target="#downloadModal">
-              免费体验
-            </a>
+            <div class="hero-content">
+              <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
+                AI 魔法新境界
+              </h1>
+              <div class="hero-description">
+                <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">
+                  使用任意图片一键为视频、直播高清替换人脸<br class="d-none d-md-block">
+                  支持抖音、微信、QQ、视频号、TikTok、WhatsApp、Messenger等平台
+                </p>
+              </div>
+              <div class="hero-button">
+                <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" 
+                  class="btn btn-download" href="#" data-toggle="modal" data-target="#downloadModal">
+                  免费体验
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -407,7 +412,7 @@
   <script src="js/script.js"></script>
 
   <script>
-    // 监听滚动事件
+    // 监听滚动���件
     window.addEventListener('scroll', function() {
       const nav = document.querySelector('.navigation');
       const logoDefault = document.querySelector('.logo-default');

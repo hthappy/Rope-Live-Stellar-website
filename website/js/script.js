@@ -190,7 +190,7 @@
     alertDiv.innerHTML = `
       <div class="alert-content">
         <i class="fas fa-check-circle"></i>
-        <p>申请已提交成功！<br>我们会尽快审核并通过邮件回复您。</p>
+        <p>申请已提交成功！<br>我们会尽快审核并通过邮���回复您。</p>
         <button class="alert-confirm">确认</button>
       </div>
     `;
@@ -320,5 +320,86 @@ $(document).ready(function() {
     $('.tab-pane').removeClass('show active');
     // 显示目标面板
     $(target).addClass('show active');
+  });
+});
+
+// 移动端导航栏处理
+$(document).ready(function() {
+  // 处理导航栏折叠按钮动画
+  $('.navbar-toggler').on('click', function() {
+    $(this).toggleClass('collapsed');
+  });
+
+  // 点击导航链接时自动收起菜单
+  $('.nav-link').on('click', function() {
+    if ($(window).width() < 992) {
+      $('.navbar-collapse').collapse('hide');
+      $('.navbar-toggler').removeClass('collapsed');
+    }
+  });
+
+  // 处理滚动时导航栏样式
+  $(window).on('scroll', function() {
+    if ($(window).width() < 992) {
+      $('.navigation').addClass('scrolled').removeClass('top');
+      $('.logo-default').show();
+      $('.logo-white').hide();
+    } else {
+      if ($(window).scrollTop() > 50) {
+        $('.navigation').addClass('scrolled').removeClass('top');
+        $('.logo-default').show();
+        $('.logo-white').hide();
+      } else {
+        $('.navigation').removeClass('scrolled').addClass('top');
+        $('.logo-default').hide();
+        $('.logo-white').show();
+      }
+    }
+  });
+
+  // 初始化导航栏状态
+  if ($(window).width() < 992) {
+    $('.navigation').addClass('scrolled').removeClass('top');
+    $('.logo-default').show();
+    $('.logo-white').hide();
+  } else {
+    if ($(window).scrollTop() > 50) {
+      $('.navigation').addClass('scrolled').removeClass('top');
+      $('.logo-default').show();
+      $('.logo-white').hide();
+    } else {
+      $('.navigation').removeClass('scrolled').addClass('top');
+      $('.logo-default').hide();
+      $('.logo-white').show();
+    }
+  }
+});
+
+// 处理移动端模态框
+$(document).ready(function() {
+  // 调整模态框在移动端的显示
+  if ($(window).width() < 768) {
+    $('.modal-dialog').css('margin', '10px');
+  }
+
+  // 处理表单在移动端的提交
+  $('#downloadForm').on('submit', function(e) {
+    e.preventDefault();
+    
+    // 在移动端添加加载状态
+    const submitBtn = $(this).find('button[type="submit"]');
+    const originalText = submitBtn.html();
+    submitBtn.html('<i class="fas fa-spinner fa-spin"></i> 提交中...');
+    submitBtn.prop('disabled', true);
+
+    // 模拟表单提交
+    setTimeout(function() {
+      submitBtn.html(originalText);
+      submitBtn.prop('disabled', false);
+      $('#downloadModal').modal('hide');
+      
+      // 显示成功提示
+      $('.floating-alert').addClass('show');
+    }, 1500);
   });
 });

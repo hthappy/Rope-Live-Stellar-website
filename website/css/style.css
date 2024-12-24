@@ -1900,6 +1900,7 @@ a:focus, a:hover {
   height: 45px !important;
   color: #0c0c0c;
   height: 38px;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   border-radius: 0;
   margin-bottom: 20px;
@@ -3056,8 +3057,6 @@ h1, h2, h3, h4, h5, h6, .nav-link {
   vertical-align: middle;
 }
 
-
-
 .demo-tabs .nav-link:hover {
   color: #28ABE3;
   background: rgba(40, 171, 227, 0.1);
@@ -3323,5 +3322,199 @@ textarea.form-control {
   .footer-list li {
     display: block;
     text-align: center;
+  }
+}
+
+/* 移动端导航栏样式 */
+@media (max-width: 991px) {
+  .navigation {
+    background: #fff;
+    padding: 10px 0;
+  }
+
+  .navigation .navbar-brand img {
+    height: 40px;
+  }
+
+  .custom-toggler {
+    border: none;
+    padding: 0;
+    width: 30px;
+    height: 20px;
+    position: relative;
+    margin: 0;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+  }
+
+  .custom-toggler .navbar-toggler-icon {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #333;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+  }
+
+  .custom-toggler .navbar-toggler-icon:nth-child(1) {
+    top: 0px;
+  }
+
+  .custom-toggler .navbar-toggler-icon:nth-child(2) {
+    top: 8px;
+  }
+
+  .custom-toggler .navbar-toggler-icon:nth-child(3) {
+    top: 16px;
+  }
+
+  .custom-toggler.collapsed .navbar-toggler-icon:nth-child(1) {
+    top: 8px;
+    transform: rotate(135deg);
+  }
+
+  .custom-toggler.collapsed .navbar-toggler-icon:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+  }
+
+  .custom-toggler.collapsed .navbar-toggler-icon:nth-child(3) {
+    top: 8px;
+    transform: rotate(-135deg);
+  }
+
+  .navbar-collapse {
+    background: #fff;
+    padding: 20px;
+    margin: 0 -15px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .nav-item {
+    margin: 8px 0;
+  }
+
+  .mobile-download {
+    margin-top: 15px;
+  }
+
+  .mobile-download .btn-main {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+/* 主横幅响应式样式 */
+.hero-content {
+  padding: 120px 0;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 80px 0;
+  }
+
+  .hero-content h1 {
+    font-size: 36px !important;
+    line-height: 1.3;
+    margin-bottom: 20px;
+  }
+
+  .hero-description p {
+    font-size: 16px !important;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .hero-button .btn-download {
+    padding: 12px 25px !important;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 60px 0;
+  }
+
+  .hero-content h1 {
+    font-size: 28px !important;
+  }
+
+  .hero-description p {
+    font-size: 14px !important;
+    padding: 0 15px;
+  }
+
+  .hero-button .btn-download {
+    padding: 10px 20px !important;
+    font-size: 14px;
+  }
+}
+
+/* 功能展示区域响应式样式 */
+@media (max-width: 768px) {
+  .service-2 .service-item {
+    margin-bottom: 30px;
+  }
+
+  .service-2 .service-item i {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+
+  .service-2 .service-item h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .service-2 .service-item p {
+    font-size: 14px;
+  }
+}
+
+/* 价格方案响应式样式 */
+@media (max-width: 991px) {
+  .pricing-card {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-header h3 {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 36px;
+  }
+
+  .feature-list li {
+    font-size: 14px;
+  }
+}
+
+/* 页脚响应式样式 */
+@media (max-width: 768px) {
+  .footer-column {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .footer-list {
+    margin-bottom: 20px;
+  }
+
+  .footer-list li {
+    margin-bottom: 10px;
   }
 }
