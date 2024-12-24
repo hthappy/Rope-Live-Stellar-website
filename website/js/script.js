@@ -184,7 +184,7 @@
 
   // 表单提交处理
   document.addEventListener('DOMContentLoaded', function() {
-    // 首先创建提示框
+    // 创建提示框
     const alertDiv = document.createElement('div');
     alertDiv.className = 'floating-alert';
     alertDiv.innerHTML = `
@@ -195,8 +195,27 @@
       </div>
     `;
     document.body.appendChild(alertDiv);
-
+  
     const form = document.getElementById('downloadForm');
+    const scaleGroup = document.getElementById('scale-group');
+    const companyRadios = document.getElementsByName('company');
+
+    // 默认隐藏规模大小
+    scaleGroup.style.display = 'none';
+
+    // 监听公司/个人单选按钮的变化
+    companyRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === '个人') {
+          scaleGroup.style.display = 'none';
+          document.getElementById('scale').removeAttribute('required');
+        } else {
+          scaleGroup.style.display = 'block';
+          document.getElementById('scale').setAttribute('required', 'required');
+        }
+      });
+    });
+
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -210,12 +229,7 @@
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-              name: data.name,
-              email: data.email,
-              qq: data.qq,
-              purpose: data.purpose
-            })
+            body: JSON.stringify(data)
           });
           
           if (response.ok) {
@@ -226,7 +240,7 @@
             e.target.reset();
             // 关闭模态框
             $('#downloadModal').modal('hide');
-
+  
             // 点击确认按钮后跳转
             const confirmBtn = alertDiv.querySelector('.alert-confirm');
             confirmBtn.addEventListener('click', function() {

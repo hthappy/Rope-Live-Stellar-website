@@ -77,11 +77,14 @@ export async function onRequestPost(context) {
         "msg_type": "text",
         "content": {
           "text": `
-Rope-Live 体验申请
+Rope-Live Stellar 体验申请
 
 姓名: ${data.name}
 邮箱: ${data.email}
 QQ: ${data.qq}
+行业：${data.industry}
+公司/个人：${data.company || '无'}
+公司规模: ${data.companySize}
 使用目的: ${data.purpose}
 IP: ${clientIP}
           `
