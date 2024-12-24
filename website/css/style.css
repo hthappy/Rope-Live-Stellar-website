@@ -1312,9 +1312,6 @@ a:focus, a:hover {
     padding: 30px 20px;
   }
 
-  .pricing-card:nth-child(odd) {
-    margin-right: 4%;
-  }
 }
 
 /*=================================================================
@@ -2223,9 +2220,9 @@ a:focus, a:hover {
 
 .footer-bottom {
   text-align: center;
-  background-color: #1b1b1b;
+  background-color: #222222;
   border-top: 1px solid #2c2c2c;
-  padding: 30px 0;
+  padding: 20px 0 0;
 }
 .footer-bottom h5 {
   font-size: 12px;
@@ -2580,7 +2577,7 @@ a:focus, a:hover {
 
 /* Logo 样式优化 */
 .navbar-brand img {
-  height: 50px;
+  height: 40px;
   width: auto;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -3359,10 +3356,15 @@ textarea.form-control {
 
   .pricing-card-width {
     width: 50%; /* 调整卡片的宽度 */
+    padding-right: 8px; /* 调整卡片的右内边距 */
+    padding-left: 8px; /* 调整卡片的左内边距 */
   }
+}
 
-  .pricing-card:nth-child(odd) {
-    margin-right: 4%;
+@media (max-width: 768px) {
+  .navbar-brand img {
+    height: 40px; /* 调整LOGO高度 */
+    width: auto;
   }
 }
 
