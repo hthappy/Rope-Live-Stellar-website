@@ -190,7 +190,7 @@
     alertDiv.innerHTML = `
       <div class="alert-content">
         <i class="fas fa-check-circle"></i>
-        <p>申请已提交成功！<br>我们会尽快审核并通过邮���回复您。</p>
+        <p>申请已提交成功！<br>我们会尽快审核并通过邮�����回复您。</p>
         <button class="alert-confirm">确认</button>
       </div>
     `;
@@ -260,42 +260,39 @@
 
 })(jQuery);
 
+// 处理导航栏状态
+function updateNavbarState() {
+  const navbar = document.querySelector('.navbar');
+  const scrolled = window.scrollY > 50;
+  
+  if (scrolled) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+}
+
 // 监听滚动事件
 window.addEventListener('scroll', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
+  const navbar = document.querySelector('.navbar');
   
   if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
+    navbar.classList.add('scrolled');
   } else {
-    nav.classList.add('top');
-    nav.classList.remove('scrolled');
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
+    navbar.classList.remove('scrolled');
   }
 });
 
+// 监听窗口大小变化
+window.addEventListener('resize', updateNavbarState);
+
 // 页面加载时初始化导航栏状态
 document.addEventListener('DOMContentLoaded', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
-  
-  nav.classList.add('top');
+  const navbar = document.querySelector('.navbar');
   
   // 触发一次滚动检查
   if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
-  } else {
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
+    navbar.classList.add('scrolled');
   }
 });
 
@@ -327,52 +324,93 @@ $(document).ready(function() {
 $(document).ready(function() {
   // 处理导航栏折叠按钮动画
   $('.navbar-toggler').on('click', function() {
-    $(this).toggleClass('collapsed');
+    $(this).toggleClass('is-active');
+    $('body').toggleClass('menu-open');
+    
+    const isExpanded = $(this).attr('aria-expanded') === 'true';
+    
+    if (!isExpanded) {
+      // 菜单打开时的动画
+      $('.nav-item').each(function(index) {
+        $(this).css({
+          'opacity': '0',
+          'transform': 'translateY(20px)',
+          'transition-delay': (index * 0.1) + 's'
+        });
+        setTimeout(() => {
+          $(this).css({
+            'opacity': '1',
+            'transform': 'translateY(0)'
+          });
+        }, 100);
+      });
+    } else {
+      // 菜单关闭时重置样式
+      $('.nav-item').css({
+        'opacity': '',
+        'transform': '',
+        'transition-delay': ''
+      });
+    }
   });
 
   // 点击导航链接时自动收起菜单
   $('.nav-link').on('click', function() {
     if ($(window).width() < 992) {
-      $('.navbar-collapse').collapse('hide');
-      $('.navbar-toggler').removeClass('collapsed');
+      const bsCollapse = new bootstrap.Collapse(document.getElementById('navbarNav'), {
+        toggle: false
+      });
+      bsCollapse.hide();
+      $('.navbar-toggler').removeClass('is-active').attr('aria-expanded', 'false');
+      $('body').removeClass('menu-open');
     }
   });
 
-  // 处理滚动时导航栏样式
-  $(window).on('scroll', function() {
+  // 点击页面空白处关闭菜单
+  $(document).on('click', function(e) {
     if ($(window).width() < 992) {
-      $('.navigation').addClass('scrolled').removeClass('top');
-      $('.logo-default').show();
-      $('.logo-white').hide();
-    } else {
-      if ($(window).scrollTop() > 50) {
-        $('.navigation').addClass('scrolled').removeClass('top');
-        $('.logo-default').show();
-        $('.logo-white').hide();
-      } else {
-        $('.navigation').removeClass('scrolled').addClass('top');
-        $('.logo-default').hide();
-        $('.logo-white').show();
+      if (!$(e.target).closest('.navbar').length && $('#navbarNav').hasClass('show')) {
+        const bsCollapse = new bootstrap.Collapse(document.getElementById('navbarNav'), {
+          toggle: false
+        });
+        bsCollapse.hide();
+        $('.navbar-toggler').removeClass('is-active').attr('aria-expanded', 'false');
+        $('body').removeClass('menu-open');
       }
     }
   });
 
-  // 初始化导航栏状态
-  if ($(window).width() < 992) {
-    $('.navigation').addClass('scrolled').removeClass('top');
-    $('.logo-default').show();
-    $('.logo-white').hide();
-  } else {
-    if ($(window).scrollTop() > 50) {
-      $('.navigation').addClass('scrolled').removeClass('top');
-      $('.logo-default').show();
-      $('.logo-white').hide();
-    } else {
-      $('.navigation').removeClass('scrolled').addClass('top');
-      $('.logo-default').hide();
-      $('.logo-white').show();
+  // 处理窗口大小改变
+  $(window).on('resize', function() {
+    if ($(window).width() >= 992) {
+      $('body').removeClass('menu-open');
+      $('#navbarNav').removeClass('show');
+      $('.navbar-toggler').removeClass('is-active').attr('aria-expanded', 'false');
+      $('.nav-item').css({
+        'opacity': '',
+        'transform': '',
+        'transition-delay': ''
+      });
     }
+  });
+
+  // 处理视频演示标签页
+  $('.demo-tabs .nav-link').on('click', function(e) {
+    e.preventDefault();
+    $(this).tab('show');
+  });
+
+  // 处理视频容器大小
+  function adjustVideoContainers() {
+    $('.video-container').each(function() {
+      const width = $(this).width();
+      $(this).css('height', width * 0.5625); // 16:9 aspect ratio
+    });
   }
+
+  // 在页面加载和窗口调整时调整视频容器大小
+  adjustVideoContainers();
+  $(window).on('resize', adjustVideoContainers);
 });
 
 // 处理移动端模态框
@@ -398,7 +436,7 @@ $(document).ready(function() {
       submitBtn.prop('disabled', false);
       $('#downloadModal').modal('hide');
       
-      // 显示成功提示
+      // 示成功提示
       $('.floating-alert').addClass('show');
     }, 1500);
   });
