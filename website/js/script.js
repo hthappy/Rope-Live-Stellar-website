@@ -221,8 +221,8 @@
     const scaleGroup = document.getElementById('scale-group');
     const companyRadios = document.getElementsByName('company');
 
-    // 默认隐藏规模大小
-    scaleGroup.style.display = 'none';
+    // 默认显示规模大小
+    scaleGroup.style.display = 'block';
 
     // 监听公司/个人单选按钮的变化
     companyRadios.forEach(radio => {
