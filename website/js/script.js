@@ -266,7 +266,6 @@
             const confirmBtn = alertDiv.querySelector('.alert-confirm');
             confirmBtn.addEventListener('click', function() {
               alertDiv.classList.remove('show');
-              window.location.href = 'https://pan.baidu.com/s/15TcjRMjhUjkyrhK4ROMpsg?pwd=39bv';
             });
           } else {
             throw new Error('提交失败');
