@@ -81,6 +81,19 @@
           }
         }]
       });
+
+      // 初始化滑块动画
+      heroSlider.slickAnimation();
+
+      // 确保第一个滑块的文字可见
+      setTimeout(() => {
+        const firstSlide = heroSlider.find('.slick-current');
+        firstSlide.find('[data-animation-in]').each(function() {
+          const $this = $(this);
+          const animationIn = $this.data('animation-in');
+          $this.css('opacity', '1').addClass('animated ' + animationIn);
+        });
+      }, 100);
     }
   }
 

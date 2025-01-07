@@ -408,11 +408,103 @@ a:focus, a:hover {
   Navigation
 ==================================================================*/
 .navigation {
-  transition: 0.3s all;
+  padding: 15px 0;
+  background: transparent;
+  transition: all 0.3s ease;
 }
+
+.navigation.scrolled {
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navigation.top {
+  background: transparent;
+  box-shadow: none;
+}
+
+.navigation .navbar-brand img {
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
 .navigation .logo-default {
   display: none;
 }
+
+.navigation .logo-white {
+  display: block;
+}
+
+.navigation.scrolled .logo-default {
+  display: block;
+}
+
+.navigation.scrolled .logo-white {
+  display: none;
+}
+
+.navigation .nav-link {
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+}
+
+.navigation.scrolled .nav-link {
+  color: #333;
+}
+
+.navigation .nav-link:hover {
+  color: #28ABE3;
+}
+
+.navigation .btn-main {
+  background: #28ABE3;
+  color: #fff !important;
+  border-radius: 5px;
+  padding: 8px 20px;
+}
+
+.navigation .btn-main:hover,
+.navigation .btn-main.active {
+  background: #1d8bb8;
+  color: #fff !important;
+}
+
+.navigation.scrolled .btn-main {
+  background: #28ABE3;
+  color: #fff !important;
+}
+
+@media (max-width: 991px) {
+  .navigation {
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .navigation .logo-default {
+    display: block;
+  }
+
+  .navigation .logo-white {
+    display: none;
+  }
+
+  .navigation .nav-link {
+    color: #333;
+  }
+
+  .navigation .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+
+  .navigation .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+}
+
 .navigation .dropdown-toggle::before, .navigation .dropdown-toggle::after {
   display: none;
 }
@@ -1922,6 +2014,7 @@ a:focus, a:hover {
   height: 45px !important;
   color: #0c0c0c;
   height: 38px;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   border-radius: 0;
   margin-bottom: 20px;
@@ -3356,3 +3449,56 @@ textarea.form-control {
 }
 
 /* ...existing code... */
+
+/* 下载页面样式 */
+.download-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.download-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.download-card .icon {
+  color: #28ABE3;
+}
+
+.download-links .btn {
+  text-align: left;
+  padding: 12px 20px;
+}
+
+.download-links small {
+  opacity: 0.8;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.system-requirements {
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.requirement-item i {
+  color: #28ABE3;
+}
+
+.single-page-header {
+  padding: 100px 0 60px;
+  color: white;
+}
+.single-page-header h1 {
+  padding-top: 30px;
+}
