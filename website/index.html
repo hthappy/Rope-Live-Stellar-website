@@ -62,10 +62,25 @@
   </script>
 
   <style>
+    /* 主页横幅样式 */
+    .hero-area {
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+    
+    .hero-area h1,
+    .hero-area p,
+    .hero-area a {
+      opacity: 1;
+      transform: none;
+      transition: all 0.5s ease;
+    }
+
+    /* 价格卡片样式 */
     .pricing-card {
       transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 1;
+      transform: none;
     }
     
     .pricing-card.animate {
@@ -94,6 +109,15 @@
       .pricing-card.featured:hover {
         transform: translateY(-10px);
       }
+    }
+
+    /* 确保文字内容可见 */
+    .pricing-header h3,
+    .pricing-header .price,
+    .pricing-body .plan-label,
+    .pricing-body .feature-list,
+    .pricing-footer .btn-purchase {
+      opacity: 1;
     }
   </style>
 </head>

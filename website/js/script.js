@@ -26,26 +26,36 @@
 		});
   }
   
-  //Hero Slider
-  $('.hero-slider').slick({
-    autoplay: true,
-    infinite: true,
-    arrows: true,
-    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
-    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-    dots: false,
-    autoplaySpeed: 7000,
-    pauseOnFocus: false,
-    pauseOnHover: false,
-    responsive: [{
-      breakpoint: 768,
-      settings: {
-        arrows: false,
-        dots: false
-      }
-    }]
-  });
-  $('.hero-slider').slickAnimation();
+  /* ========================================================================= */
+  /*	Hero Slider
+  /* ========================================================================= */
+  function initializeHeroSlider() {
+    $('.hero-slider').slick({
+      autoplay: true,
+      infinite: true,
+      arrows: true,
+      prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
+      nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
+      dots: false,
+      autoplaySpeed: 7000,
+      pauseOnFocus: false,
+      pauseOnHover: false,
+      responsive: [{
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          dots: false
+        }
+      }]
+    });
+
+    // 确保横幅内容可见
+    $('.hero-area').css('opacity', '1');
+    $('.hero-area h1, .hero-area p, .hero-area a').css({
+      'opacity': '1',
+      'transform': 'none'
+    });
+  }
 
   /* ========================================================================= */
   /*	导航栏滚动效果
@@ -83,6 +93,12 @@
   /*	价格方案功能
   /* ========================================================================= */
   function initializePricing() {
+    // 确保价格卡片初始可见
+    $('.pricing-card').css({
+      'opacity': '1',
+      'transform': 'none'
+    });
+
     // 价格卡片悬停效果
     $('.pricing-card').hover(
       function() {
@@ -94,8 +110,8 @@
     );
 
     // 滚动动画
-    $(window).scroll(function() {
-      var windowBottom = $(this).scrollTop() + $(this).height();
+    function checkPricingAnimation() {
+      var windowBottom = $(window).scrollTop() + $(window).height();
       
       $('.pricing-card').each(function() {
         var elementTop = $(this).offset().top;
@@ -104,7 +120,13 @@
           $(this).addClass('animate');
         }
       });
-    });
+    }
+
+    // 初始检查
+    checkPricingAnimation();
+
+    // 滚动时检查
+    $(window).scroll(checkPricingAnimation);
 
     // 点击购买按钮的事件处理
     $('.btn-purchase').click(function(e) {
@@ -199,6 +221,7 @@
   /* ========================================================================= */
   $(document).ready(function() {
     handleNavigation();
+    initializeHeroSlider();
     initializePricing();
     initializeForm();
   });
