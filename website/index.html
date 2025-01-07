@@ -60,6 +60,42 @@
       "url": "https://stellar.ai-yy.com"
     }
   </script>
+
+  <style>
+    .pricing-card {
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .pricing-card.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .pricing-card.hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .pricing-card.featured {
+      transform: scale(1.05);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.05) translateY(-10px);
+    }
+
+    @media (max-width: 768px) {
+      .pricing-card.featured {
+        transform: none;
+      }
+      
+      .pricing-card.featured:hover {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
 </head>
 
 <body id="body">
