@@ -28,8 +28,8 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="index.html">
-          <img src="images/logo-black.png" alt="Rope-Live Stellar" class="logo-default">
-          <img src="images/logo.png" alt="Rope-Live Stellar" class="logo-white">
+          <img src="images/logo-black.png" alt="Rope-Live Stellar AI换脸工具 Logo" class="logo-default">
+          <img src="images/logo.png" alt="Rope-Live Stellar AI换脸工具 Logo" class="logo-white">
         </a>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -46,6 +46,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.html#pricing">价格</a>
+            </li>
+            <li class="nav-item" style="padding-left: 15px;">
+              <a class="nav-link btn-main active" href="/download.html">免费下载</a>
             </li>
           </ul>
         </div>
@@ -262,6 +265,105 @@
       background: linear-gradient(135deg, #28ABE3 0%, #1c7430 100%);
       padding: 100px 0 60px;
       color: white;
+    }
+
+    /* 导航栏样式 */
+    .navigation {
+      padding: 15px 0;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .navigation.scrolled {
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .navigation.top {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .navigation .navbar-brand img {
+      height: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .navigation .logo-default {
+      display: none;
+    }
+
+    .navigation .logo-white {
+      display: block;
+    }
+
+    .navigation.scrolled .logo-default {
+      display: block;
+    }
+
+    .navigation.scrolled .logo-white {
+      display: none;
+    }
+
+    .navigation .nav-link {
+      color: #fff;
+      font-weight: 500;
+      padding: 8px 16px;
+      transition: all 0.3s ease;
+    }
+
+    .navigation.scrolled .nav-link {
+      color: #333;
+    }
+
+    .navigation .nav-link:hover {
+      color: #28ABE3;
+    }
+
+    .navigation .btn-main {
+      background: #28ABE3;
+      color: #fff !important;
+      border-radius: 5px;
+      padding: 8px 20px;
+    }
+
+    .navigation .btn-main:hover,
+    .navigation .btn-main.active {
+      background: #1d8bb8;
+      color: #fff !important;
+    }
+
+    .navigation.scrolled .btn-main {
+      background: #28ABE3;
+      color: #fff !important;
+    }
+
+    @media (max-width: 991px) {
+      .navigation {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      .navigation .logo-default {
+        display: block;
+      }
+
+      .navigation .logo-white {
+        display: none;
+      }
+
+      .navigation .nav-link {
+        color: #333;
+      }
+
+      .navigation .navbar-toggler {
+        border: none;
+        outline: none;
+      }
+
+      .navigation .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
     }
   </style>
 </body>
