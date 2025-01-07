@@ -278,160 +278,70 @@
     }
   });
 
-})(jQuery);
-
-// 监听滚动事件
-window.addEventListener('scroll', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
-  
-  if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
-  } else {
-    nav.classList.add('top');
-    nav.classList.remove('scrolled');
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
-  }
-});
-
-// 页面加载时初始化导航栏状态
-document.addEventListener('DOMContentLoaded', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
-  
-  nav.classList.add('top');
-  
-  // 触发一次滚动检查
-  if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
-  } else {
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
-  }
-});
-
-// 添加版本切换的初始化和事件处理
-$(document).ready(function() {
-  // 初始化标签页
-  $('#basic').addClass('show active');
-  
-  // 为版本切换按钮添加点击事件
-  $('.btn-version').on('click', function(e) {
-    e.preventDefault();
+  /* ========================================================================= */
+  /*	导航栏滚动效果
+  /* ========================================================================= */
+  function handleNavigation() {
+    const nav = document.querySelector('.navigation');
+    const logoDefault = document.querySelector('.logo-default');
+    const logoWhite = document.querySelector('.logo-white');
     
-    // 移除所有按钮的 active 类
-    $('.btn-version').removeClass('active');
-    // 为当前点击的按钮添加 active 类
-    $(this).addClass('active');
-    
-    // 获取目标面板
-    const target = $(this).data('target');
-    
-    // 隐藏所有面板
-    $('.tab-pane').removeClass('show active');
-    // 显示目标面板
-    $(target).addClass('show active');
-  });
+    if (!nav || !logoDefault || !logoWhite) return;
 
-  // 禁用移动端主页横幅的 slick-dots
-  $('.hero-slider').slick({
-    autoplay: true,
-    infinite: true,
-    arrows: true,
-    prevArrow: '<button type="button" class="prevArrow"></button>',
-    nextArrow: '<button type="button" class="nextArrow"></button>',
-    dots: false, // 禁用 dots
-    autoplaySpeed: 7000,
-    pauseOnFocus: false,
-    pauseOnHover: false,
-    responsive: [{
-      breakpoint: 768,
-      settings: {
-        arrows: false,
-        dots: false // 禁用 dots
+    function updateNavigation() {
+      if (window.scrollY > 50) {
+        nav.classList.remove('top');
+        nav.classList.add('scrolled');
+        logoDefault.style.display = 'block';
+        logoWhite.style.display = 'none';
+      } else {
+        nav.classList.add('top');
+        nav.classList.remove('scrolled');
+        logoDefault.style.display = 'none';
+        logoWhite.style.display = 'block';
       }
-    }]
-  });
-
-  // 点击空白区域关闭菜单
-  $(document).click(function (event) {
-    var clickover = $(event.target);
-    var _opened = $(".navbar-collapse").hasClass("show");
-    if (_opened === true && !clickover.hasClass("navbar-toggler")) {
-      $(".navbar-toggler").click();
     }
-  });
-});
 
+    // 监听滚动事件
+    window.addEventListener('scroll', updateNavigation);
 
-// 监听滚动事件
-window.addEventListener('scroll', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
-  
-  if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
-  } else {
+    // 页面加载时初始化导航栏状态
     nav.classList.add('top');
-    nav.classList.remove('scrolled');
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
+    updateNavigation();
   }
-});
 
-// 页面加载时初始化导航栏状态
-document.addEventListener('DOMContentLoaded', function() {
-  const nav = document.querySelector('.navigation');
-  const logoDefault = document.querySelector('.logo-default');
-  const logoWhite = document.querySelector('.logo-white');
-  
-  nav.classList.add('top');
-  
-  // 触发一次滚动检查
-  if (window.scrollY > 50) {
-    nav.classList.remove('top');
-    nav.classList.add('scrolled');
-    logoDefault.style.display = 'block';
-    logoWhite.style.display = 'none';
-  } else {
-    logoDefault.style.display = 'none';
-    logoWhite.style.display = 'block';
+  /* ========================================================================= */
+  /*	版本切换功能
+  /* ========================================================================= */
+  function initializeVersionSwitcher() {
+    // 初始化标签页
+    $('#basic').addClass('show active');
+    
+    // 为版本切换按钮添加点击事件
+    $('.btn-version').on('click', function(e) {
+      e.preventDefault();
+      
+      // 移除所有按钮的 active 类
+      $('.btn-version').removeClass('active');
+      // 为当前点击的按钮添加 active 类
+      $(this).addClass('active');
+      
+      // 获取目标面板
+      const target = $(this).data('target');
+      
+      // 隐藏所有面板
+      $('.tab-pane').removeClass('show active');
+      // 显示目标面板
+      $(target).addClass('show active');
+    });
   }
-});
 
-// 添加版本切换的初始化和事件处理
-$(document).ready(function() {
-  // 初始化标签页
-  $('#basic').addClass('show active');
-  
-  // 为版本切换按钮添加点击事件
-  $('.btn-version').on('click', function(e) {
-    e.preventDefault();
-    
-    // 移除所有按钮的 active 类
-    $('.btn-version').removeClass('active');
-    // 为当前点击的按钮添加 active 类
-    $(this).addClass('active');
-    
-    // 获取目标面板
-    const target = $(this).data('target');
-    
-    // 隐藏所有面板
-    $('.tab-pane').removeClass('show active');
-    // 显示目标面板
-    $(target).addClass('show active');
+  /* ========================================================================= */
+  /*	在 DOM 加载完成后初始化所有功能
+  /* ========================================================================= */
+  $(document).ready(function() {
+    handleNavigation();
+    initializeVersionSwitcher();
   });
-});
+
+})(jQuery);
