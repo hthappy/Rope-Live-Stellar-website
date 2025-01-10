@@ -1,2 +1,0 @@
-/v1/updates/latest    /api/version.json   200
-/v1/updates/files/*   /api/files/:splat   200

@@ -1,12 +1,6 @@
 {
-  "version": "1.0.1",
-  "changelog": "\n    - 修复了xxx bug\n    - 新增xxx功能\n    - 优化了xxx性能\n    ",
-  "release_date": "2024-11-16T01:18:29.838821",
-  "files": [
-    {
-      "path": "Rope.py",
-      "hash": "25de81d228d04ac043d75094240a8ad5"
-    }
-  ],
-  "deleted_files": []
+  "version": "1.3.0",
+  "changelog": "测试更新",
+  "release_date": "2025-01-09T16:09:42.456895",
+  "files": {}
 }
