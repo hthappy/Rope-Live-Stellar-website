@@ -1203,6 +1203,10 @@ a:focus, a:hover {
 }
 
 .pricing-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
   position: relative;
   z-index: 1;
 }
@@ -1381,15 +1385,12 @@ a:focus, a:hover {
   }
 
   .pricing-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    gap: 20px;
   }
 
   .pricing-card {
-    flex: 0 0 48%; /* 调整卡片的宽度 */
-    margin-bottom: 20px;
-    padding: 15px; /* 进一步减小卡片的内边距 */
+    flex: 0 0 100%;
+    max-width: 100%;
   }
   
   .pricing-table .title h2 {
@@ -3501,4 +3502,36 @@ textarea.form-control {
 }
 .single-page-header h1 {
   padding-top: 30px;
+}
+
+.pricing-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-card-width {
+  flex: 0 0 calc(33% - 30px);
+  max-width: 360px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 991px) {
+  .pricing-card-width {
+    flex: 0 0 calc(50% - 30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-wrapper {
+    gap: 20px;
+  }
+  
+  .pricing-card-width {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
