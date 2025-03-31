@@ -476,7 +476,6 @@ ${resumeText || "无简历信息"}
 4. 只针对当前问题回答，不要考虑其他问题
 5. 不要说"根据简历"之类的模板用语
 6. 使用中文回答`
-
                     },
                     {
                         role: "user",
@@ -487,25 +486,7 @@ ${resumeText || "无简历信息"}
                 // 根据URL判断使用的是哪个API并相应地调整请求格式
                 let payload;
                 
-                if (apiUrl.includes('generativelanguage.googleapis.com')) {
-                    // Gemini API格式
-                    payload = {
-                        contents: [
-                            {
-                                parts: [
-                                    {
-                                        text: `你是一位参加运维工程师面试的候选人。根据以下简历回答问题：
-                                        
-简历信息：
-${resumeText || "无简历信息"}
-
-面试官问题：${question}`
-                                    }
-                                ]
-                            }
-                        ]
-                    };
-                } else if (apiUrl.includes('dashscope.aliyuncs.com')) {
+                if (apiUrl.includes('dashscope.aliyuncs.com')) {
                     // 通义千问API的请求格式
                     payload = {
                         model: modelName,
