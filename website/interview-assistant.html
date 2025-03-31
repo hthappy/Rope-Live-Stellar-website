@@ -244,38 +244,6 @@
                 width: 100%;
             }
         }
-
-        /* 音量指示器 */
-        .volume-meter {
-            height: 12px;
-            background-color: #f3f3f3;
-            border-radius: 6px;
-            margin: 10px 0;
-            overflow: hidden;
-            display: none;
-        }
-
-        .volume-level {
-            height: 100%;
-            background-color: #1e88e5;
-            width: 0%;
-            transition: width 0.2s ease;
-        }
-
-        .capturing-indicator {
-            color: #1e88e5;
-            font-weight: bold;
-            margin: 10px 0;
-            text-align: center;
-            display: none;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
     </style>
 </head>
 <body>
@@ -350,11 +318,6 @@
             <div class="question-container">
                 <h2>面试问题</h2>
                 <div id="question-display" class="question-display"></div>
-                <!-- 音量指示器 -->
-                <div id="volume-meter" class="volume-meter">
-                    <div id="volume-level" class="volume-level"></div>
-                </div>
-                <div id="capturing-indicator" class="capturing-indicator">正在捕获虚拟声卡音频...</div>
                 <input type="text" id="manual-question" class="manual-input" placeholder="或手动输入面试问题...">
             </div>
 
@@ -371,7 +334,6 @@
     <!-- 控制面板 -->
     <div class="control-panel">
         <button id="listen-btn">开始监听</button>
-        <button id="transcribe-btn" style="display: none; background-color: #4caf50;">提交捕获内容</button>
         <button id="submit-btn">提交问题</button>
         <button id="clear-btn">清空内容</button>
     </div>
@@ -383,11 +345,9 @@
         let sourceNode;
         let recognition;
         let isListening = false;
-        let lastActivityTime = 0;
         const listenBtn = document.getElementById('listen-btn');
         const submitBtn = document.getElementById('submit-btn');
         const clearBtn = document.getElementById('clear-btn');
-        const transcribeBtn = document.getElementById('transcribe-btn');
         const questionDisplay = document.getElementById('question-display');
         const answerDisplay = document.getElementById('answer-display');
         const manualQuestion = document.getElementById('manual-question');
@@ -397,14 +357,11 @@
         const modelNameInput = document.getElementById('model-name');
         const loader = document.getElementById('loader');
         const errorMessage = document.getElementById('error-message');
-        const volumeMeter = document.getElementById('volume-meter');
-        const volumeLevel = document.getElementById('volume-level');
-        const capturingIndicator = document.getElementById('capturing-indicator');
 
         // 初始化音频捕获
         async function initAudioCapture() {
             try {
-                // 创建语音识别器并设置配置
+                // 创建语音识别器
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.continuous = true;
                 recognition.interimResults = true;
@@ -438,8 +395,8 @@
                 };
 
                 recognition.onend = () => {
-                    if (isListening && !mediaRecorder) {
-                        // 如果还在监听状态且不是使用自定义音频流，则重新开始
+                    if (isListening) {
+                        // 如果还在监听状态，则重新开始
                         try {
                             recognition.start();
                         } catch (e) {
@@ -465,198 +422,52 @@
         
         // 开始监听
         async function startListening() {
+            if (!recognition) {
+                if (!await initAudioCapture()) return;
+            }
+            
             try {
-                // 停止任何现有的媒体处理
-                stopListening();
-                
                 // 获取选择的音频设备ID
                 const audioInputSelect = document.getElementById('audio-input');
                 const selectedAudioDeviceId = audioInputSelect.value;
                 
-                // 请求麦克风访问权限并指定设备
-                const constraints = {
-                    audio: selectedAudioDeviceId ? 
-                        { deviceId: { exact: selectedAudioDeviceId } } : 
-                        true
-                };
-                
-                console.log("正在请求访问音频设备:", selectedAudioDeviceId || "默认设备");
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                
-                // 创建AudioContext进行音频处理
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                sourceNode = audioContext.createMediaStreamSource(stream);
-                
-                // 创建ScriptProcessor来处理音频数据
-                const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-                sourceNode.connect(scriptProcessor);
-                scriptProcessor.connect(audioContext.destination);
-                
-                // 当有新的音频数据可用时
-                scriptProcessor.onaudioprocess = (audioProcessingEvent) => {
-                    if (!isListening) return;
-                    
-                    // 捕获音量级别来检测是否有声音
-                    const inputBuffer = audioProcessingEvent.inputBuffer;
-                    const inputData = inputBuffer.getChannelData(0);
-                    let sum = 0;
-                    
-                    // 计算音量的RMS
-                    for (let i = 0; i < inputData.length; i++) {
-                        sum += inputData[i] * inputData[i];
-                    }
-                    
-                    const rms = Math.sqrt(sum / inputData.length);
-                    
-                    // 更新音量指示器
-                    const volumePercent = Math.min(rms * 800, 100);
-                    volumeLevel.style.width = `${volumePercent}%`;
-                    
-                    // 如果检测到声音活动
-                    if (rms > 0.01) { // 调整阈值可能需要根据您的环境
-                        console.log("检测到音频活动，音量级别:", rms);
-                        lastActivityTime = Date.now();
-                        
-                        // 显示捕获指示器和音量表
-                        volumeMeter.style.display = 'block';
-                        capturingIndicator.style.display = 'block';
-                        
-                        // 我们不能直接将捕获的音频传递给Web Speech API
-                        // 因此这里我们标记状态，表示已检测到来自虚拟设备的声音
-                        if (!document.getElementById('transcribe-btn').style.display ||
-                            document.getElementById('transcribe-btn').style.display === 'none') {
-                            // 显示转录按钮
-                            document.getElementById('transcribe-btn').style.display = 'inline-block';
-                        }
-                    } else {
-                        // 如果超过2秒没有活动，重置音量指示器
-                        if (Date.now() - lastActivityTime > 2000) {
-                            volumeLevel.style.width = '0%';
-                        }
-                    }
-                };
-                
-                // 创建MediaRecorder记录音频
-                mediaRecorder = new MediaRecorder(stream);
-                let audioChunks = [];
-                
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        audioChunks.push(event.data);
-                    }
-                };
-                
-                mediaRecorder.onstop = () => {
-                    if (!isListening) return;
-                    
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    
-                    // 清除数据准备下一次录制
-                    audioChunks = [];
-                    
-                    // 创建音频URL并播放，这帮助诊断是否正确捕获了音频
-                    // const audioUrl = URL.createObjectURL(audioBlob);
-                    // const audio = new Audio(audioUrl);
-                    // audio.play();
-                    
-                    // 2秒后重新开始录制
-                    if (isListening && mediaRecorder) {
-                        setTimeout(() => {
-                            try {
-                                if (mediaRecorder && isListening) {
-                                    mediaRecorder.start(1000);
-                                }
-                            } catch (e) {
-                                console.error("重新开始录制失败:", e);
+                // 如果选择了特定设备
+                if (selectedAudioDeviceId) {
+                    try {
+                        // 请求麦克风访问权限并指定设备
+                        await navigator.mediaDevices.getUserMedia({
+                            audio: {
+                                deviceId: {exact: selectedAudioDeviceId}
                             }
-                        }, 500);
-                    }
-                    
-                    // 可选：这里我们可以将音频发送到服务器进行转录
-                    // 例如使用Google Cloud Speech-to-Text API
-                    // 出于演示目的，我们将简单地使用浏览器的语音识别API
-                    
-                    // 显示提示，引导用户使用输入框
-                    if (questionDisplay.textContent === "正在从虚拟设备捕获音频...") {
-                        questionDisplay.textContent = "已捕获音频，但浏览器无法直接识别虚拟设备音频。请使用下方输入框手动输入问题。";
-                    }
-                };
-                
-                // 开始录制
-                mediaRecorder.start(1000);
-                console.log("已开始录制设备:", selectedAudioDeviceId || "默认设备");
-
-                // 尝试使用浏览器的语音识别API（注：这可能仍会使用系统默认麦克风）
-                if (!recognition) {
-                    if (!await initAudioCapture()) {
-                        throw new Error("无法初始化语音识别");
+                        });
+                        // 这里不需要保存流，只是为了确保使用指定设备的权限已获取
+                        console.log("已成功选择音频设备:", selectedAudioDeviceId);
+                    } catch (err) {
+                        console.error("使用选定音频设备失败:", err);
+                        showError(`使用选定音频设备失败: ${err.message}`);
+                        return;
                     }
                 }
                 
-                try {
-                    recognition.start();
-                    console.log("语音识别已启动");
-                } catch (e) {
-                    console.warn("语音识别启动失败，可能是因为已经在运行:", e);
-                }
-                
+                recognition.start();
                 isListening = true;
                 listenBtn.textContent = '停止监听';
                 listenBtn.classList.add('listening');
                 hideError();
-                
             } catch (error) {
                 console.error('开始监听失败:', error);
                 showError(`开始监听失败: ${error.message}`);
-                stopListening();
             }
         }
         
         // 停止监听
         function stopListening() {
             if (recognition) {
-                try {
-                    recognition.stop();
-                } catch (e) {
-                    console.warn("停止语音识别时出错:", e);
-                }
+                recognition.stop();
             }
-            
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                try {
-                    mediaRecorder.stop();
-                } catch (e) {
-                    console.warn("停止媒体录制时出错:", e);
-                }
-            }
-            
-            if (sourceNode) {
-                try {
-                    sourceNode.disconnect();
-                } catch (e) {
-                    console.warn("断开音频源时出错:", e);
-                }
-                sourceNode = null;
-            }
-            
-            if (audioContext) {
-                try {
-                    audioContext.close().catch(e => console.warn("关闭音频上下文时出错:", e));
-                } catch (e) {
-                    console.warn("关闭音频上下文时出错:", e);
-                }
-                audioContext = null;
-            }
-            
-            mediaRecorder = null;
             isListening = false;
             listenBtn.textContent = '开始监听';
             listenBtn.classList.remove('listening');
-            
-            // 隐藏转录按钮和音量指示器
-            document.getElementById('transcribe-btn').style.display = 'none';
-            volumeMeter.style.display = 'none';
-            capturingIndicator.style.display = 'none';
         }
 
         // 获取问题文本
@@ -1019,25 +830,6 @@ ${resumeText || "无简历信息"}
             if (event.key === 'Enter') {
                 submitQuestion();
             }
-        });
-
-        // 添加转录按钮事件处理
-        transcribeBtn.addEventListener('click', () => {
-            // 停止监听，准备提交问题
-            if (isListening) {
-                stopListening();
-            }
-            
-            // 提示用户填写问题
-            manualQuestion.placeholder = "请在此输入从会议软件捕获的问题...";
-            manualQuestion.focus();
-            
-            // 清空当前问题显示区，准备新问题
-            questionDisplay.textContent = "";
-            
-            // 隐藏音量指示器和捕获指示
-            volumeMeter.style.display = 'none';
-            capturingIndicator.style.display = 'none';
         });
 
         // 自动保存输入内容
