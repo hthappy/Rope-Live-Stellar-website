@@ -142,6 +142,14 @@
             margin-bottom: 5px;
         }
 
+        .history-time {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-align: right;
+            font-style: italic;
+        }
+
         .history-answer {
             color: #333;
         }
@@ -277,20 +285,7 @@
         <div class="resume-section">
             <select id="audio-input" class="config-input">
                 <option value="">默认麦克风</option>
-              </select>
-              <script>
-                // 动态加载音频设备
-                navigator.mediaDevices.enumerateDevices()
-                  .then(devices => {
-                    const audioInput = document.getElementById('audio-input');
-                    devices.filter(d => d.kind === 'audioinput').forEach(device => {
-                      const option = document.createElement('option');
-                      option.value = device.deviceId;
-                      option.text = device.label || `麦克风 ${audioInput.length + 1}`;
-                      audioInput.appendChild(option);
-                    });
-                  });
-              </script>
+            </select>
             <!-- 添加使用说明区域 -->
             <div class="config-section">
                 <h2>使用说明</h2>
@@ -424,8 +419,20 @@
                 
                 recognition.onerror = (event) => {
                     console.error('语音识别错误:', event.error);
+                    
+                    // 如果是no-speech错误，且AI正在回答，则忽略此错误
+                    if (event.error === 'no-speech' && isResponding) {
+                        console.log('AI回答中，忽略no-speech错误');
+                        return;
+                    }
+                    
+                    // 其他错误或非响应状态下的错误正常处理
                     showError(`语音识别错误: ${event.error}`);
-                    stopListening();
+                    
+                    // 如果错误不是no-speech，或者不在响应中，停止监听
+                    if (event.error !== 'no-speech' || !isResponding) {
+                        stopListening();
+                    }
                 };
 
                 recognition.onend = () => {
@@ -536,7 +543,7 @@
                 const messages = [
                     {
                         role: "system",
-                        content: `你是一位参加运维工程师岗位面试的候选人。你需要根据下面的简历信息，回答面试官的问题。如果你无法理解面试官的问题，请礼貌地询问面试官。
+                        content: `你是一位参加运维工程师岗位面试的候选人。你需要根据下面的简历信息，回答面试官的问题。如果面试官提出的问题不在简历信息中，请礼貌地询问面试官确认。
                         
 简历信息：
 ${resumeText || "无简历信息"}
@@ -773,7 +780,8 @@ ${resumeText || "无简历信息"}
             answerDisplay.textContent = '';
             
             // 在AI回答期间暂停监听
-            if (isListening) {
+            const wasListening = isListening;
+            if (wasListening) {
                 pauseListening();
             }
             
@@ -783,32 +791,37 @@ ${resumeText || "无简历信息"}
             // 获取当前问题的副本
             const currentQuestion = question;
             
-            // 获取AI回答
-            const answer = await getAIResponse(currentQuestion);
-            
-            if (answer) {
-                // 如果使用流式响应，回答内容已经在updateAnswerDisplay中显示了
-                // 这里不需要再次调用updateAnswerDisplay
+            try {
+                // 获取AI回答
+                const answer = await getAIResponse(currentQuestion);
                 
-                // 添加到历史记录 - 使用answerDisplay的内容作为完整回答
-                addToHistory(currentQuestion, answerDisplay.textContent);
-                
-                hideError();
-            }
-            
-            // 延迟一小段时间再恢复监听，避免可能的冲突
-            setTimeout(() => {
-                // 恢复监听
-                if (isListening) {
-                    resumeListening();
+                if (answer) {
+                    // 如果使用流式响应，回答内容已经在updateAnswerDisplay中显示了
+                    // 这里不需要再次调用updateAnswerDisplay
+                    
+                    // 添加到历史记录 - 使用answerDisplay的内容作为完整回答
+                    addToHistory(currentQuestion, answerDisplay.textContent);
+                    
+                    hideError();
                 }
-                
+            } catch (error) {
+                console.error("获取AI回答时出错:", error);
+                showError("获取AI回答失败: " + (error.message || "未知错误"));
+            } finally {
                 // 清除问题显示以便下一次输入
                 questionDisplay.textContent = '';
                 
                 // 设置为非响应状态
                 isResponding = false;
-            }, 500);
+                
+                // 延迟一小段时间再恢复监听，避免可能的冲突
+                setTimeout(() => {
+                    // 只有之前在监听状态才恢复监听
+                    if (wasListening) {
+                        resumeListening();
+                    }
+                }, 1000); // 延长到1秒，确保有足够时间
+            }
         }
 
         // 暂停监听但不改变监听状态
@@ -827,10 +840,37 @@ ${resumeText || "无简历信息"}
         function resumeListening() {
             if (recognition && isListening) {
                 try {
-                    recognition.start();
-                    console.log("已恢复语音识别");
+                    // 先检查recognition是否已经在启动状态
+                    if (recognition.state === 'running') {
+                        console.log("语音识别已经在运行中");
+                        return;
+                    }
+                    
+                    // 重新启动前先初始化
+                    if (!recognition.onresult || !recognition.onerror || !recognition.onend) {
+                        console.log("重新初始化语音识别");
+                        initAudioCapture().then(() => {
+                            recognition.start();
+                            console.log("已重新初始化并恢复语音识别");
+                        });
+                    } else {
+                        recognition.start();
+                        console.log("已恢复语音识别");
+                    }
                 } catch (e) {
                     console.warn("恢复识别失败:", e);
+                    // 如果恢复失败，尝试重新初始化
+                    console.log("尝试重新初始化识别...");
+                    initAudioCapture().then(() => {
+                        if (isListening) {
+                            try {
+                                recognition.start();
+                                console.log("已重新初始化并启动识别");
+                            } catch (err) {
+                                console.error("重启识别失败:", err);
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -1032,7 +1072,52 @@ ${resumeText || "无简历信息"}
             
             // 加载历史记录
             loadHistoryFromLocalStorage();
+            
+            // 添加音频输入设备的动态加载，确保始终能获取最新设备
+            navigator.mediaDevices.addEventListener('devicechange', () => {
+                console.log('检测到设备变化，重新加载音频设备列表');
+                loadAudioDevices();
+            });
+            
+            // 初始加载音频设备
+            loadAudioDevices();
         });
+
+        // 加载音频设备列表
+        function loadAudioDevices() {
+            navigator.mediaDevices.enumerateDevices()
+                .then(devices => {
+                    const audioInput = document.getElementById('audio-input');
+                    // 保存当前选中的设备ID
+                    const currentDeviceId = audioInput.value;
+                    
+                    // 清空当前选项，只保留默认选项
+                    while (audioInput.options.length > 1) {
+                        audioInput.remove(1);
+                    }
+                    
+                    // 添加设备选项
+                    devices.filter(d => d.kind === 'audioinput').forEach(device => {
+                        const option = document.createElement('option');
+                        option.value = device.deviceId;
+                        option.text = device.label || `麦克风 ${audioInput.length + 1}`;
+                        audioInput.appendChild(option);
+                    });
+                    
+                    // 尝试恢复之前选择的设备
+                    if (currentDeviceId) {
+                        const deviceStillAvailable = Array.from(audioInput.options)
+                            .some(option => option.value === currentDeviceId);
+                        
+                        if (deviceStillAvailable) {
+                            audioInput.value = currentDeviceId;
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('加载音频设备失败:', err);
+                });
+        }
     </script>
 </body>
 </html> 
