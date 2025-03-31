@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面试小助手</title>
+    <style>
+        /* 全局样式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 头部标题 */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background-color: #1e88e5;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* 主要内容区 */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            flex: 1;
+        }
+
+        /* 左侧简历区 */
+        .resume-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resume-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resume-container h2 {
+            margin-bottom: 15px;
+            color: #1e88e5;
+            font-size: 20px;
+        }
+
+        .resume-input {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 右侧问答区 */
+        .qa-section {
+            flex: 2;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-container, .answer-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-container h2, .answer-container h2 {
+            margin-bottom: 15px;
+            color: #1e88e5;
+            font-size: 20px;
+        }
+
+        .question-display, .answer-display {
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+        }
+
+        .question-display {
+            min-height: 60px;
+        }
+
+        .answer-display {
+            min-height: 200px;
+        }
+
+        .manual-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        /* 控制按钮区 */
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1e88e5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-width: 120px;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+
+        button:disabled {
+            background-color: #b0bec5;
+            cursor: not-allowed;
+        }
+
+        .listening {
+            background-color: #e53935;
+        }
+
+        .listening:hover {
+            background-color: #c62828;
+        }
+
+        /* 状态指示器 */
+        .status {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #1e88e5;
+        }
+
+        .error {
+            color: #e53935;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* 加载动画 */
+        .loader {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1e88e5;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .config-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .config-section h2 {
+            margin-bottom: 15px;
+            color: #1e88e5;
+            font-size: 20px;
+        }
+
+        .config-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .resume-section, .qa-section {
+                width: 100%;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>面试小助手</h1>
+    </header>
+
+    <div class="container">
+        <!-- 左侧简历区 -->
+        <div class="resume-section">
+            <!-- 添加使用说明区域 -->
+            <div class="config-section">
+                <h2>使用说明</h2>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    <p><strong>设置步骤：</strong></p>
+                    <ol style="padding-left: 20px; margin: 10px 0;">
+                        <li>下载并安装虚拟声卡软件：
+                            <ul style="padding-left: 20px; margin: 5px 0;">
+                                <li>Windows: VB-Cable或Voicemeeter</li>
+                                <li>Mac: BlackHole或Soundflower</li>
+                            </ul>
+                        </li>
+                        <li>设置虚拟声卡：
+                            <ul style="padding-left: 20px; margin: 5px 0;">
+                                <li>将系统声音输出设置为虚拟声卡</li>
+                                <li>在本页面选择虚拟声卡作为输入设备</li>
+                            </ul>
+                        </li>
+                        <li>测试：
+                            <ul style="padding-left: 20px; margin: 5px 0;">
+                                <li>打开会议软件，让对方说话</li>
+                                <li>点击"开始监听"，查看是否能识别到声音</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p><strong>注意：</strong>首次点击"开始监听"时，请在浏览器弹出的权限对话框中选择虚拟声卡作为输入设备。</p>
+                </div>
+            </div>
+            <div class="resume-container">
+                <h2>简历信息</h2>
+                <textarea id="resume" class="resume-input" placeholder="请在此输入你的简历信息，包括个人技能、工作经历等..."></textarea>
+            </div>
+            
+            <!-- API配置区 -->
+            <div class="config-section">
+                <h2>API配置</h2>
+                <input type="text" id="api-key" class="config-input" placeholder="输入通义千问API密钥">
+                <input type="text" id="api-url" class="config-input" value="https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation" placeholder="API URL">
+                <input type="text" id="model-name" class="config-input" value="qwen-turbo" placeholder="模型名称">
+            </div>
+        </div>
+
+        <!-- 右侧问答区 -->
+        <div class="qa-section">
+            <!-- 问题区 -->
+            <div class="question-container">
+                <h2>面试问题</h2>
+                <div id="question-display" class="question-display"></div>
+                <input type="text" id="manual-question" class="manual-input" placeholder="或手动输入面试问题...">
+            </div>
+
+            <!-- 答案区 -->
+            <div class="answer-container">
+                <h2>AI辅助回答</h2>
+                <div id="answer-display" class="answer-display"></div>
+                <div id="loader" class="loader"></div>
+                <div id="error-message" class="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 控制面板 -->
+    <div class="control-panel">
+        <button id="listen-btn">开始监听</button>
+        <button id="submit-btn">提交问题</button>
+        <button id="clear-btn">清空内容</button>
+    </div>
+
+    <script>
+        // 全局变量
+        let mediaRecorder;
+        let audioContext;
+        let sourceNode;
+        let recognition;
+        let isListening = false;
+        const listenBtn = document.getElementById('listen-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const questionDisplay = document.getElementById('question-display');
+        const answerDisplay = document.getElementById('answer-display');
+        const manualQuestion = document.getElementById('manual-question');
+        const resumeInput = document.getElementById('resume');
+        const apiKeyInput = document.getElementById('api-key');
+        const apiUrlInput = document.getElementById('api-url');
+        const modelNameInput = document.getElementById('model-name');
+        const loader = document.getElementById('loader');
+        const errorMessage = document.getElementById('error-message');
+
+        // 初始化音频捕获
+        async function initAudioCapture() {
+            try {
+                // 创建语音识别器
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'zh-CN';
+                
+                // 设置识别结果处理
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                            // 当识别到完整句子时，自动提交给AI回答
+                            if (finalTranscript.trim()) {
+                                questionDisplay.textContent = finalTranscript;
+                                submitQuestion();
+                            }
+                        } else {
+                            interimTranscript += transcript;
+                            questionDisplay.textContent = interimTranscript;
+                        }
+                    }
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('语音识别错误:', event.error);
+                    showError(`语音识别错误: ${event.error}`);
+                    stopListening();
+                };
+
+                recognition.onend = () => {
+                    if (isListening) {
+                        // 如果还在监听状态，则重新开始
+                        try {
+                            recognition.start();
+                        } catch (e) {
+                            console.warn('重新开始识别失败:', e);
+                        }
+                    } else {
+                        listenBtn.textContent = '开始监听';
+                        listenBtn.classList.remove('listening');
+                    }
+                };
+                
+                listenBtn.disabled = false;
+                hideError();
+                return true;
+                
+            } catch (error) {
+                console.error('初始化语音识别失败:', error);
+                showError('您的浏览器可能不支持语音识别功能，请使用最新版本的Chrome或Edge浏览器。');
+                listenBtn.disabled = true;
+                return false;
+            }
+        }
+        
+        // 开始监听
+        async function startListening() {
+            if (!recognition) {
+                if (!await initAudioCapture()) return;
+            }
+            
+            try {
+                recognition.start();
+                isListening = true;
+                listenBtn.textContent = '停止监听';
+                listenBtn.classList.add('listening');
+                hideError();
+            } catch (error) {
+                console.error('开始监听失败:', error);
+                showError(`开始监听失败: ${error.message}`);
+            }
+        }
+        
+        // 停止监听
+        function stopListening() {
+            if (recognition) {
+                recognition.stop();
+            }
+            isListening = false;
+            listenBtn.textContent = '开始监听';
+            listenBtn.classList.remove('listening');
+        }
+
+        // 获取问题文本
+        function getQuestionText() {
+            // 优先使用显示区的问题，如果为空则使用手动输入框的问题
+            return questionDisplay.textContent.trim() || manualQuestion.value.trim();
+        }
+
+        // 使用通义千问API获取回答
+        async function getAIResponse(question) {
+            const apiKey = apiKeyInput.value.trim();
+            const apiUrl = apiUrlInput.value.trim();
+            const modelName = modelNameInput.value.trim();
+            const resumeText = resumeInput.value.trim();
+            
+            if (!apiKey) {
+                showError("请输入通义千问API密钥");
+                return null;
+            }
+            
+            if (!question) {
+                showError("请输入或语音识别面试问题");
+                return null;
+            }
+            
+            try {
+                showLoader();
+                hideError();
+                answerDisplay.textContent = ''; // 清空之前的回答
+                
+                // 构建独立的消息数组，每次对话都是全新的
+                const messages = [
+                    {
+                        role: "system",
+                        content: `你是一位参加面试的候选人。你需要根据下面的简历信息，回答面试官的问题。
+                        
+简历信息：
+${resumeText || "无简历信息"}
+
+回答要求：
+1. 直接以"我"开头回答，不要加任何开场白
+2. 保持自然流畅，像真实面试对话
+3. 控制回答长度在100-200字
+4. 只针对当前问题回答，不要考虑其他问题
+5. 不要说"根据简历"之类的模板用语`
+                    },
+                    {
+                        role: "user",
+                        content: question
+                    }
+                ];
+                
+                // 根据URL判断使用的是哪个API并相应地调整请求格式
+                let payload;
+                
+                if (apiUrl.includes('dashscope.aliyuncs.com')) {
+                    // 通义千问API的请求格式
+                    payload = {
+                        model: modelName,
+                        input: {
+                            messages: messages
+                        },
+                        parameters: {
+                            stream: true,
+                            result_format: "message"
+                        }
+                    };
+                } else if (apiUrl.includes('siliconflow.cn')) {
+                    // DeepSeek平台API格式
+                    payload = {
+                        model: modelName,
+                        messages: messages,
+                        stream: true,
+                        temperature: 0.7,
+                        max_tokens: 800
+                    };
+                } else {
+                    // 默认格式，兼容更多API
+                    payload = {
+                        model: modelName,
+                        messages: messages,
+                        stream: true
+                    };
+                }
+                
+                console.log("API请求数据:", JSON.stringify(payload, null, 2));
+                
+                // 发起请求，获取流式响应
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Accept': 'text/event-stream',
+                        'X-DashScope-SSE': 'enable' // 通义千问流式响应标识
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    if (response.headers.get('content-type')?.includes('application/json')) {
+                        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+                        throw new Error(`API错误: ${errorData.message || response.statusText}`);
+                    } else {
+                        throw new Error(`API错误: ${response.statusText}`);
+                    }
+                }
+                
+                // 检查响应类型，判断是否为流式
+                const contentType = response.headers.get('content-type');
+                if (contentType && (contentType.includes('text/event-stream') || contentType.includes('stream'))) {
+                    // 流式处理
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let completeAnswer = '';
+                    let completeResponse = '';
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        
+                        const chunk = decoder.decode(value, { stream: true });
+                        completeResponse += chunk;
+                        
+                        // 解析不同API的流式响应格式
+                        try {
+                            // 处理SSE格式 (data: {json})
+                            const lines = chunk.split('\n');
+                            for (const line of lines) {
+                                if (line.startsWith('data:') && line.length > 5) {
+                                    try {
+                                        const data = JSON.parse(line.slice(5));
+                                        let content = '';
+                                        
+                                        // 提取不同API的内容
+                                        if (data.output && data.output.text) {
+                                            content = data.output.text;
+                                        } else if (data.choices && data.choices[0] && data.choices[0].delta) {
+                                            content = data.choices[0].delta.content || '';
+                                        } else if (data.choices && data.choices[0] && data.choices[0].message) {
+                                            content = data.choices[0].message.content || '';
+                                        }
+                                        
+                                        if (content) {
+                                            completeAnswer += content;
+                                            // 实时更新UI
+                                            updateAnswerDisplay(processAnswer(completeAnswer));
+                                        }
+                                    } catch (e) {
+                                        console.warn('解析SSE JSON出错:', e);
+                                    }
+                                }
+                            }
+                        } catch (error) {
+                            console.warn('流式内容解析出错:', error);
+                        }
+                    }
+                    
+                    // 如果无法解析流式格式，尝试作为完整响应处理
+                    if (!completeAnswer && completeResponse) {
+                        try {
+                            // 尝试将整个响应作为JSON解析
+                            const jsonResponse = JSON.parse(completeResponse);
+                            let finalAnswer = '';
+                            
+                            // 解析不同格式的非流式响应
+                            if (jsonResponse.output && (jsonResponse.output.text || jsonResponse.output.message)) {
+                                finalAnswer = jsonResponse.output.text || jsonResponse.output.message;
+                            } else if (jsonResponse.choices && jsonResponse.choices[0] && jsonResponse.choices[0].message) {
+                                finalAnswer = jsonResponse.choices[0].message.content;
+                            } else if (jsonResponse.response) {
+                                finalAnswer = jsonResponse.response;
+                            }
+                            
+                            if (finalAnswer) {
+                                return processAnswer(finalAnswer);
+                            }
+                        } catch (e) {
+                            console.warn('解析完整响应出错:', e);
+                            return processAnswer(completeResponse);
+                        }
+                    }
+                    
+                    return processAnswer(completeAnswer);
+                } else {
+                    // 非流式处理
+                    const data = await response.json();
+                    console.log("API响应数据:", data);
+                    
+                    // 获取回答内容
+                    let answer = "";
+                    if (data.output && (data.output.text || data.output.message)) {
+                        answer = data.output.text || data.output.message;
+                    } else if (data.choices && data.choices[0] && data.choices[0].message) {
+                        answer = data.choices[0].message.content;
+                    } else if (data.response) {
+                        answer = data.response;
+                    } else {
+                        // 尝试在返回的数据中查找可能的内容
+                        answer = JSON.stringify(data);
+                    }
+                    
+                    return processAnswer(answer);
+                }
+                
+            } catch (error) {
+                console.error('API请求错误:', error);
+                showError(`API请求错误: ${error.message}`);
+                return null;
+            } finally {
+                hideLoader();
+            }
+        }
+        
+        // 处理API回答内容
+        function processAnswer(answer) {
+            if (!answer) return '';
+            
+            // 处理回答内容，删除前缀引导词
+            answer = answer.replace(/^(好的|嗯|我是|作为|我会|我将|好|这是|可以|当然|以下是|根据|基于|我想|我认为|我可以|我能够|关于这个问题|对于这个问题|)(，|:|：|\s)*/i, "");
+            answer = answer.replace(/^(我的回答是|我的答案是|我的回答如下|回答如下|答案如下)(：|:|\s)*/i, "");
+            
+            // 如果回答不是以"我"开头，尝试找到第一个"我"开头的句子
+            if (!answer.trim().startsWith("我")) {
+                const myIndex = answer.indexOf("我");
+                if (myIndex > 0) {
+                    answer = answer.substring(myIndex);
+                }
+            }
+            
+            return answer;
+        }
+        
+        // 更新回答显示
+        function updateAnswerDisplay(text) {
+            answerDisplay.textContent = text;
+        }
+
+        // 提交问题并获取回答
+        async function submitQuestion() {
+            const question = getQuestionText();
+            
+            if (!question) {
+                showError("请输入或语音识别面试问题");
+                return;
+            }
+            
+            // 如果问题来自手动输入，更新显示区
+            if (!questionDisplay.textContent && manualQuestion.value) {
+                questionDisplay.textContent = manualQuestion.value;
+                manualQuestion.value = '';
+            }
+            
+            // 获取AI回答
+            const answer = await getAIResponse(question);
+            
+            if (answer) {
+                // 使用实时流式显示时，这里可能已经显示过，可以作为最终确认
+                updateAnswerDisplay(answer);
+                hideError();
+            }
+        }
+
+        // 清空所有内容
+        function clearContent() {
+            questionDisplay.textContent = '';
+            answerDisplay.textContent = '';
+            manualQuestion.value = '';
+            hideError();
+        }
+
+        // 显示加载动画
+        function showLoader() {
+            loader.style.display = 'block';
+        }
+
+        // 隐藏加载动画
+        function hideLoader() {
+            loader.style.display = 'none';
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // 隐藏错误信息
+        function hideError() {
+            errorMessage.textContent = '';
+            errorMessage.style.display = 'none';
+        }
+
+        // 从本地存储加载数据
+        function loadFromLocalStorage() {
+            try {
+                const savedResume = localStorage.getItem('interviewAssistant_resume');
+                const savedApiKey = localStorage.getItem('interviewAssistant_apiKey');
+                const savedApiUrl = localStorage.getItem('interviewAssistant_apiUrl');
+                const savedModelName = localStorage.getItem('interviewAssistant_modelName');
+                
+                if (savedResume) resumeInput.value = savedResume;
+                if (savedApiKey) apiKeyInput.value = savedApiKey;
+                if (savedApiUrl) apiUrlInput.value = savedApiUrl;
+                if (savedModelName) modelNameInput.value = savedModelName;
+            } catch (error) {
+                console.error('从本地存储加载数据失败:', error);
+            }
+        }
+
+        // 保存数据到本地存储
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('interviewAssistant_resume', resumeInput.value);
+                localStorage.setItem('interviewAssistant_apiKey', apiKeyInput.value);
+                localStorage.setItem('interviewAssistant_apiUrl', apiUrlInput.value);
+                localStorage.setItem('interviewAssistant_modelName', modelNameInput.value);
+            } catch (error) {
+                console.error('保存数据到本地存储失败:', error);
+            }
+        }
+
+        // 事件监听器
+        listenBtn.addEventListener('click', () => {
+            if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        });
+
+        submitBtn.addEventListener('click', submitQuestion);
+        clearBtn.addEventListener('click', clearContent);
+
+        // 支持按回车键提交手动输入的问题
+        manualQuestion.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                submitQuestion();
+            }
+        });
+
+        // 自动保存输入内容
+        [resumeInput, apiKeyInput, apiUrlInput, modelNameInput].forEach(input => {
+            input.addEventListener('change', saveToLocalStorage);
+        });
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查浏览器支持
+            if (!('mediaDevices' in navigator) || 
+                !('getUserMedia' in navigator.mediaDevices) || 
+                !('AudioContext' in window) || 
+                !('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+                
+                showError("您的浏览器不支持所需功能，请使用最新版本的Chrome或Edge浏览器");
+                listenBtn.disabled = true;
+            }
+            
+            // 加载保存的数据
+            loadFromLocalStorage();
+        });
+    </script>
+</body>
+</html> 
