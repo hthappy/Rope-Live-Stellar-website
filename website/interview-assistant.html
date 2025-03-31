@@ -427,6 +427,28 @@
             }
             
             try {
+                // 获取选择的音频设备ID
+                const audioInputSelect = document.getElementById('audio-input');
+                const selectedAudioDeviceId = audioInputSelect.value;
+                
+                // 如果选择了特定设备
+                if (selectedAudioDeviceId) {
+                    try {
+                        // 请求麦克风访问权限并指定设备
+                        await navigator.mediaDevices.getUserMedia({
+                            audio: {
+                                deviceId: {exact: selectedAudioDeviceId}
+                            }
+                        });
+                        // 这里不需要保存流，只是为了确保使用指定设备的权限已获取
+                        console.log("已成功选择音频设备:", selectedAudioDeviceId);
+                    } catch (err) {
+                        console.error("使用选定音频设备失败:", err);
+                        showError(`使用选定音频设备失败: ${err.message}`);
+                        return;
+                    }
+                }
+                
                 recognition.start();
                 isListening = true;
                 listenBtn.textContent = '停止监听';
@@ -747,11 +769,27 @@ ${resumeText || "无简历信息"}
                 const savedApiKey = localStorage.getItem('interviewAssistant_apiKey');
                 const savedApiUrl = localStorage.getItem('interviewAssistant_apiUrl');
                 const savedModelName = localStorage.getItem('interviewAssistant_modelName');
+                const savedAudioDevice = localStorage.getItem('interviewAssistant_audioDevice');
                 
                 if (savedResume) resumeInput.value = savedResume;
                 if (savedApiKey) apiKeyInput.value = savedApiKey;
                 if (savedApiUrl) apiUrlInput.value = savedApiUrl;
                 if (savedModelName) modelNameInput.value = savedModelName;
+                
+                // 加载音频设备选择，但仅在设备枚举完成后
+                if (savedAudioDevice) {
+                    const audioInputSelect = document.getElementById('audio-input');
+                    // 等待设备列表加载完成
+                    setTimeout(() => {
+                        // 检查所选设备是否仍然可用
+                        const deviceStillAvailable = Array.from(audioInputSelect.options)
+                            .some(option => option.value === savedAudioDevice);
+                        
+                        if (deviceStillAvailable) {
+                            audioInputSelect.value = savedAudioDevice;
+                        }
+                    }, 500);
+                }
             } catch (error) {
                 console.error('从本地存储加载数据失败:', error);
             }
@@ -764,6 +802,12 @@ ${resumeText || "无简历信息"}
                 localStorage.setItem('interviewAssistant_apiKey', apiKeyInput.value);
                 localStorage.setItem('interviewAssistant_apiUrl', apiUrlInput.value);
                 localStorage.setItem('interviewAssistant_modelName', modelNameInput.value);
+                
+                // 保存音频设备选择
+                const audioInputSelect = document.getElementById('audio-input');
+                if (audioInputSelect.value) {
+                    localStorage.setItem('interviewAssistant_audioDevice', audioInputSelect.value);
+                }
             } catch (error) {
                 console.error('保存数据到本地存储失败:', error);
             }
@@ -792,6 +836,9 @@ ${resumeText || "无简历信息"}
         [resumeInput, apiKeyInput, apiUrlInput, modelNameInput].forEach(input => {
             input.addEventListener('change', saveToLocalStorage);
         });
+
+        // 音频设备选择更改时保存
+        document.getElementById('audio-input').addEventListener('change', saveToLocalStorage);
 
         // 页面初始化
         document.addEventListener('DOMContentLoaded', () => {
