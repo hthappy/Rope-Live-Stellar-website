@@ -254,6 +254,22 @@
     <div class="container">
         <!-- 左侧简历区 -->
         <div class="resume-section">
+            <select id="audio-input" class="config-input">
+                <option value="">默认麦克风</option>
+              </select>
+              <script>
+                // 动态加载音频设备
+                navigator.mediaDevices.enumerateDevices()
+                  .then(devices => {
+                    const audioInput = document.getElementById('audio-input');
+                    devices.filter(d => d.kind === 'audioinput').forEach(device => {
+                      const option = document.createElement('option');
+                      option.value = device.deviceId;
+                      option.text = device.label || `麦克风 ${audioInput.length + 1}`;
+                      audioInput.appendChild(option);
+                    });
+                  });
+              </script>
             <!-- 添加使用说明区域 -->
             <div class="config-section">
                 <h2>使用说明</h2>
