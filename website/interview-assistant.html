@@ -92,7 +92,7 @@
             flex-direction: column;
         }
 
-        .question-container, .answer-container {
+        .question-container, .answer-container, .history-container {
             background-color: white;
             border-radius: 8px;
             padding: 20px;
@@ -100,13 +100,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .question-container h2, .answer-container h2 {
+        .question-container h2, .answer-container h2, .history-container h2 {
             margin-bottom: 15px;
             color: #1e88e5;
             font-size: 20px;
         }
 
-        .question-display, .answer-display {
+        .question-display, .answer-display, .history-display {
             min-height: 100px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -123,6 +123,27 @@
 
         .answer-display {
             min-height: 200px;
+        }
+
+        .history-display {
+            min-height: 300px;
+            max-height: 500px;
+        }
+
+        .history-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .history-question {
+            font-weight: bold;
+            color: #1e88e5;
+            margin-bottom: 5px;
+        }
+
+        .history-answer {
+            color: #333;
         }
 
         .manual-input {
@@ -328,6 +349,12 @@
                 <div id="loader" class="loader"></div>
                 <div id="error-message" class="error"></div>
             </div>
+
+            <!-- 历史记录区 -->
+            <div class="history-container">
+                <h2>对话历史</h2>
+                <div id="history-display" class="history-display"></div>
+            </div>
         </div>
     </div>
 
@@ -345,11 +372,14 @@
         let sourceNode;
         let recognition;
         let isListening = false;
+        let isResponding = false; // 是否正在响应中
+        let conversationHistory = []; // 对话历史记录
         const listenBtn = document.getElementById('listen-btn');
         const submitBtn = document.getElementById('submit-btn');
         const clearBtn = document.getElementById('clear-btn');
         const questionDisplay = document.getElementById('question-display');
         const answerDisplay = document.getElementById('answer-display');
+        const historyDisplay = document.getElementById('history-display');
         const manualQuestion = document.getElementById('manual-question');
         const resumeInput = document.getElementById('resume');
         const apiKeyInput = document.getElementById('api-key');
@@ -376,10 +406,14 @@
                         const transcript = event.results[i][0].transcript;
                         if (event.results[i].isFinal) {
                             finalTranscript += transcript;
-                            // 当识别到完整句子时，自动提交给AI回答
-                            if (finalTranscript.trim()) {
+                            // 当识别到完整句子时，自动提交给AI回答，除非AI正在回答中
+                            if (finalTranscript.trim() && !isResponding) {
                                 questionDisplay.textContent = finalTranscript;
                                 submitQuestion();
+                            } else if (finalTranscript.trim() && isResponding) {
+                                // AI正在回答，只更新问题显示，不提交
+                                questionDisplay.textContent = finalTranscript;
+                                console.log("检测到新问题，但AI正在回答中，等待回答完成后再处理");
                             }
                         } else {
                             interimTranscript += transcript;
@@ -614,8 +648,8 @@ ${resumeText || "无简历信息"}
                                         
                                         if (content) {
                                             completeAnswer += content;
-                                            // 实时更新UI
-                                            updateAnswerDisplay(processAnswer(completeAnswer));
+                                            // 实时更新UI - 只显示这次的增量内容
+                                            updateAnswerDisplay(processAnswer(content, true), true);
                                         }
                                     } catch (e) {
                                         console.warn('解析SSE JSON出错:', e);
@@ -684,8 +718,11 @@ ${resumeText || "无简历信息"}
         }
         
         // 处理API回答内容
-        function processAnswer(answer) {
+        function processAnswer(answer, isIncremental = false) {
             if (!answer) return '';
+            
+            // 只对完整回答做处理，增量内容直接返回
+            if (isIncremental) return answer;
             
             // 处理回答内容，删除前缀引导词
             answer = answer.replace(/^(好的|嗯|我是|作为|我会|我将|好|这是|可以|当然|以下是|根据|基于|我想|我认为|我可以|我能够|关于这个问题|对于这个问题|)(，|:|：|\s)*/i, "");
@@ -703,8 +740,18 @@ ${resumeText || "无简历信息"}
         }
         
         // 更新回答显示
-        function updateAnswerDisplay(text) {
-            answerDisplay.textContent = text;
+        function updateAnswerDisplay(text, isStream = false) {
+            // 如果是流式更新，追加文本; 否则替换文本
+            if (isStream) {
+                // 直接追加增量内容
+                answerDisplay.textContent += text;
+            } else {
+                // 完整替换
+                answerDisplay.textContent = text;
+            }
+            
+            // 自动滚动到底部
+            answerDisplay.scrollTop = answerDisplay.scrollHeight;
         }
 
         // 提交问题并获取回答
@@ -722,22 +769,150 @@ ${resumeText || "无简历信息"}
                 manualQuestion.value = '';
             }
             
+            // 清空之前的回答
+            answerDisplay.textContent = '';
+            
+            // 在AI回答期间暂停监听
+            if (isListening) {
+                pauseListening();
+            }
+            
+            // 设置为响应状态
+            isResponding = true;
+            
+            // 获取当前问题的副本
+            const currentQuestion = question;
+            
             // 获取AI回答
-            const answer = await getAIResponse(question);
+            const answer = await getAIResponse(currentQuestion);
             
             if (answer) {
-                // 使用实时流式显示时，这里可能已经显示过，可以作为最终确认
-                updateAnswerDisplay(answer);
+                // 如果使用流式响应，回答内容已经在updateAnswerDisplay中显示了
+                // 这里不需要再次调用updateAnswerDisplay
+                
+                // 添加到历史记录 - 使用answerDisplay的内容作为完整回答
+                addToHistory(currentQuestion, answerDisplay.textContent);
+                
                 hideError();
+            }
+            
+            // 延迟一小段时间再恢复监听，避免可能的冲突
+            setTimeout(() => {
+                // 恢复监听
+                if (isListening) {
+                    resumeListening();
+                }
+                
+                // 清除问题显示以便下一次输入
+                questionDisplay.textContent = '';
+                
+                // 设置为非响应状态
+                isResponding = false;
+            }, 500);
+        }
+
+        // 暂停监听但不改变监听状态
+        function pauseListening() {
+            if (recognition) {
+                try {
+                    recognition.stop();
+                    console.log("已暂停语音识别");
+                } catch (e) {
+                    console.warn("暂停识别失败:", e);
+                }
+            }
+        }
+
+        // 恢复监听
+        function resumeListening() {
+            if (recognition && isListening) {
+                try {
+                    recognition.start();
+                    console.log("已恢复语音识别");
+                } catch (e) {
+                    console.warn("恢复识别失败:", e);
+                }
+            }
+        }
+
+        // 添加对话到历史记录
+        function addToHistory(question, answer) {
+            // 创建新的历史记录项
+            const historyItem = {
+                question: question,
+                answer: answer,
+                timestamp: new Date()
+            };
+            
+            // 添加到历史记录数组
+            conversationHistory.push(historyItem);
+            
+            // 更新历史记录显示
+            updateHistoryDisplay();
+            
+            // 保存到本地存储
+            saveHistoryToLocalStorage();
+        }
+
+        // 更新历史记录显示
+        function updateHistoryDisplay() {
+            // 清空当前显示
+            historyDisplay.innerHTML = '';
+            
+            // 按时间倒序显示历史记录（最新的在前面）
+            for (let i = conversationHistory.length - 1; i >= 0; i--) {
+                const item = conversationHistory[i];
+                const historyItemElement = document.createElement('div');
+                historyItemElement.className = 'history-item';
+                
+                const timeString = new Date(item.timestamp).toLocaleTimeString();
+                
+                historyItemElement.innerHTML = `
+                    <div class="history-time">${timeString}</div>
+                    <div class="history-question">问: ${item.question}</div>
+                    <div class="history-answer">答: ${item.answer}</div>
+                `;
+                
+                historyDisplay.appendChild(historyItemElement);
+            }
+        }
+
+        // 保存历史记录到本地存储
+        function saveHistoryToLocalStorage() {
+            try {
+                localStorage.setItem('interviewAssistant_history', JSON.stringify(conversationHistory));
+            } catch (error) {
+                console.error('保存历史记录失败:', error);
+            }
+        }
+
+        // 从本地存储加载历史记录
+        function loadHistoryFromLocalStorage() {
+            try {
+                const savedHistory = localStorage.getItem('interviewAssistant_history');
+                if (savedHistory) {
+                    conversationHistory = JSON.parse(savedHistory);
+                    updateHistoryDisplay();
+                }
+            } catch (error) {
+                console.error('加载历史记录失败:', error);
             }
         }
 
         // 清空所有内容
         function clearContent() {
+            // 清空当前问答
             questionDisplay.textContent = '';
             answerDisplay.textContent = '';
             manualQuestion.value = '';
             hideError();
+            
+            // 询问是否也清空历史记录
+            if (conversationHistory.length > 0 && confirm("是否同时清空历史对话记录？")) {
+                conversationHistory = [];
+                updateHistoryDisplay();
+                saveHistoryToLocalStorage();
+            }
         }
 
         // 显示加载动画
@@ -854,6 +1029,9 @@ ${resumeText || "无简历信息"}
             
             // 加载保存的数据
             loadFromLocalStorage();
+            
+            // 加载历史记录
+            loadHistoryFromLocalStorage();
         });
     </script>
 </body>
