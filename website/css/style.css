@@ -1305,6 +1305,12 @@ a:focus, a:hover {
   margin: 20px 0;
 }
 
+.binance-label {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-size: 14px;
+}
+
 .pricing-body {
   padding: 10px 0;
 }
