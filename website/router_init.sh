@@ -1,0 +1,1 @@
+echo "执行成功" >> /tmp/test.txt
