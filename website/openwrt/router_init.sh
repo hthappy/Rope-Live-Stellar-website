@@ -45,7 +45,7 @@ fi
 /etc/init.d/uhttpd restart
 
 # 修改/etc/banner
-echo "
+echo '
    ____  _ _____  _             _           _
   / __ \(_)  __ \(_)           | |         | |
  | |  | |_| |  | |_  __ _ _ __ | |     __ _| |__
@@ -53,4 +53,4 @@ echo "
  | |__| | | |__| | | (_| | | | | |___| (_| | |_) |
   \___\_\_|_____/|_|\__,_|_| |_|______\__,_|_.__/
    Telegram: @QiDianLab  |  ......: https://www.qidianlab.com
-" > /etc/banner
+' > /etc/banner
