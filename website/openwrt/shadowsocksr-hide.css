@@ -1,0 +1,47 @@
+/* ShadowSocksR 菜单隐藏样式 */
+
+/* 隐藏 ShadowSocksR 主菜单项 */
+/* 通过菜单项的 data-title 属性来定位 */
+body:not(.show-ssr) a[data-title="ShadowSocksR_Plus+"],
+body:not(.show-ssr) a[data-title="ShadowSocksR Plus+"],
+body:not(.show-ssr) a[data-title*="ShadowSocksR"],
+body:not(.show-ssr) a[data-title*="shadowsocksr"] {
+    display: none !important;
+}
+
+/* 通过 href 属性隐藏 ShadowSocksR 相关链接 */
+body:not(.show-ssr) a[href*="/admin/services/shadowsocksr"] {
+    display: none !important;
+}
+
+/* 隐藏服务菜单下的 ShadowSocksR 子菜单 */
+body:not(.show-ssr) #mainmenu .nav li a[href*="shadowsocksr"] {
+    display: none !important;
+}
+
+/* 针对 ArgonTheme 的特定样式 */
+body:not(.show-ssr) .main .main-left .nav > li > a[data-title*="ShadowSocksR"] {
+    display: none !important;
+}
+
+/* 隐藏滑动菜单中的 ShadowSocksR 项目 */
+body:not(.show-ssr) .slide-menu li a[href*="shadowsocksr"] {
+    display: none !important;
+}
+
+/* 当有 show-ssr 类时显示菜单 */
+body.show-ssr a[data-title*="ShadowSocksR"],
+body.show-ssr a[href*="shadowsocksr"] {
+    display: block !important;
+}
+
+/* 确保其他服务菜单项始终显示 */
+body a[href*="/admin/services/"]:not([href*="shadowsocksr"]) {
+    display: block !important;
+}
+
+/* 确保服务主菜单项显示 */
+body a[data-title="服务"],
+body a[data-title="Services"] {
+    display: block !important;
+}
