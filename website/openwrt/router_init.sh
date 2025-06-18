@@ -52,5 +52,5 @@ cat > /etc/banner <<EOF
  | |  | | | |  | | |/ _` | '_ \| |    / _` | '_ \
  | |__| | | |__| | | (_| | | | | |___| (_| | |_) |
   \___\_\_|_____/|_|\__,_|_| |_|______\__,_|_.__/
-   网站: https://www.qidianlab.com  |  Telegram: @QiDianLab
+   网站: https://www.qidianlab.com  \|  Telegram: @QiDianLab
 EOF
