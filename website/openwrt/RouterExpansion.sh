@@ -110,7 +110,7 @@ main() {
     # 更新软件包
     opkg update
     # 安装必要软件包
-    opkg install block-mount e2fsprogs
+    opkg install block-mount
     check_root
     
     log "开始扩容过程..."
