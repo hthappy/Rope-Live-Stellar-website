@@ -107,7 +107,10 @@ show_result() {
 main() {
     echo "OpenWRT Extroot 自动扩容脚本"
     echo "=============================="
-    
+    # 更新软件包
+    opkg update
+    # 安装必要软件包
+    opkg install kmod-usb-storage block-mount kmod-fs-ext4 e2fsprogs
     check_root
     
     log "开始扩容过程..."
