@@ -9,6 +9,14 @@ URL7="https://stellar.ai-yy.com/openwrt/shadowsocksr-hide.css"
 LOGO="https://stellar.ai-yy.com/openwrt/logo.png"
 TARGET_DIR="/usr/lib/lua/luci/view/themes/argon/"
 
+
+# 设置主机名为 QiDianLab
+echo "设置主机名为 QiDianLab..."
+uci set system.@system[0].hostname='QiDianLab'
+uci commit system
+
+echo "开始修改主题"
+
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
     echo "错误：目标目录 $TARGET_DIR 不存在！"
@@ -44,11 +52,6 @@ if [ $? -ne 0 ]; then
     echo "下载 sysauth.htm 失败！"
     exit 1
 fi
-
-# 设置主机名为 QiDianLab
-echo "设置主机名为 QiDianLab..."
-uci set system.@system[0].hostname='QiDianLab'
-uci commit system
 
 echo "正在下载 header.htm..."
 wget -q --no-check-certificate "$URL4" -O "$TARGET_DIR/header.htm"
