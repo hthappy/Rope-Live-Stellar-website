@@ -46,6 +46,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 设置主机名为 QiDianLab
+echo "设置主机名为 QiDianLab..."
 uci set system.@system[0].hostname='QiDianLab'
 uci commit system
 
