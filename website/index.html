@@ -9,10 +9,19 @@
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Rope-Live Stellar | AI 图像换脸创意制作工具">
   <meta property="og:description" content="专业的 AI 图像换脸创意制作工具，一键为视频、直播高清流畅换脸">
-  <meta property="og:image" content="https://stellar.ai-yy.com/images/logo-black.png">
-  <meta property="og:url" content="https://stellar.ai-yy.com">
+  <meta property="og:image" content="" id="og-image">
+  <meta property="og:url" content="" id="og-url">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://stellar.ai-yy.com">
+  <link rel="canonical" href="" id="canonical-url">
+  <script>
+    // 动态设置域名相关的meta标签
+    (function() {
+      const currentDomain = window.location.origin;
+      document.getElementById('og-image').setAttribute('content', currentDomain + '/images/logo-black.png');
+      document.getElementById('og-url').setAttribute('content', currentDomain);
+      document.getElementById('canonical-url').setAttribute('href', currentDomain);
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="baidu-site-verification" content="codeva-RMmHteC7RB" />
   <!-- CSS -->
@@ -435,7 +444,7 @@
     "description": "专业的 AI 图像换脸创意制作工具，一键为视频、直播高清流畅换脸",
     "applicationSubCategory": "AI Video Processing",
     "requirements": "Windows 10, NVIDIA 3060, 16GB RAM, Intel i5 12代",
-    "url": "https://stellar.ai-yy.com"
+    "url": "https://stellar.qidianlab.com"
   }
   </script>
   <script>
