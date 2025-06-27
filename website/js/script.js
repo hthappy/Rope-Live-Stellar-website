@@ -126,10 +126,3 @@
   });
 
 })(jQuery);
-// 动态设置域名相关的meta标签
-(function() {
-  const currentDomain = window.location.origin;
-  document.getElementById('og-image').setAttribute('content', currentDomain + '/images/logo-black.png');
-  document.getElementById('og-url').setAttribute('content', currentDomain);
-  document.getElementById('canonical-url').setAttribute('href', currentDomain);
-})();
