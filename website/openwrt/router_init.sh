@@ -258,8 +258,27 @@ check_packages() {
     
     if [ -n "$missing_packages" ]; then
         log_warning "缺少软件包:$missing_packages"
-        log_info "请先安装: opkg update && opkg install$missing_packages"
-        return 1
+        log_info "正在自动安装缺失的软件包..."
+        
+        # 更新软件包列表
+        log_info "更新软件包列表..."
+        if ! opkg update; then
+            log_error "软件包列表更新失败"
+            return 1
+        fi
+        
+        # 安装缺失的软件包
+        for pkg in $missing_packages; do
+            log_info "正在安装 $pkg..."
+            if opkg install "$pkg"; then
+                log_success "$pkg 安装成功"
+            else
+                log_error "$pkg 安装失败"
+                return 1
+            fi
+        done
+        
+        log_success "所有缺失软件包已安装完成"
     fi
     
     log_success "所有必要软件包已安装"
@@ -655,7 +674,9 @@ main() {
             configure_dnsmasq
             restart_services
         else
-            log_warning "跳过DNS配置，因为缺少必要软件包"
+            log_error "软件包安装失败，跳过DNS配置"
+            log_info "请手动安装缺失的软件包后重新运行脚本"
+            log_info "手动安装命令: opkg update && opkg install smartdns shadowsocksr ipset"
         fi
     fi
     
