@@ -263,8 +263,9 @@ check_packages() {
         # 更新软件包列表
         log_info "更新软件包列表..."
         if ! opkg update; then
-            log_error "软件包列表更新失败"
-            return 1
+            log_warning "软件包列表更新失败，将尝试使用现有缓存安装"
+        else
+            log_success "软件包列表更新成功"
         fi
         
         # 安装缺失的软件包
@@ -676,7 +677,7 @@ main() {
         else
             log_error "软件包安装失败，跳过DNS配置"
             log_info "请手动安装缺失的软件包后重新运行脚本"
-            log_info "手动安装命令: opkg update && opkg install luci-app-smartdns"
+            log_info "手动安装命令: opkg update && opkg install smartdns shadowsocksr ipset"
         fi
     fi
     
