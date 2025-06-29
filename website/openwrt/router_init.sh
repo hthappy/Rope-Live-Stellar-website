@@ -247,7 +247,7 @@ setup_banner() {
 check_packages() {
     log_info "检查必要的软件包..."
     
-    local packages="luci-app-smartdns"
+    local packages="luci-app-smartdns, luci-i18n-smartdns-zh-cn"
     local missing_packages=""
     
     for pkg in $packages; do
