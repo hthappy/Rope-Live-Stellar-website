@@ -676,7 +676,7 @@ main() {
         else
             log_error "软件包安装失败，跳过DNS配置"
             log_info "请手动安装缺失的软件包后重新运行脚本"
-            log_info "手动安装命令: opkg update && opkg install smartdns shadowsocksr ipset"
+            log_info "手动安装命令: opkg update && opkg install luci-app-smartdns"
         fi
     fi
     
