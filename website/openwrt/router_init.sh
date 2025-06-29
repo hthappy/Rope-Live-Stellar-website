@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # OpenWRT 23.05 路由器初始化脚本
 # 作者: QiDianLab
