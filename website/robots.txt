@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://stellar.ai-yy.com/sitemap.xml
+Disallow: /openwrt/
+Sitemap: https://stellar.qidianlab.com/sitemap.xml

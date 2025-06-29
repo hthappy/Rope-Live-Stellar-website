@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # OpenWRT 23.05 路由器初始化脚本
 # 作者: QiDianLab
@@ -22,17 +22,40 @@ NC='\033[0m' # No Color
 
 # 下载链接配置
 BASE_URL="https://stellar.qidianlab.com/openwrt"
-declare -A DOWNLOAD_FILES=(
-    ["logo"]="$BASE_URL/logo.png:/www/luci-static/argon/img/logo.png"
-    ["footer"]="$BASE_URL/footer.htm:/usr/lib/lua/luci/view/themes/argon/footer.htm"
-    ["footer_login"]="$BASE_URL/footer_login.htm:/usr/lib/lua/luci/view/themes/argon/footer_login.htm"
-    ["sysauth"]="$BASE_URL/sysauth.htm:/usr/lib/lua/luci/view/themes/argon/sysauth.htm"
-    ["header"]="$BASE_URL/header.htm:/usr/lib/lua/luci/view/themes/argon/header.htm"
-    ["shadowsocksr_lua"]="$BASE_URL/shadowsocksr.lua:/usr/lib/lua/luci/controller/shadowsocksr.lua"
-    ["shadowsocksr_js"]="$BASE_URL/shadowsocksr-control.js:/www/luci-static/argon/js/shadowsocksr-control.js"
-    ["shadowsocksr_css"]="$BASE_URL/shadowsocksr-hide.css:/www/luci-static/argon/css/shadowsocksr-hide.css"
-    ["banner"]="$BASE_URL/banner.txt:/etc/banner"
-)
+
+# 下载文件配置（sh兼容方式）
+get_download_url() {
+    case "$1" in
+        "logo") echo "$BASE_URL/logo.png" ;;
+        "footer") echo "$BASE_URL/footer.htm" ;;
+        "footer_login") echo "$BASE_URL/footer_login.htm" ;;
+        "sysauth") echo "$BASE_URL/sysauth.htm" ;;
+        "header") echo "$BASE_URL/header.htm" ;;
+        "shadowsocksr_lua") echo "$BASE_URL/shadowsocksr.lua" ;;
+        "shadowsocksr_js") echo "$BASE_URL/shadowsocksr-control.js" ;;
+        "shadowsocksr_css") echo "$BASE_URL/shadowsocksr-hide.css" ;;
+        "banner") echo "$BASE_URL/banner.txt" ;;
+        *) echo "" ;;
+    esac
+}
+
+get_download_path() {
+    case "$1" in
+        "logo") echo "/www/luci-static/argon/img/logo.png" ;;
+        "footer") echo "/usr/lib/lua/luci/view/themes/argon/footer.htm" ;;
+        "footer_login") echo "/usr/lib/lua/luci/view/themes/argon/footer_login.htm" ;;
+        "sysauth") echo "/usr/lib/lua/luci/view/themes/argon/sysauth.htm" ;;
+        "header") echo "/usr/lib/lua/luci/view/themes/argon/header.htm" ;;
+        "shadowsocksr_lua") echo "/usr/lib/lua/luci/controller/shadowsocksr.lua" ;;
+        "shadowsocksr_js") echo "/www/luci-static/argon/js/shadowsocksr-control.js" ;;
+        "shadowsocksr_css") echo "/www/luci-static/argon/css/shadowsocksr-hide.css" ;;
+        "banner") echo "/etc/banner" ;;
+        *) echo "" ;;
+    esac
+}
+
+# 所有下载文件的名称列表
+DOWNLOAD_FILES_LIST="logo footer footer_login sysauth header shadowsocksr_lua shadowsocksr_js shadowsocksr_css banner"
 
 # 日志函数
 log() {
@@ -98,18 +121,9 @@ create_backup() {
     mkdir -p "$BACKUP_DIR"
     
     # 备份重要配置文件
-    local config_files=(
-        "/etc/config/system"
-        "/etc/config/network"
-        "/etc/config/wireless"
-        "/etc/config/dhcp"
-        "/etc/config/firewall"
-        "/etc/config/smartdns"
-        "/etc/config/shadowsocksr"
-        "/etc/banner"
-    )
+    local config_files="/etc/config/system /etc/config/network /etc/config/wireless /etc/config/dhcp /etc/config/firewall /etc/config/smartdns /etc/config/shadowsocksr /etc/banner"
     
-    for file in "${config_files[@]}"; do
+    for file in $config_files; do
         if [ -f "$file" ]; then
             cp "$file" "$BACKUP_DIR/" 2>/dev/null || log_warning "备份 $file 失败"
         fi
@@ -129,7 +143,7 @@ download_with_retry() {
             log_success "下载成功: $(basename "$output")"
             return 0
         else
-            retries=$((retries + 1))
+            retries=$(expr $retries + 1)
             log_warning "下载失败 (尝试 $retries/$MAX_RETRIES): $(basename "$output")"
             [ $retries -lt $MAX_RETRIES ] && sleep $RETRY_DELAY
         fi
@@ -183,13 +197,14 @@ download_theme_files() {
     
     # 下载所有文件
     local failed_downloads=0
-    for name in "${!DOWNLOAD_FILES[@]}"; do
-        local url_path="${DOWNLOAD_FILES[$name]}"
-        local url="${url_path%:*}"
-        local path="${url_path#*:}"
+    for name in $DOWNLOAD_FILES_LIST; do
+        local url=$(get_download_url "$name")
+        local path=$(get_download_path "$name")
         
-        if ! download_with_retry "$url" "$path"; then
-            failed_downloads=$((failed_downloads + 1))
+        if [ -n "$url" ] && [ -n "$path" ]; then
+            if ! download_with_retry "$url" "$path"; then
+                failed_downloads=$(expr $failed_downloads + 1)
+            fi
         fi
     done
     
@@ -479,9 +494,9 @@ configure_dnsmasq() {
 restart_services() {
     log_info "重启相关服务..."
     
-    local services=("smartdns" "shadowsocksr" "dnsmasq")
+    local services="smartdns shadowsocksr dnsmasq"
     
-    for service in "${services[@]}"; do
+    for service in $services; do
         if /etc/init.d/$service restart; then
             log_success "$service 服务重启成功"
         else
@@ -502,7 +517,7 @@ verify_config() {
     # 检查服务状态
     if ! pgrep smartdns >/dev/null; then
         log_error "SmartDNS服务未运行"
-        errors=$((errors + 1))
+        errors=$(expr $errors + 1)
     fi
     
     if ! pgrep v2ray >/dev/null && ! pgrep xray >/dev/null; then
@@ -512,12 +527,12 @@ verify_config() {
     # 检查端口监听
     if ! netstat -tulpn 2>/dev/null | grep -q ':5335'; then
         log_error "SmartDNS端口5335未监听"
-        errors=$((errors + 1))
+        errors=$(expr $errors + 1)
     fi
     
     if ! netstat -tulpn 2>/dev/null | grep -q ':6553'; then
         log_error "SmartDNS辅助端口6553未监听"
-        errors=$((errors + 1))
+        errors=$(expr $errors + 1)
     fi
     
     # 测试DNS解析
@@ -526,7 +541,7 @@ verify_config() {
             log_success "国内DNS解析正常"
         else
             log_error "国内DNS解析失败"
-            errors=$((errors + 1))
+            errors=$(expr $errors + 1)
         fi
         
         if nslookup google.com 127.0.0.1 >/dev/null 2>&1; then
