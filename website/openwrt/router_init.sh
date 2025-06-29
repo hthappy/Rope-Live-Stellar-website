@@ -293,7 +293,7 @@ configure_smartdns() {
     # 基础配置
     uci set smartdns.@smartdns[0].enabled='1'
     uci set smartdns.@smartdns[0].server_name='QiDianLab'
-    uci set smartdns.@smartdns[0].port='5335'
+    uci set smartdns.@smartdns[0].port='53'
     uci set smartdns.@smartdns[0].auto_set_dnsmasq='1'
     uci set smartdns.@smartdns[0].tcp_server='1'
     uci set smartdns.@smartdns[0].ipv6_server='1'
@@ -328,22 +328,48 @@ configure_smartdns() {
     uci set smartdns.@server[-1].ip='223.5.5.5'
     uci set smartdns.@server[-1].server_group='cn'
     
-    # 添加国外DNS服务器（通过SOCKS5代理）
     uci add smartdns server
     uci set smartdns.@server[-1].enabled='1'
-    uci set smartdns.@server[-1].name='GoogleDNS'
-    uci set smartdns.@server[-1].ip='8.8.8.8'
+    uci set smartdns.@server[-1].name='DNSPod'
+    uci set smartdns.@server[-1].ip='119.29.29.29'
+    uci set smartdns.@server[-1].server_group='cn'
+    
+    # 添加国外DoH服务器
+    uci add smartdns server
+    uci set smartdns.@server[-1].enabled='1'
+    uci set smartdns.@server[-1].name='GoogleDoH'
+    uci set smartdns.@server[-1].ip='https://dns.google/dns-query'
     uci set smartdns.@server[-1].server_group='us'
-    uci set smartdns.@server[-1].type='tcp'
-    uci set smartdns.@server[-1].proxy='socks5://123456:123456@127.0.0.1:1080'
+    uci set smartdns.@server[-1].type='https'
     
     uci add smartdns server
     uci set smartdns.@server[-1].enabled='1'
-    uci set smartdns.@server[-1].name='CloudflareDNS'
-    uci set smartdns.@server[-1].ip='1.1.1.1'
+    uci set smartdns.@server[-1].name='CloudflareDoH'
+    uci set smartdns.@server[-1].ip='https://cloudflare-dns.com/dns-query'
     uci set smartdns.@server[-1].server_group='us'
-    uci set smartdns.@server[-1].type='tcp'
-    uci set smartdns.@server[-1].proxy='socks5://123456:123456@127.0.0.1:1080'
+    uci set smartdns.@server[-1].type='https'
+    
+    uci add smartdns server
+    uci set smartdns.@server[-1].enabled='1'
+    uci set smartdns.@server[-1].name='Quad9DoH'
+    uci set smartdns.@server[-1].ip='https://dns.quad9.net/dns-query'
+    uci set smartdns.@server[-1].server_group='us'
+    uci set smartdns.@server[-1].type='https'
+    
+    # 添加国内DoH服务器（备用）
+    uci add smartdns server
+    uci set smartdns.@server[-1].enabled='1'
+    uci set smartdns.@server[-1].name='AliDoH'
+    uci set smartdns.@server[-1].ip='https://dns.alidns.com/dns-query'
+    uci set smartdns.@server[-1].server_group='cn'
+    uci set smartdns.@server[-1].type='https'
+    
+    uci add smartdns server
+    uci set smartdns.@server[-1].enabled='1'
+    uci set smartdns.@server[-1].name='DNSPodDoH'
+    uci set smartdns.@server[-1].ip='https://doh.pub/dns-query'
+    uci set smartdns.@server[-1].server_group='cn'
+    uci set smartdns.@server[-1].type='https'
     
     # 删除现有域名规则
     while uci -q delete smartdns.@domain-rule[0]; do :; done
@@ -465,38 +491,32 @@ EOF
     log_success "域名列表创建完成"
 }
 
-# 配置ShadowSocksR Plus+
+# 配置ShadowSocksR Plus+（可选）
 configure_shadowsocksr() {
     log_info "配置ShadowSocksR Plus+..."
     
-    # DNS配置
-    uci set shadowsocksr.@global[0].dns_mode='dns2socks'
-    uci set shadowsocksr.@global[0].shunt_dns='1'
-    uci set shadowsocksr.@global[0].pdnsd_enable='0'
-    
-    # SOCKS5代理配置
-    if ! uci -q get shadowsocksr.@socks5_proxy[0] >/dev/null 2>&1; then
-        uci add shadowsocksr socks5_proxy
+    # 检查ShadowSocksR是否已安装
+    if ! uci -q get shadowsocksr.@global[0] >/dev/null 2>&1; then
+        log_warning "ShadowSocksR Plus+未安装，跳过配置"
+        return 0
     fi
     
-    uci set shadowsocksr.@socks5_proxy[0].enabled='1'
-    uci set shadowsocksr.@socks5_proxy[0].local_port='1080'
-    uci set shadowsocksr.@socks5_proxy[0].socks5_auth='password'
-    uci set shadowsocksr.@socks5_proxy[0].socks5_user='123456'
-    uci set shadowsocksr.@socks5_proxy[0].socks5_pass='123456'
-    uci set shadowsocksr.@socks5_proxy[0].socks5_mixed='1'
+    # DNS配置 - 使用SmartDNS而不是内置DNS
+    uci set shadowsocksr.@global[0].dns_mode='none'
+    uci set shadowsocksr.@global[0].shunt_dns='0'
+    uci set shadowsocksr.@global[0].pdnsd_enable='0'
     
     uci commit shadowsocksr
-    log_success "ShadowSocksR Plus+配置完成"
+    log_success "ShadowSocksR Plus+配置完成（DNS已交由SmartDNS处理）"
 }
 
 # 配置dnsmasq
 configure_dnsmasq() {
     log_info "配置dnsmasq..."
     
-    # 设置上游DNS服务器
+    # 禁用dnsmasq的DNS功能，让SmartDNS接管53端口
+    uci set dhcp.@dnsmasq[0].port='0'
     uci set dhcp.@dnsmasq[0].noresolv='1'
-    uci set dhcp.@dnsmasq[0].server='127.0.0.1#5335'
     
     # 配置IP集合分流（如果支持）
     if ipset list china >/dev/null 2>&1; then
@@ -540,13 +560,16 @@ verify_config() {
         errors=$(expr $errors + 1)
     fi
     
-    if ! pgrep v2ray >/dev/null && ! pgrep xray >/dev/null; then
-        log_warning "代理服务可能未运行"
+    # 代理服务检查（可选）
+    if pgrep v2ray >/dev/null || pgrep xray >/dev/null; then
+        log_info "检测到代理服务正在运行"
+    else
+        log_info "未检测到代理服务（使用DoH无需代理）"
     fi
     
     # 检查端口监听
-    if ! netstat -tulpn 2>/dev/null | grep -q ':5335'; then
-        log_error "SmartDNS端口5335未监听"
+    if ! netstat -tulpn 2>/dev/null | grep -q ':53'; then
+        log_error "SmartDNS端口53未监听"
         errors=$(expr $errors + 1)
     fi
     
@@ -590,8 +613,8 @@ show_test_info() {
     echo
     echo "配置信息:"
     echo "  主机名: QiDianLab"
-    echo "  SmartDNS端口: 5335, 6553"
-    echo "  SOCKS5代理端口: 1080"
+    echo "  SmartDNS端口: 53, 6553"
+    echo "  DNS over HTTPS: 已启用"
     echo "  配置备份: $BACKUP_DIR"
     echo "  日志文件: $LOG_FILE"
     echo
@@ -606,13 +629,13 @@ show_test_info() {
     echo
     echo "3. 服务状态检查:"
     echo "   ps | grep smartdns"
-    echo "   netstat -tulpn | grep -E '(5335|6553|1080)'"
+    echo "   netstat -tulpn | grep -E '(53|6553)'"
     echo
     echo "4. 日志查看:"
     echo "   logread | grep smartdns"
     echo "   cat $LOG_FILE"
     echo
-    echo -e "${YELLOW}注意：如果DNS泄露测试仍显示中国DNS，请检查代理服务器连接状态${NC}"
+    echo -e "${YELLOW}注意：如果DNS泄露测试仍显示中国DNS，请检查DoH服务器连接状态和网络连接${NC}"
     echo
 }
 
@@ -634,8 +657,8 @@ show_help() {
     echo "功能:"
     echo "  - 自动下载并配置Argon主题"
     echo "  - 配置SmartDNS进行DNS分流"
-    echo "  - 配置ShadowSocksR Plus+的DNS代理"
-    echo "  - 设置国外域名通过SOCKS5代理查询DNS"
+    echo "  - 配置DNS over HTTPS (DoH)防止DNS污染"
+    echo "  - 设置国外域名通过DoH查询DNS"
     echo "  - 创建域名转发列表和GFWList"
     echo "  - 验证配置并提供测试建议"
     echo
