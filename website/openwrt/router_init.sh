@@ -292,7 +292,7 @@ configure_smartdns() {
     
     # 基础配置
     uci set smartdns.@smartdns[0].enabled='1'
-    uci set smartdns.@smartdns[0].server_name='smartdns'
+    uci set smartdns.@smartdns[0].server_name='QiDianLab'
     uci set smartdns.@smartdns[0].port='5335'
     uci set smartdns.@smartdns[0].auto_set_dnsmasq='1'
     uci set smartdns.@smartdns[0].tcp_server='1'
@@ -495,6 +495,7 @@ configure_dnsmasq() {
     log_info "配置dnsmasq..."
     
     # 设置上游DNS服务器
+    uci set dhcp.@dnsmasq[0].noresolv='1'
     uci set dhcp.@dnsmasq[0].server='127.0.0.1#5335'
     
     # 配置IP集合分流（如果支持）
