@@ -247,7 +247,7 @@ setup_banner() {
 check_packages() {
     log_info "检查必要的软件包..."
     
-    local packages="smartdns shadowsocksr ipset"
+    local packages="luci-app-smartdns"
     local missing_packages=""
     
     for pkg in $packages; do
