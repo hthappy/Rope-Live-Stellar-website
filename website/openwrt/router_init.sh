@@ -31,6 +31,7 @@ declare -A DOWNLOAD_FILES=(
     ["shadowsocksr_lua"]="$BASE_URL/shadowsocksr.lua:/usr/lib/lua/luci/controller/shadowsocksr.lua"
     ["shadowsocksr_js"]="$BASE_URL/shadowsocksr-control.js:/www/luci-static/argon/js/shadowsocksr-control.js"
     ["shadowsocksr_css"]="$BASE_URL/shadowsocksr-hide.css:/www/luci-static/argon/css/shadowsocksr-hide.css"
+    ["banner"]="$BASE_URL/banner.txt:/etc/banner"
 )
 
 # 日志函数
@@ -205,19 +206,25 @@ download_theme_files() {
 setup_banner() {
     log_info "设置系统banner..."
     
-    cat > /etc/banner <<'EOF'
-   ____  _ _____  _             _           _     
-  / __ \(_)  __ \(_)           | |         | |    
- | |  | |_| |  | |_  __ _ _ __ | |     __ _| |__  
- | |  | | | |  | | |/ _` | '_ \| |    / _` | '_ \ 
- | |__| | | |__| | | (_| | | | | |___| (_| | |_) |
-  \___\_\_|_____/|_|\__,_|_| |_|______\__,_|_.__/ 
-   网站: https://www.qidianlab.com  |  Telegram: @QiDianLab
-
-
-
-   
-EOF
+    # 尝试下载banner文件
+    local banner_info="${DOWNLOAD_FILES[banner]}"
+    if [ -n "$banner_info" ]; then
+        local url="${banner_info%:*}"
+        local output="${banner_info#*:}"
+        
+        if download_with_retry "$url" "$output"; then
+            log_success "Banner文件下载成功"
+        else
+            log_warning "Banner文件下载失败，使用默认设置"
+            # 如果下载失败，使用简单的banner
+            echo "OpenWRT Router - QiDianLab" > /etc/banner
+            echo "网站: https://www.qidianlab.com | Telegram: @QiDianLab" >> /etc/banner
+        fi
+    else
+        log_warning "未配置banner下载链接，使用默认设置"
+        echo "OpenWRT Router - QiDianLab" > /etc/banner
+        echo "网站: https://www.qidianlab.com | Telegram: @QiDianLab" >> /etc/banner
+    fi
     
     log_success "系统banner设置完成"
 }
