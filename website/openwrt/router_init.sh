@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# OpenWRT 23.05 路由器初始化脚本 - 优化版本
+# OpenWRT 23.05 路由器初始化脚本
 # 作者: QiDianLab
 # 版本: 2.0
 # 日期: 2025年
@@ -212,7 +212,7 @@ setup_banner() {
  | |  | | | |  | | |/ _` | '_ \| |    / _` | '_ \ 
  | |__| | | |__| | | (_| | | | | |___| (_| | |_) |
   \___\_\_|_____/|_|\__,_|_| |_|______\__,_|_.__/ 
-   网站: https://www.qidianlab.com  |  Telegram: @QiDianLab
+网站: https://www.qidianlab.com | Telegram: @QiDianLab
 
 
 EOF
