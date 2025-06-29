@@ -222,10 +222,9 @@ setup_banner() {
     log_info "设置系统banner..."
     
     # 尝试下载banner文件
-    local banner_info="${DOWNLOAD_FILES[banner]}"
-    if [ -n "$banner_info" ]; then
-        local url="${banner_info%:*}"
-        local output="${banner_info#*:}"
+    local url=$(get_download_url "banner")
+    local output=$(get_download_path "banner")
+    if [ -n "$url" ] && [ -n "$output" ]; then
         
         if download_with_retry "$url" "$output"; then
             log_success "Banner文件下载成功"
