@@ -195,7 +195,15 @@ download_theme_files() {
     ensure_directory "/www/luci-static/argon/css"
     ensure_directory "/usr/lib/lua/luci/controller"
     
-    # 下载所有文件
+    # 下载所有文件，下载前备份原文件
+    log_info "备份原主题文件..."
+    for name in $DOWNLOAD_FILES_LIST; do
+        local path=$(get_download_path "$name")
+        if [ -f "$path" ]; then
+            cp "$path" "$path.bak" 2>/dev/null || log_warning "备份 $path 失败"
+        fi
+    done
+
     local failed_downloads=0
     for name in $DOWNLOAD_FILES_LIST; do
         local url=$(get_download_url "$name")
